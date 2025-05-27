@@ -1,0 +1,24 @@
+{
+  "name": "pokemon-guesser-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bustiq/Pokemon-guesser-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bustiq/Pokemon-guesser-frontend/issues"
+  },
+  "homepage": "https://github.com/Bustiq/Pokemon-guesser-frontend#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

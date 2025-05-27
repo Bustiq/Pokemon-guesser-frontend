@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  Access-Control-Allow-Origin: *
+</head>
+<body>
+
+  
+  <h1>Login</h1>
+    <h2>Nombre</h2>
+    <input [formControl]="NombreUsuario" type="text">
+    <h2>Contraseña</h2>
+    <input [formControl]="Password" type="password">
+    <h2>Mail</h2>
+    <input [formControl]="Mail" type="email">
+    <button (click)="login()">Login</button>
+    <button (click)="registrar()">Registrar</button>
+
