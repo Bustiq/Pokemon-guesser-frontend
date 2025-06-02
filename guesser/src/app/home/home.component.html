@@ -18,4 +18,17 @@
     <input [formControl]="Mail" type="email">
     <button (click)="login()">Login</button>
     <button (click)="registrar()">Registrar</button>
+    <button (click)="resetPass()">Olvidé mi contraseña</button>
+    
+  
+  <div *ngIf="forgotPassword">
+  <h1>Olvide mi contraseña</h1>
+  <h2>Mail</h2>
+    <input [formControl]="Mail" type="email">
+    <button (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
+    <button (click)="cancelarCambioContrasenia()">Cancelar</button>
+   </div>
+
+
+
 
