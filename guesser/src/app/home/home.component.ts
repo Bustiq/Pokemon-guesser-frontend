@@ -15,6 +15,16 @@ constructor(private router: Router, private connectionService: ConnectionService
 protected Password = new FormControl<String>('')
 protected NombreUsuario = new FormControl<String>('')
 protected Mail = new FormControl<String>('')
+protected forgotPassword = false
+
+
+resetPass(){
+  this.forgotPassword = true
+}
+
+cancelarCambioContrasenia(){
+  this.forgotPassword = false
+}
 
 login(){
 
@@ -46,10 +56,19 @@ login(){
       
     }).catch(e => {
 
-      alert("Error al registrarse")
+      alert("Error al registrarse");
     })
   }
 
+ enviarMailCambiarContrasenia() {
+    const body = {
+      "email": this.Mail.value
+    };
 
-
-}
+    this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
+      alert("Email enviado exitosamente");
+    }).catch(e => {
+      alert("Error al enviar el email " + e.message);
+    });
+  }
+ }

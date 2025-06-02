@@ -69,6 +69,46 @@ export class ConnectionService {
   }
 
   
+  resetPassword(newPassword: String | null) {
+
+    if (newPassword == null || newPassword == "") {
+      throw new Error("Contraseña vacia");
+    }
+
+    return axios.patch(this.url + 'reset-password', {
+      password: newPassword
+    }).then(response => {
+        alert("Contraseña cambiada exitosamente");
+        return response.data;
+      })
+      .catch(error => {
+        console.error("Error al cambiar la contraseña:", error);
+        throw error;
+      });
+  }
+
+
+  enviarMailCambiarContrasenia(Email: String | null) {
+
+    if (Email == null || Email == "") {
+      throw new Error("Email vacio");
+    }
+    
+    return axios.post(this.url + 'request-password-reset', {
+      mail: Email
+    }).then(response => {
+        alert("Email enviado exitosamente");
+        return response.data;
+      })
+      .catch(error => {
+        console.error("Error al enviar el email: ", this.url + 'request-password-reset', " ", error);
+        throw error;
+      });
+  }
+
+
+
+
 
   datosSonValidos(id: number | null, Nombre: String | null, Precio: number | null, enStock: boolean | null) {
     if (id == null || Nombre == null || Nombre == "" || Precio == null || enStock == null) {
