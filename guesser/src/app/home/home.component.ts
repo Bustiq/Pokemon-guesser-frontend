@@ -64,11 +64,14 @@ login(){
     const body = {
       "email": this.Mail.value
     };
+    alert("Intentando mandar mail de cambiar contraseña")
 
     this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
       alert("Email enviado exitosamente");
     }).catch(e => {
       alert("Error al enviar el email " + e.message);
+    }).finally(() => {
+      alert("Mail handleado")
     });
-  }
  }
+}
