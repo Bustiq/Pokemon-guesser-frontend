@@ -69,14 +69,17 @@ export class ConnectionService {
   }
 
   
-  resetPassword(newPassword: String | null) {
+  resetPassword(newPassword: String | null, token: String | null) {
 
-    if (newPassword == null || newPassword == "") {
+    if (newPassword == null || newPassword == "" ) {
       throw new Error("Contraseña vacia");
     }
+    if (token == null || token == "" ) {
+      throw new Error("Token vacio");
+    }
 
-    return axios.patch(this.url + 'reset-password', {
-      password: newPassword
+    return axios.patch(this.url + 'reset-password/' + token,  {
+      newPassword: newPassword
     }).then(response => {
         alert("Contraseña cambiada exitosamente");
         return response.data;
@@ -88,22 +91,22 @@ export class ConnectionService {
   }
 
 
-  enviarMailCambiarContrasenia(Email: String | null) {
+  async enviarMailCambiarContrasenia(Email: String | null) {
 
     if (Email == null || Email == "") {
       throw new Error("Email vacio");
     }
     
-    return axios.post(this.url + 'request-password-reset', {
+    await axios.post(this.url + 'request-password-reset', {
       mail: Email
     }).then(response => {
         alert("Email enviado exitosamente");
         return response.data;
-      })
-      .catch(error => {
+
+    }).catch(error => {
         console.error("Error al enviar el email: ", this.url + 'request-password-reset', " ", error);
         throw error;
-      });
+    });
   }
 
 
