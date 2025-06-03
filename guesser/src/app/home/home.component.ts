@@ -39,7 +39,7 @@ login(){
       this.connectionService.setToken(v)
       
     }).catch(e => {
-      alert("Error al Loguearse")
+      alert(e.message)
     })
   }
 
@@ -56,7 +56,7 @@ login(){
       
     }).catch(e => {
 
-      alert("Error al registrarse");
+      alert(e.message);
     })
   }
 
@@ -65,6 +65,7 @@ login(){
       "email": this.Mail.value
     };
     alert("Intentando mandar mail de cambiar contraseña")
+    
 
     this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
       alert("Email enviado exitosamente");
