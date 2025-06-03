@@ -39,14 +39,20 @@ export class ConnectionService {
       throw new Error("Nombre de usuario o contraseña vacios");
     }
 
-    const response = await axios.post(this.url + 'login', {
-      username: username,
-      password: password
-    });
+    try{
 
-    // Store the token
-    this.setToken(response.data.token);
-    return response.data;
+      const response = await axios.post(this.url + 'login', {
+        username: username,
+        password: password
+      });
+
+      this.setToken(response.data.token);
+      return response.data;
+    }
+    catch (error) {
+      throw new Error("Nombre de usuario o contraseña incorrectos");
+    }
+
   }
 
   async signup(username: String | null, password: String | null, email: String | null) {
@@ -97,13 +103,14 @@ export class ConnectionService {
       throw new Error("Email vacio");
     }
     
-    await axios.post(this.url + 'request-password-reset', {
+    axios.post(this.url + 'request-password-reset', {
       mail: Email
     }).then(response => {
         alert("Email enviado exitosamente");
         return response.data;
 
     }).catch(error => {
+        alert(":(")
         console.error("Error al enviar el email: ", this.url + 'request-password-reset', " ", error);
         throw error;
     });
