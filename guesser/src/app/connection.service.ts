@@ -7,6 +7,7 @@ import axios from 'axios';
 export class ConnectionService {
 
   url = 'http://localhost:3000/';
+  pokemonRouter = 'pokemon/';
   private token: string | null = null;
 
   constructor() {
@@ -116,9 +117,40 @@ export class ConnectionService {
     });
   }
 
+  async agregarPokemon(pokedexNumber : number | null) {
+    var response;
+    if (pokedexNumber == null || pokedexNumber < 1) {
+      throw new Error("Numero de pokedex invalido");
+    }
 
+    try {
+      response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber), this.getHeaders());
+    } catch (error) {
+      throw error;
+    }
 
+    alert(response.data.name + " agregado exitosamente");
+  }
 
+  async eliminarPokemon(pokedexNumber: number | null) {
+    const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
+    alert("Pokemon eliminado exitosamente");
+    return response.data;
+  }
+
+  async modificarPokemon(id: number | null, Nombre: String | null) {
+    if (id == null || Nombre == null || Nombre == "") {
+      throw new Error("Datos invalidos para modificar el Pokemon");
+    }
+
+    const response = await axios.patch(this.url + this.pokemonRouter + "updatePokemon/" + String(id), {
+      nombre: Nombre
+    }, this.getHeaders());
+
+    alert("Pokemon modificado exitosamente");
+    return response.data;
+  }
+ 
 
   datosSonValidos(id: number | null, Nombre: String | null, Precio: number | null, enStock: boolean | null) {
     if (id == null || Nombre == null || Nombre == "" || Precio == null || enStock == null) {
