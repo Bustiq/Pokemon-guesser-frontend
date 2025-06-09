@@ -30,7 +30,7 @@ ngOnInit(): void {
     }
     this.connectionService.resetPassword(this.Contrasenia.value, this.token).then(() => {
       alert("Contraseña cambiada exitosamente");
-      this.router.navigate(['/']);
+      
     }
     
     );

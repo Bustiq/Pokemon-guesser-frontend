@@ -133,6 +133,7 @@ export class ConnectionService {
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
+    console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
     alert("Pokemon eliminado exitosamente");
     return response.data;
