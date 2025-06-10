@@ -129,7 +129,7 @@ export class ConnectionService {
       throw error;
     }
 
-    alert(response.data.name + " agregado exitosamente");
+    alert(pokedexNumber + " agregado exitosamente");
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
