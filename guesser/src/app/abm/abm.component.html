@@ -1,21 +1,64 @@
 <h1>Pokemon abm</h1>
 
-<h2>Agregar Pokemon por id</h2>
+<div class="abm-container">
+  <!-- Left side: Add, Modify, Delete -->
+  <div class="abm-left">
+    <!-- Add Pokemon -->
+    <section>
+      <h2>Agregar Pokemon por id</h2>
+      <input [formControl]="idPokemon" type="number" placeholder="ID">
+      <button (click)="agregarPokemon()">Agregar Pokemon</button>
+    </section>
 
-<input [formControl]="idPokemon" type="number">
-<button (click)="agregarPokemon()">Agregar Pokemon</button>
+    <!-- Modify/Delete Pokemon -->
+    <section>
+      <h2>Modificar Pokemon</h2>
+      <label>ID a modificar</label>
+      <input [formControl]="idPokemonActualizar" type="number" placeholder="ID">
+      <label>Nuevo nombre</label>
+      <input [formControl]="nombrePokemon" type="text" placeholder="Nombre">
+      <label>Nuevo tipo 1</label>
+      <input [formControl]="tipo1Pokemon" type="text" placeholder="Tipo 1">
+      <label>Nuevo tipo 2</label>
+      <input [formControl]="tipo2Pokemon" type="text" placeholder="Tipo 2">
+      <button (click)="modificarPokemon()">Actualizar Pokemon</button>
 
-<h2>Eliminar Pokemon por id</h2>
+      <h2>Eliminar Pokemon</h2>
+      <input [formControl]="idPokemonEliminar" type="number" placeholder="ID">
+      <button (click)="eliminarPokemon()">Eliminar Pokemon</button>
+    </section>
+  </div>
 
-<input [formControl]="idPokemonEliminar" type="number">
-<button (click)="eliminarPokemon()">Eliminar Pokemon</button>
+  <!-- Right side: Table, Search, Pagination -->
+  <div class="abm-right">
+    <section>
+      <input type="text" placeholder="Buscar Pokemon...">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tipo 1</th>
+            <th>Tipo 2</th>
+            <th>Peso</th>
+            <th>Altura</th>
+            <th>Tipo de Huevo</th>
+            <th>Forma Corporal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pokemon of pokemons">
+            <td>{{pokemon.name}}</td>
+            <td>{{pokemon.type_1}}</td>
+            <td>{{pokemon.type_2}}</td>
+            <td>{{pokemon.weight}}</td>
+            <td>{{pokemon.height}}</td>
+            <td>{{pokemon.eggType}}</td>
+            <td>{{pokemon.bodyshape}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
 
-<h1>Modificar</h1>
-<h2>id pokemon a modificar</h2>
-<input [formControl]="idPokemonActualizar" type="number">
-<h2>Nuevo nombre</h2>
-<input [formControl]="nombrePokemon" type="text">
-<button (click)="modificarPokemon()">Actualizar Pokemon</button>
 
-   
-    

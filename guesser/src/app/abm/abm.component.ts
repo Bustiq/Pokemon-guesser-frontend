@@ -18,6 +18,19 @@ export class AbmComponent {
   nombrePokemon = new FormControl<string>('');
   idPokemonEliminar = new FormControl<number>(0);
   idPokemonActualizar = new FormControl<number>(0);
+
+  // Add missing form controls for type_1 and type_2
+  tipo1Pokemon = new FormControl<string>('');
+  tipo2Pokemon = new FormControl<string>('');
+
+  // Table, search, and pagination variables (for binding only)
+  searchTerm: string = '';
+  pokemons: any[] = [];
+  filteredPokemons: any[] = [];
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
+
   constructor(private router: Router, private connectionService: ConnectionService, private route: ActivatedRoute) {}
 
   async agregarPokemon()
