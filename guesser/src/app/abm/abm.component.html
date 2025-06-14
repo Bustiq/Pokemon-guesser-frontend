@@ -13,7 +13,8 @@
   <!-- Right: Table -->
   <div class="abm-right">
     <section>
-      <input type="text" placeholder="Buscar Pokemon...">
+      <input type="text" #searchBarInput placeholder="Buscar Pokemon...">
+      <button (click)="searchPokemons(searchBarInput.value)">Buscar</button>
       <table class="abm-table">
         <thead>
           <tr>
@@ -29,13 +30,13 @@
         </thead>
         <tbody>
           <tr *ngFor="let pokemon of pokemons">
-            <td>{{pokemon.name}}</td>
-            <td>{{pokemon.type_1}}</td>
-            <td>{{pokemon.type_2}}</td>
-            <td>{{pokemon.weight}}</td>
-            <td>{{pokemon.height}}</td>
+            <td>{{pokemon.nombre}}</td>
+            <td>{{pokemon.tipo_1}}</td>
+            <td>{{pokemon.tipo_2}}</td>
+            <td>{{pokemon.pesoKilos}}</td>
+            <td>{{pokemon.alturaCM}}</td>
             <td>{{pokemon.eggType}}</td>
-            <td>{{pokemon.bodyshape}}</td>
+            <td>{{pokemon.bodyShape}}</td>
             <td class="actions">
               <button class="icon-btn" title="Editar">
                 <!-- Edit icon SVG -->
@@ -67,4 +68,20 @@
   </div>
 </div>
 
+<!-- Pagination UI fixed to bottom right of the screen -->
+<div class="pagination-ui">
+  <button class="icon-btn" title="Página anterior">
+    <!-- Left arrow SVG -->
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <span class="page-number">1</span>
+  <button class="icon-btn" title="Página siguiente">
+    <!-- Right arrow SVG -->
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 

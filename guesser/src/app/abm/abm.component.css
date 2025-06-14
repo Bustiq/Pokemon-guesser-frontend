@@ -101,6 +101,43 @@ button:hover {
   background: #1565c0;
 }
 
+.pagination-ui {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.95);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.pagination-ui .icon-btn {
+  background: #f0f0f0;
+  border-radius: 50%;
+  border: none;
+  padding: 6px;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-ui .icon-btn:hover {
+  background: #e0e0e0;
+}
+
+.pagination-ui .page-number {
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 0 6px;
+  min-width: 24px;
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .abm-container {
     grid-template-columns: 1fr;

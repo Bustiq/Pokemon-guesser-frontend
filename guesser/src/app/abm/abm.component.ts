@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConnectionService } from '../connection.service';
 import { ActivatedRoute } from '@angular/router';
+import { Pokemon } from '../Models/pokemon';
 
 
 @Component({
@@ -18,13 +19,10 @@ export class AbmComponent {
   nombrePokemon = new FormControl<string>('');
   idPokemonEliminar = new FormControl<number>(0);
   idPokemonActualizar = new FormControl<number>(0);
-
-  // Add missing form controls for type_1 and type_2
   tipo1Pokemon = new FormControl<string>('');
   tipo2Pokemon = new FormControl<string>('');
-
-  // Table, search, and pagination variables (for binding only)
   searchTerm: string = '';
+
   pokemons: any[] = [];
   filteredPokemons: any[] = [];
   currentPage: number = 1;
@@ -32,6 +30,31 @@ export class AbmComponent {
   totalPages: number = 1;
 
   constructor(private router: Router, private connectionService: ConnectionService, private route: ActivatedRoute) {}
+
+
+  ngOnInit() {
+      this.searchTerm = "";
+      this.loadPokemons();
+      
+  }
+
+  async loadPokemons() {
+    try {
+      const response = await this.connectionService.getPokemons(this.searchTerm, this.currentPage);
+      console.log(response);
+      this.pokemons = response;
+      
+      this.filteredPokemons = this.pokemons;
+     
+    } catch (error) {
+      console.error('Error al cargar los pokemons:', error);
+    }
+  }
+
+  searchPokemons(value: string) {
+    this.searchTerm = value;
+    this.loadPokemons();
+  }
 
   async agregarPokemon()
   {
@@ -50,6 +73,8 @@ export class AbmComponent {
       alert("Error al eliminar el pokemon: " + e.message);
     });
   }
+
+
 
   async modificarPokemon()
   {
