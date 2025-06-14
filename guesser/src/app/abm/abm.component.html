@@ -1,39 +1,20 @@
 <h1>Pokemon abm</h1>
 
 <div class="abm-container">
-  <!-- Left side: Add, Modify, Delete -->
+  <!-- Top-left: Add Pokemon -->
   <div class="abm-left">
-    <!-- Add Pokemon -->
-    <section>
+    <section class="abm-add-section">
       <h2>Agregar Pokemon por id</h2>
       <input [formControl]="idPokemon" type="number" placeholder="ID">
       <button (click)="agregarPokemon()">Agregar Pokemon</button>
     </section>
-
-    <!-- Modify/Delete Pokemon -->
-    <section>
-      <h2>Modificar Pokemon</h2>
-      <label>ID a modificar</label>
-      <input [formControl]="idPokemonActualizar" type="number" placeholder="ID">
-      <label>Nuevo nombre</label>
-      <input [formControl]="nombrePokemon" type="text" placeholder="Nombre">
-      <label>Nuevo tipo 1</label>
-      <input [formControl]="tipo1Pokemon" type="text" placeholder="Tipo 1">
-      <label>Nuevo tipo 2</label>
-      <input [formControl]="tipo2Pokemon" type="text" placeholder="Tipo 2">
-      <button (click)="modificarPokemon()">Actualizar Pokemon</button>
-
-      <h2>Eliminar Pokemon</h2>
-      <input [formControl]="idPokemonEliminar" type="number" placeholder="ID">
-      <button (click)="eliminarPokemon()">Eliminar Pokemon</button>
-    </section>
   </div>
 
-  <!-- Right side: Table, Search, Pagination -->
+  <!-- Right: Table -->
   <div class="abm-right">
     <section>
       <input type="text" placeholder="Buscar Pokemon...">
-      <table>
+      <table class="abm-table">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -43,6 +24,7 @@
             <th>Altura</th>
             <th>Tipo de Huevo</th>
             <th>Forma Corporal</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -54,10 +36,34 @@
             <td>{{pokemon.height}}</td>
             <td>{{pokemon.eggType}}</td>
             <td>{{pokemon.bodyshape}}</td>
+            <td class="actions">
+              <button class="icon-btn" title="Editar">
+                <!-- Edit icon SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 21h17M14.7 5.3a1 1 0 0 1 1.4 0l2.6 2.6a1 1 0 0 1 0 1.4l-9.3 9.3-4 1 1-4 9.3-9.3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="icon-btn" title="Eliminar">
+                <!-- Trash icon SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </section>
+  </div>
+
+  <!-- Bottom-left: Modify form (hidden by default) -->
+  <div class="abm-modify-section">
+    <h2>Modificar Pokemon</h2>
+    <label>ID a modificar</label>
+    <input type="number" placeholder="ID">
+    <label>Nuevo nombre</label>
+    <input type="text" placeholder="Nombre">
+    <label>Nuevo tipo 1</label>
+    <input type="text" placeholder="Tipo 1">
+    <label>Nuevo tipo 2</label>
+    <input type="text" placeholder="Tipo 2">
+    <button>Actualizar Pokemon</button>
   </div>
 </div>
 
