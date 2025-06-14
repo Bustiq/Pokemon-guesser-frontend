@@ -22,12 +22,14 @@ export class AbmComponent {
   tipo1Pokemon = new FormControl<string>('');
   tipo2Pokemon = new FormControl<string>('');
   searchTerm: string = '';
-
+  maxPage: number = 130;
   pokemons: any[] = [];
   filteredPokemons: any[] = [];
   currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
+  selectedPokemonId : number | null = null;
+  isEditing: boolean = false;
 
   constructor(private router: Router, private connectionService: ConnectionService, private route: ActivatedRoute) {}
 
@@ -55,8 +57,28 @@ export class AbmComponent {
     this.searchTerm = value;
     this.loadPokemons();
   }
+  async changePage(difference: number) {
+    if (this.currentPage + difference < 1) {
+      return;
+    }
+    this.currentPage += difference;
+    await this.loadPokemons();
+  }
 
-  async agregarPokemon()
+  goToPage(page: any) {
+    const pageNum = Number(page);
+  
+    if (pageNum && pageNum >= 1 && (!this.maxPage || pageNum <= this.maxPage)) {
+      this.currentPage = pageNum;
+      this.loadPokemons();
+    } else {
+      setTimeout(() => {
+        const input = document.querySelector('.page-number') as HTMLInputElement;
+        if (input) input.value = String(this.currentPage);
+      });
+    }
+  }
+    async agregarPokemon()
   {
     await this.connectionService.agregarPokemon(this.idPokemon.value).then(() => {
       alert("Pokemon agregado exitosamente ()");
@@ -65,9 +87,9 @@ export class AbmComponent {
     });
   }
 
-  async eliminarPokemon()
+  async eliminarPokemon(idPokemon: number)
   {
-    await this.connectionService.eliminarPokemon(this.idPokemonEliminar.value).then(() => {
+    await this.connectionService.eliminarPokemon(idPokemon).then(() => {
       alert("Pokemon eliminado exitosamente ()");
     }).catch(e => {
       alert("Error al eliminar el pokemon: " + e.message);
@@ -76,12 +98,30 @@ export class AbmComponent {
 
 
 
-  async modificarPokemon()
+  async startEdit(pokemonId: number) {
+    this.isEditing = true;
+    this.selectedPokemonId = pokemonId;
+    console.log("Editando Pokemon con ID: " + pokemonId);
+  }
+
+  async modificarPokemon(id: number, newNombre: string, newTipo1: string, newTipo2: string)
   {
-    await this.connectionService.modificarPokemon(this.idPokemonActualizar.value, this.nombrePokemon.value).then(() => {
-      alert("Pokemon modificado exitosamente ()");
-    }).catch(e => {
-      alert("Error al modificar el pokemon: " + e.message);
-    });
+    const updateData: any = {};
+
+    if (newNombre !== '') {
+      updateData.nombre = newNombre;
+    }
+    if (newTipo1 !== '') {
+      updateData.tipo_1 = newTipo1;
+    }
+    if (newTipo2 !== '') {
+      updateData.tipo_2 = newTipo2;
+    }
+
+    // Only send updateData if it has properties
+    if (Object.keys(updateData).length > 0) {
+      // Send updateData to backend
+      this.connectionService.modificarPokemon(id, updateData);
+    }
   }
 }

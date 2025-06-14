@@ -18,6 +18,7 @@
       <table class="abm-table">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Nombre</th>
             <th>Tipo 1</th>
             <th>Tipo 2</th>
@@ -30,6 +31,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let pokemon of pokemons">
+            <td>{{pokemon.id}}</td>
             <td>{{pokemon.nombre}}</td>
             <td>{{pokemon.tipo_1}}</td>
             <td>{{pokemon.tipo_2}}</td>
@@ -38,11 +40,11 @@
             <td>{{pokemon.eggType}}</td>
             <td>{{pokemon.bodyShape}}</td>
             <td class="actions">
-              <button class="icon-btn" title="Editar">
+              <button class="icon-btn" title="Editar" (click)="startEdit(pokemon.id)">
                 <!-- Edit icon SVG -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 21h17M14.7 5.3a1 1 0 0 1 1.4 0l2.6 2.6a1 1 0 0 1 0 1.4l-9.3 9.3-4 1 1-4 9.3-9.3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
-              <button class="icon-btn" title="Eliminar">
+              <button class="icon-btn" title="Eliminar" (click)="eliminarPokemon(pokemon.id)">
                 <!-- Trash icon SVG -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -53,31 +55,41 @@
     </section>
   </div>
 
-  <!-- Bottom-left: Modify form (hidden by default) -->
-  <div class="abm-modify-section">
+  
+  <div class="abm-modify-section" *ngIf="selectedPokemonId">
     <h2>Modificar Pokemon</h2>
-    <label>ID a modificar</label>
-    <input type="number" placeholder="ID">
-    <label>Nuevo nombre</label>
-    <input type="text" placeholder="Nombre">
-    <label>Nuevo tipo 1</label>
-    <input type="text" placeholder="Tipo 1">
-    <label>Nuevo tipo 2</label>
-    <input type="text" placeholder="Tipo 2">
-    <button>Actualizar Pokemon</button>
+    <label>ID</label>
+    <input type="number" [value]="selectedPokemonId" disabled>
+    <label>Nombre</label>
+    <input type="text" #nombreInput>
+    <label>Tipo 1</label>
+    <input type="text" #tipo1Input>
+    <label>Tipo 2</label>
+    <input type="text" #tipo2Input>
+    
+    <button (click)="modificarPokemon(selectedPokemonId, nombreInput.value, tipo1Input.value, tipo2Input.value)">Guardar Cambios</button>
+    <button (click)="selectedPokemonId = null">Cancelar</button>
   </div>
 </div>
 
-<!-- Pagination UI fixed to bottom right of the screen -->
+
 <div class="pagination-ui">
-  <button class="icon-btn" title="Página anterior">
-    <!-- Left arrow SVG -->
+  <button class="icon-btn" title="Página anterior" (click)="changePage(-1)">
+    
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <span class="page-number">1</span>
-  <button class="icon-btn" title="Página siguiente">
+  <input
+    #pageInput
+    class="page-number"
+    type="number"
+    [min]="1"
+    [value]="currentPage"
+    (change)="goToPage(+pageInput.value)"
+    style="width: 48px; text-align: center;"
+  >
+  <button class="icon-btn" title="Página siguiente" (click)="changePage(1)">
     <!-- Right arrow SVG -->
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
