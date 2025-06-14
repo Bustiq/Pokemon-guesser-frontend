@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,25 @@ export class ConnectionService {
         console.error("Error al cambiar la contraseña:", error);
         throw error;
       });
+  }
+
+  async getPokemons(searchTerm: string = "", numeroPagina: number = 1, filters: any = {}) {
+    const params = {
+      nombre: searchTerm,
+      filtros: filters
+
+    };
+    console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
+    try {
+      const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
+        params: params,
+        ...this.getHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los pokemons:", error);
+      throw error;
+    }
   }
 
 
