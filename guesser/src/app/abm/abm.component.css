@@ -75,7 +75,6 @@
   padding: 18px;
   box-shadow: 0 2px 8px #0001;
   margin-top: 12px;
-  display: none; /* Show with JS when editing */
 }
 
 input[type="text"], input[type="number"] {

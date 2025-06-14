@@ -159,13 +159,12 @@ export class ConnectionService {
     return response.data;
   }
 
-  async modificarPokemon(id: number | null, Nombre: String | null) {
-    if (id == null || Nombre == null || Nombre == "") {
-      throw new Error("Datos invalidos para modificar el Pokemon");
-    }
-
+  async modificarPokemon(id: number | null, updateData: any = {}) {
+    
+   
     const response = await axios.patch(this.url + this.pokemonRouter + "updatePokemon/" + String(id), {
-      nombre: Nombre
+      updateData
+
     }, this.getHeaders());
 
     alert("Pokemon modificado exitosamente");
