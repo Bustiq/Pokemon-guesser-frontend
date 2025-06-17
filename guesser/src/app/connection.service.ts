@@ -143,8 +143,11 @@ export class ConnectionService {
       throw new Error("Numero de pokedex invalido");
     }
 
+
     try {
+      alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber), this.getHeaders());
+      alert("Backend respondio exitosamente");
     } catch (error) {
       throw error;
     }

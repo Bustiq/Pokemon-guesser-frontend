@@ -7,7 +7,6 @@ import { ConnectionService } from '../connection.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pokemon } from '../Models/pokemon';
 
-
 @Component({
   selector: 'app-abm',
   imports: [CommonModule, ReactiveFormsModule],
@@ -81,7 +80,7 @@ export class AbmComponent {
     async agregarPokemon()
   {
     await this.connectionService.agregarPokemon(this.idPokemon.value).then(() => {
-      alert("Pokemon agregado exitosamente ()");
+      alert("Pokemon agregado exitosamente (component)");
     }).catch(e => {
       alert("Error al agregar el pokemon: " + e.message);
     });
@@ -90,7 +89,7 @@ export class AbmComponent {
   async eliminarPokemon(idPokemon: number)
   {
     await this.connectionService.eliminarPokemon(idPokemon).then(() => {
-      alert("Pokemon eliminado exitosamente ()");
+      alert("Pokemon eliminado exitosamente (component)");
     }).catch(e => {
       alert("Error al eliminar el pokemon: " + e.message);
     });
