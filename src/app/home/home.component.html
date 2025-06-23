@@ -9,44 +9,49 @@
 <body>
 
   <div class="container">
-  <div class="header">
-    <button class="header-btn" (click)="showLogin()">Login</button>
-    <button class="header-btn" (click)="showRegister()">Register</button>
+    <div class = "header-container">
+      <div class="header">
+        <button class="header-btn" (click)="showLogin()">Login</button>
+        <button class="header-btn" (click)="showRegister()">Register</button>
+      </div>
+    </div>
+
+
+    <div class="form-container" *ngIf="wantsToRegister">
+      <h2>Registro</h2>
+      <label>Nombre de usuario</label>
+      <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
+      <label>Correo electrónico</label>
+      <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
+      <label>Contraseña</label>
+      <input [formControl]="Password" type="password" placeholder="Contraseña">
+      <button class="action-btn" (click)="registrar()">Registrar</button>
+      <button class="link-btn" (click)="cancel()">Cancelar</button>
+    </div>
+
+    <div class="form-container" *ngIf="wantsToLogin">
+      <h2>Iniciar Sesión</h2>
+      <label>Nombre de usuario</label>
+      <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
+      <label>Contraseña</label>
+      <input [formControl]="Password" type="password" placeholder="Contraseña">
+      <button class="action-btn" (click)="login()">Login</button>
+      <button class="link-btn" (click)="cancel()">Cancelar</button>
+      <button class="link-btn" (click)="resetPass()">¿Olvidaste tu contraseña?</button>
+    </div>
+
+    <div class="form-container" *ngIf="forgotPassword">
+      <h2>Recuperar Contraseña</h2>
+      <label>Correo electrónico</label>
+      <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
+      <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
+      <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
+    </div>
+
   </div>
 
-  <div class="form-container" *ngIf="wantsToRegister">
-    <h2>Registro</h2>
-    <label>Nombre de usuario</label>
-    <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
-    <label>Correo electrónico</label>
-    <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
-    <label>Contraseña</label>
-    <input [formControl]="Password" type="password" placeholder="Contraseña">
-    <button class="action-btn" (click)="registrar()">Registrar</button>
-    <button class="link-btn" (click)="cancel()">Cancelar</button>
-  </div>
-
-  <div class="form-container" *ngIf="wantsToLogin">
-    <h2>Iniciar Sesión</h2>
-    <label>Nombre de usuario</label>
-    <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
-    <label>Contraseña</label>
-    <input [formControl]="Password" type="password" placeholder="Contraseña">
-    <button class="action-btn" (click)="login()">Login</button>
-    <button class="link-btn" (click)="cancel()">Cancelar</button>
-    <button class="link-btn" (click)="resetPass()">¿Olvidaste tu contraseña?</button>
-  </div>
-
-  <div class="form-container" *ngIf="forgotPassword">
-    <h2>Recuperar Contraseña</h2>
-    <label>Correo electrónico</label>
-    <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
-    <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
-    <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
-  </div>
-</div>
+</body>
 
 
 
-
-
+</html>
