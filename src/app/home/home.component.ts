@@ -16,11 +16,32 @@ protected Password = new FormControl<String>('')
 protected NombreUsuario = new FormControl<String>('')
 protected Mail = new FormControl<String>('')
 protected forgotPassword = false
+wantsToRegister = false;
+wantsToLogin = false;
 
 
-resetPass(){
-  this.forgotPassword = true
+showRegister() {
+  this.wantsToRegister = true;
+  this.wantsToLogin = false;
+  this.forgotPassword = false;
 }
+showLogin() {
+  this.wantsToLogin = true;
+  this.wantsToRegister = false;
+  this.forgotPassword = false;
+}
+cancel() {
+  this.wantsToRegister = false;
+  this.wantsToLogin = false;
+  this.forgotPassword = false;
+}
+resetPass() {
+  this.forgotPassword = true;
+  this.wantsToRegister = false;
+  this.wantsToLogin = false;
+}
+
+
 
 cancelarCambioContrasenia(){
   this.forgotPassword = false

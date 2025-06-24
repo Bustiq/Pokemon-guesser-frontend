@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionService {
 
-  url = 'http://localhost:3000/';
+  url = 'placeholderURL'; ;
   pokemonRouter = 'pokemon/';
   private token: string | null = null;
 
@@ -97,6 +98,25 @@ export class ConnectionService {
       });
   }
 
+  async getPokemons(searchTerm: string = "", numeroPagina: number = 1, filters: any = {}) {
+    const params = {
+      nombre: searchTerm,
+      filtros: filters
+
+    };
+    console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
+    try {
+      const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
+        params: params,
+        ...this.getHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los pokemons:", error);
+      throw error;
+    }
+  }
+
 
   async enviarMailCambiarContrasenia(Email: String | null) {
 
@@ -123,13 +143,16 @@ export class ConnectionService {
       throw new Error("Numero de pokedex invalido");
     }
 
+
     try {
+      alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber), this.getHeaders());
+      alert("Backend respondio exitosamente");
     } catch (error) {
       throw error;
     }
 
-    alert(response.data.name + " agregado exitosamente");
+    alert(pokedexNumber + " agregado exitosamente");
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
@@ -139,13 +162,12 @@ export class ConnectionService {
     return response.data;
   }
 
-  async modificarPokemon(id: number | null, Nombre: String | null) {
-    if (id == null || Nombre == null || Nombre == "") {
-      throw new Error("Datos invalidos para modificar el Pokemon");
-    }
-
+  async modificarPokemon(id: number | null, updateData: any = {}) {
+    
+   
     const response = await axios.patch(this.url + this.pokemonRouter + "updatePokemon/" + String(id), {
-      nombre: Nombre
+      updateData
+
     }, this.getHeaders());
 
     alert("Pokemon modificado exitosamente");
