@@ -7,7 +7,7 @@ import { filter } from 'rxjs';
 })
 export class ConnectionService {
 
-  url = 'http://localhost:3000/';
+  url = 'placeholderURL'; ;
   pokemonRouter = 'pokemon/';
   private token: string | null = null;
 
