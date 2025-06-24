@@ -42,7 +42,7 @@
             <td>{{pokemon.grupo_huevo_2}}</td>
             <td>{{pokemon.bodyShape}}</td>
             <td class="actions">
-              <button class="icon-btn" title="Editar" (click)="startEdit(pokemon.id)">
+              <button class="icon-btn" title="Editar" (click)="startEdit(pokemon.id, pokemon.nombre, pokemon.tipo_1, pokemon.tipo_2)">
                 <!-- Edit icon SVG -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 21h17M14.7 5.3a1 1 0 0 1 1.4 0l2.6 2.6a1 1 0 0 1 0 1.4l-9.3 9.3-4 1 1-4 9.3-9.3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -63,10 +63,9 @@
     <label>ID</label>
     <input type="number" [value]="selectedPokemonId" disabled>
     <label>Nombre</label>
-    <input type="text" #nombreInput>
+    <input type="text" #nombreInput [value]="selectedPokemonName">
     <label>Tipo 1</label>
-    <select #tipo1Input>
-    <option value="" selected></option>
+    <select #tipo1Input [value]="selectedPokemonType1">
     <option value="normal">Normal</option>
     <option value="fire">Fire</option>
     <option value="water">Water</option>
@@ -88,8 +87,7 @@
     </select>
     <label>Tipo 2</label>
     
-    <select matNativeControl #tipo2Input>
-    <option value="" selected></option>
+    <select matNativeControl #tipo2Input [value]="selectedPokemonType2"> 
     <option value="normal">Normal</option>
     <option value="fire">Fire</option>
     <option value="water">Water</option>

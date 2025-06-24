@@ -19,7 +19,6 @@ RUN rm /usr/share/nginx/html/index.html
 
 COPY --from=uno /app/dist/guesser/browser/* /usr/share/nginx/html
 
-
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
