@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
 
 env:
-  IMAGE_NAME: guesser-front
+  IMAGE_NAME: pokemon-guesser-frontend
   IMAGE_OWNER: ${{ github.repository_owner }}
 
 jobs:
