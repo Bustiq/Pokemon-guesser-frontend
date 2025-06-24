@@ -29,8 +29,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN }}
       - name: enviroment
-        run:
-          sed -i -e 's/placeholderURL/${{ vars.url }}/g' src/app/connection.service.ts
+        run: |
+          sed -i -e 's|placeholderURL|${{ vars.url }}|g' src/app/connection.service.ts
 
       
 
