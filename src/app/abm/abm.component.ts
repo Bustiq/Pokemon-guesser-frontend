@@ -28,6 +28,9 @@ export class AbmComponent {
   pageSize: number = 10;
   totalPages: number = 1;
   selectedPokemonId : number | null = null;
+  selectedPokemonName: string = '';
+  selectedPokemonType1: string = '';
+  selectedPokemonType2: string = '';
   isEditing: boolean = false;
 
   constructor(private router: Router, private connectionService: ConnectionService, private route: ActivatedRoute) {}
@@ -84,6 +87,7 @@ export class AbmComponent {
     }).catch(e => {
       alert("Error al agregar el pokemon: " + e.message);
     });
+    this.goToPage(this.currentPage)
   }
 
   async eliminarPokemon(idPokemon: number)
@@ -93,13 +97,17 @@ export class AbmComponent {
     }).catch(e => {
       alert("Error al eliminar el pokemon: " + e.message);
     });
+    this.goToPage(this.currentPage)
   }
 
 
 
-  async startEdit(pokemonId: number) {
-    this.isEditing = true;
+  async startEdit(pokemonId: number, pokemonName: string, pokemonType1: string, pokemonType2: string) {
     this.selectedPokemonId = pokemonId;
+    this.selectedPokemonName = pokemonName;
+    this.selectedPokemonType1 = pokemonType1;
+    this.selectedPokemonType2 = pokemonType2;
+    this.isEditing = true;
     console.log("Editando Pokemon con ID: " + pokemonId);
   }
 
@@ -122,5 +130,7 @@ export class AbmComponent {
       // Send updateData to backend
       this.connectionService.modificarPokemon(id, updateData);
     }
+    this.goToPage(this.currentPage)
   }
+  
 }

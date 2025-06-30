@@ -146,4 +146,21 @@ input:focus {
   white-space: normal;      /* Add this */
 }
 
+.errorMessage{
+  background: none;
+  color: #d62828;
+  border: none;
+  padding: 0.5rem 0;
+  font-size: 0.6rem; /* smaller font */
+  text-align: left;
+  text-decoration: underline;
+  margin-top: 0.2rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;         /* Add this */
+  word-break: break-word;   /* Add this */
+  white-space: normal;      /* Add this */
+}
+
 
