@@ -11,7 +11,16 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-constructor(private router: Router, private connectionService: ConnectionService) {}
+
+protected errorMessages: string[] = []
+
+
+protected indiceCodigoError = 0
+protected mensajeError = "Todo bien (no mostrar)"
+
+constructor(private router: Router, private connectionService: ConnectionService) {
+
+}
 protected Password = new FormControl<String>('')
 protected NombreUsuario = new FormControl<String>('')
 protected Mail = new FormControl<String>('')
@@ -96,4 +105,36 @@ login(){
       alert("Mail handleado")
     });
  }
+
+
+
+  setCodigoDeError(codigo: number) {
+      this.errorMessages = [
+        "Todo bien (no mostrar)",
+        "Error desconocido. Perdón bro.",
+        "Nombre de usuario o contraseña incorrectos",
+        "Nombre de usuario o contraseña vacíos (mensajes de error rojos)",
+        "El nombre de usuario ya está en uso",
+        "El email ya está en uso",
+        "El email no es válido",
+        "El email no existe",
+        "El email no puede estar vacío",
+        "La contraseña no puede estar vacía",
+        "El nombre de usuario no puede estar vacío",
+        "El nombre de usuario no puede contener espacios ni arrobas",
+    ]
+    this.indiceCodigoError = codigo;
+    
+    if (this.indiceCodigoError < 0 || this.indiceCodigoError >= this.errorMessages.length) {
+      this.mensajeError = "Error desconocido";
+      alert(this.mensajeError)
+      return
+    }
+    this.mensajeError = this.errorMessages[this.indiceCodigoError];
+    alert(this.mensajeError)
+  }
+
+  hayError(): boolean {
+    return this.indiceCodigoError != 0;
+  }
 }

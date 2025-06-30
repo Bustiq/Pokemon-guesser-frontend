@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
+import { HomeComponent } from './home/home.component';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,7 @@ export class ConnectionService {
 
   async login(username: String | null, password: String | null) {
     if (username == null || password == null || username == "" || password == "" ) {
+      HomeComponent.prototype.setCodigoDeError(3);
       throw new Error("Nombre de usuario o contraseña vacios");
     }
 
@@ -52,6 +54,7 @@ export class ConnectionService {
       return response.data;
     }
     catch (error) {
+      
       throw new Error("Nombre de usuario o contraseña incorrectos");
     }
 
