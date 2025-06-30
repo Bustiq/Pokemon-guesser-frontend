@@ -31,7 +31,7 @@ export class ConnectionService {
     }
     return {
       headers: {
-        Authorization: `Bearer ${this.token}`
+        authorization: `Bearer ${this.token}`
       }
     };
   }
@@ -108,8 +108,8 @@ export class ConnectionService {
     try {
       const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
         params: params,
-        ...this.getHeaders()
-      });
+
+      }, this.getHeaders());
       return response.data;
     } catch (error) {
       console.error("Error al obtener los pokemons:", error);
@@ -142,11 +142,11 @@ export class ConnectionService {
     if (pokedexNumber == null || pokedexNumber < 1) {
       throw new Error("Numero de pokedex invalido");
     }
-
+    console.log(this.getHeaders())
 
     try {
       alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
-      response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber), this.getHeaders());
+      response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
       alert("Backend respondio exitosamente");
     } catch (error) {
       throw error;
@@ -156,6 +156,7 @@ export class ConnectionService {
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
+  
     console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
     alert("Pokemon eliminado exitosamente");
