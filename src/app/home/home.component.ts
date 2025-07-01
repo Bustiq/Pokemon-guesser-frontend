@@ -3,6 +3,7 @@ import { ConnectionService } from '../connection.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginError } from '../Models/loginError';
 
 @Component({
   selector: 'app-home',
@@ -30,21 +31,25 @@ wantsToLogin = false;
 
 
 showRegister() {
+  this.setCodigoDeError(0);
   this.wantsToRegister = true;
   this.wantsToLogin = false;
   this.forgotPassword = false;
 }
 showLogin() {
+  this.setCodigoDeError(0);
   this.wantsToLogin = true;
   this.wantsToRegister = false;
   this.forgotPassword = false;
 }
 cancel() {
+  this.setCodigoDeError(0);
   this.wantsToRegister = false;
   this.wantsToLogin = false;
   this.forgotPassword = false;
 }
 resetPass() {
+  this.setCodigoDeError(0);
   this.forgotPassword = true;
   this.wantsToRegister = false;
   this.wantsToLogin = false;
@@ -65,12 +70,16 @@ login(){
 
     this.connectionService.login(body.nombre, body.password).then(v => {
       alert("Login exitoso")
+      this.setCodigoDeError(0);
       alert(v)
       this.connectionService.setToken(v)
       
     }).catch(e => {
-      alert(e.message)
-    })
+      if (e instanceof LoginError) {
+        this.setCodigoDeError(e.codigo);
+      } else {
+        this.setCodigoDeError(1);
+      }})
   }
 
   registrar(){
@@ -83,10 +92,13 @@ login(){
     alert("Registrando usuario: " + body.nombre + " con email: " + body.email + " y contraseña: " + body.password)
     this.connectionService.signup(body.nombre, body.password, body.email).then(v => {
       alert("Registro exitoso")
-      
+      this.setCodigoDeError(0);
     }).catch(e => {
-
-      alert(e.message);
+      if (e instanceof LoginError) {
+        this.setCodigoDeError(e.codigo);
+      } else {
+        this.setCodigoDeError(1);
+      }
     })
   }
 
@@ -110,10 +122,10 @@ login(){
 
   setCodigoDeError(codigo: number) {
       this.errorMessages = [
-        "Todo bien (no mostrar)",
+        "No hay error (que no se vea en rojo)",
         "Error desconocido. Perdón bro.",
         "Nombre de usuario o contraseña incorrectos",
-        "Nombre de usuario o contraseña vacíos (mensajes de error rojos)",
+        "Nombre de usuario o contraseña vacíos",
         "El nombre de usuario ya está en uso",
         "El email ya está en uso",
         "El email no es válido",
@@ -122,7 +134,9 @@ login(){
         "La contraseña no puede estar vacía",
         "El nombre de usuario no puede estar vacío",
         "El nombre de usuario no puede contener espacios ni arrobas",
+        "Mail inválido"
     ]
+
     this.indiceCodigoError = codigo;
     
     if (this.indiceCodigoError < 0 || this.indiceCodigoError >= this.errorMessages.length) {
@@ -131,10 +145,11 @@ login(){
       return
     }
     this.mensajeError = this.errorMessages[this.indiceCodigoError];
-    alert(this.mensajeError)
   }
 
   hayError(): boolean {
     return this.indiceCodigoError != 0;
   }
 }
+
+

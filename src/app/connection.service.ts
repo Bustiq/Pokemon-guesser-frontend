@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
-import { HomeComponent } from './home/home.component';
+import { LoginError } from './Models/loginError';
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +40,7 @@ export class ConnectionService {
 
   async login(username: String | null, password: String | null) {
     if (username == null || password == null || username == "" || password == "" ) {
-      HomeComponent.prototype.setCodigoDeError(3);
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
 
     try{
@@ -55,7 +55,13 @@ export class ConnectionService {
     }
     catch (error) {
       
+      throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      /*if ((error as any).response.data.errorCode)
+      {
+        throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      }
       throw new Error("Nombre de usuario o contraseña incorrectos");
+      */
     }
 
   }
@@ -64,9 +70,9 @@ export class ConnectionService {
 
     
     if (username == null || password == null || username == "" || password == "") {
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
-      console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
+    console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
     alert("Creando...");
     const response = await axios.post(this.url + 'register', {
@@ -152,7 +158,7 @@ export class ConnectionService {
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
       alert("Backend respondio exitosamente");
     } catch (error) {
-      throw error;
+      
     }
 
     alert(pokedexNumber + " agregado exitosamente");
