@@ -1,23 +1,54 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
-import { HomeComponent } from './home/home.component';
+import { LoginError } from './Models/loginError';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionService {
 
+  currentUserName : string;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
+
   private token: string | null = null;
 
   constructor() {
-    // Retrieve token from localStorage on service initialization
+    this.currentUserName = "";
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       this.token = storedToken;
     }
+  }
+
+  async loadUserName() {
+
+    const token = localStorage.getItem("jwtToken");
+    if (!token){
+      return
+    }
+
+    //alert("nombre de usuaro:" + this.currentUserName)
+    if (this.currentUserName != "") {
+      this.currentUserName = this.currentUserName;
+      //alert(this.currentUserName)
+      return
+    } 
+    //alert("?????")
+    
+    try{
+      var response = await axios.get(this.url + 'getUserName', this.getHeaders())
+      this.currentUserName = response.data;
+      //alert(this.currentUserName)
+    }
+    catch(error) {
+      //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+    }
+    //this.currentUserName = 
+
   }
 
   setToken(token: string) {
@@ -38,24 +69,31 @@ export class ConnectionService {
   }
 
   async login(username: String | null, password: String | null) {
+
     if (username == null || password == null || username == "" || password == "" ) {
-      HomeComponent.prototype.setCodigoDeError(3);
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
 
     try{
-
+            
+      alert("Intentando loguear usuario: ")
       const response = await axios.post(this.url + 'login', {
         username: username,
         password: password
       });
-
+      
       this.setToken(response.data.token);
       return response.data;
     }
     catch (error) {
       
+      throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      /*if ((error as any).response.data.errorCode)
+      {
+        throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      }
       throw new Error("Nombre de usuario o contraseña incorrectos");
+      */
     }
 
   }
@@ -64,9 +102,9 @@ export class ConnectionService {
 
     
     if (username == null || password == null || username == "" || password == "") {
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
-      console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
+    console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
     alert("Creando...");
     const response = await axios.post(this.url + 'register', {
@@ -152,7 +190,7 @@ export class ConnectionService {
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
       alert("Backend respondio exitosamente");
     } catch (error) {
-      throw error;
+      
     }
 
     alert(pokedexNumber + " agregado exitosamente");

@@ -1,46 +1,70 @@
-
 <div class="container">
-  <div class = "header-container">
-    <div class="header">
+  <div class="header-container">
+    <div *ngIf="isLoggedOut; else logOut" class="header">
       <button class="header-btn" (click)="showLogin()">Login</button>
       <button class="header-btn" (click)="showRegister()">Register</button>
     </div>
+    <ng-template #logOut class="">
+      <button class="header-btn" (click)="openUserOptions()">{{getUserName()}}</button>
+    </ng-template>
   </div>
-  
-  
+
+
+<div class="form-container" *ngIf="isViewingUserOptions">
+   <button class="header-btn" (click)="goToUserSettings()">User Settings</button>
+    <button class="header-btn" (click)="goToABM()">ABM (admin only)</button>
+    <button class="header-btn" (click)="logout()">Logout</button>
+  </div>
+
+
+
+
+
+
+
+  <h1 class="main-title">Pokedle</h1>
+
+ 
+  <div class="main-menu">
+    <button class="header-btn main-menu-btn">Daily Challenge</button>
+    <button class="header-btn main-menu-btn">Challenge User</button>
+    <button class="header-btn main-menu-btn">Options</button>
+  </div>
+
   <div class="form-container" *ngIf="wantsToRegister">
     <h2>Registro</h2>
-      <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
-      <label>Nombre de usuario</label>
-      <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
-      <label>Correo electrónico</label>
-      <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
-      <label>Contraseña</label>
-      <input [formControl]="Password" type="password" placeholder="Contraseña">
-      <button class="action-btn" (click)="registrar()">Registrar</button>
-      <button class="link-btn" (click)="cancel()">Cancelar</button>
-    </div>
-
-    <div class="form-container" *ngIf="wantsToLogin">
-      <h2>Iniciar Sesión</h2>
-      <label>Nombre de usuario</label>
-      <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
-      <label>Contraseña</label>
-      <input [formControl]="Password" type="password" placeholder="Contraseña">
-      <button class="action-btn" (click)="login()">Login</button>
-      <button class="link-btn" (click)="cancel()">Cancelar</button>
-      <button class="link-btn" (click)="resetPass()">¿Olvidaste tu contraseña?</button>
-    </div>
-
-    <div class="form-container" *ngIf="forgotPassword">
-      <h2>Recuperar Contraseña</h2>
-      <label>Correo electrónico</label>
-      <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
-      <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
-      <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
-    </div>
-
+    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label>Nombre de usuario</label>
+    <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
+    <label>Correo electrónico</label>
+    <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
+    <label>Contraseña</label>
+    <input [formControl]="Password" type="password" placeholder="Contraseña">
+    <button class="action-btn" (click)="registrar()">Registrar</button>
+    <button class="link-btn" (click)="cancel()">Cancelar</button>
   </div>
+
+  <div class="form-container" *ngIf="wantsToLogin">
+    <h2>Iniciar Sesión</h2>
+    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label>Nombre de usuario</label>
+    <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
+    <label>Contraseña</label>
+    <input [formControl]="Password" type="password" placeholder="Contraseña">
+    <button class="action-btn" (click)="login()">Login</button>
+    <button class="link-btn" (click)="cancel()">Cancelar</button>
+    <button class="link-btn" (click)="resetPass()">¿Olvidaste tu contraseña?</button>
+  </div>
+
+  <div class="form-container" *ngIf="forgotPassword">
+    <h2>Recuperar Contraseña</h2>
+    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label>Correo electrónico</label>
+    <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
+    <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
+    <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
+  </div>
+</div>
 
 
 
