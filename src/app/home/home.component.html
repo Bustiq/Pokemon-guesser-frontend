@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  Access-Control-Allow-Origin: *
-</head>
-<body>
 
-  <div class="container">
-    <div class = "header-container">
-      <div class="header">
-        <button class="header-btn" (click)="showLogin()">Login</button>
-        <button class="header-btn" (click)="showRegister()">Register</button>
-      </div>
+<div class="container">
+  <div class = "header-container">
+    <div class="header">
+      <button class="header-btn" (click)="showLogin()">Login</button>
+      <button class="header-btn" (click)="showRegister()">Register</button>
     </div>
-
-
-    <div class="form-container" *ngIf="wantsToRegister">
-      <h2>Registro</h2>
+  </div>
+  
+  
+  <div class="form-container" *ngIf="wantsToRegister">
+    <h2>Registro</h2>
+      <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
       <label>Nombre de usuario</label>
       <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
       <label>Correo electrónico</label>
@@ -31,6 +23,8 @@
 
     <div class="form-container" *ngIf="wantsToLogin">
       <h2>Iniciar Sesión</h2>
+      <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+
       <label>Nombre de usuario</label>
       <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
       <label>Contraseña</label>
@@ -42,6 +36,8 @@
 
     <div class="form-container" *ngIf="forgotPassword">
       <h2>Recuperar Contraseña</h2>
+      <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+
       <label>Correo electrónico</label>
       <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
       <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
@@ -50,8 +46,6 @@
 
   </div>
 
-</body>
 
 
 
-</html>

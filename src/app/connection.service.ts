@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
+import { LoginError } from './Models/loginError';
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +33,14 @@ export class ConnectionService {
     }
     return {
       headers: {
-        Authorization: `Bearer ${this.token}`
+        authorization: `Bearer ${this.token}`
       }
     };
   }
 
   async login(username: String | null, password: String | null) {
     if (username == null || password == null || username == "" || password == "" ) {
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
 
     try{
@@ -52,7 +54,14 @@ export class ConnectionService {
       return response.data;
     }
     catch (error) {
+      
+      throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      /*if ((error as any).response.data.errorCode)
+      {
+        throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      }
       throw new Error("Nombre de usuario o contraseña incorrectos");
+      */
     }
 
   }
@@ -61,9 +70,9 @@ export class ConnectionService {
 
     
     if (username == null || password == null || username == "" || password == "") {
-      throw new Error("Nombre de usuario o contraseña vacios");
+      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
-      console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
+    console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
     alert("Creando...");
     const response = await axios.post(this.url + 'register', {
@@ -108,8 +117,8 @@ export class ConnectionService {
     try {
       const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
         params: params,
-        ...this.getHeaders()
-      });
+
+      }, this.getHeaders());
       return response.data;
     } catch (error) {
       console.error("Error al obtener los pokemons:", error);
@@ -142,20 +151,21 @@ export class ConnectionService {
     if (pokedexNumber == null || pokedexNumber < 1) {
       throw new Error("Numero de pokedex invalido");
     }
-
+    console.log(this.getHeaders())
 
     try {
       alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
-      response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber), this.getHeaders());
+      response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
       alert("Backend respondio exitosamente");
     } catch (error) {
-      throw error;
+      
     }
 
     alert(pokedexNumber + " agregado exitosamente");
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
+  
     console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
     alert("Pokemon eliminado exitosamente");
