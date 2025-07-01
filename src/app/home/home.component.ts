@@ -28,8 +28,33 @@ protected Mail = new FormControl<String>('')
 protected forgotPassword = false
 wantsToRegister = false;
 wantsToLogin = false;
+isViewingUserOptions = false;
 
+openUserOptions() {
+this.isViewingUserOptions = !this.isViewingUserOptions;
+}
 
+isLoggedIn() : boolean{
+  return localStorage.getItem("jwtToken") != null
+}
+protected isLoggedOut = !this.isLoggedIn()
+
+logout() {
+  this.connectionService.setToken("");
+  this.isLoggedOut = true;
+  this.isViewingUserOptions = false;
+  this.connectionService.currentUserName = "";
+  this.setCodigoDeError(0);
+  alert("Logged out successfully");
+}
+
+goToUserSettings() {
+  //this.router.navigate(['/user-settings']);
+}
+
+goToABM() {
+  this.router.navigate(['/abm']);
+}
 showRegister() {
   this.setCodigoDeError(0);
   this.wantsToRegister = true;
@@ -58,11 +83,11 @@ resetPass() {
 
 
 cancelarCambioContrasenia(){
+  this.setCodigoDeError(0);
   this.forgotPassword = false
 }
 
 login(){
-
   const body = {
     "nombre" : this.NombreUsuario.value,
     "password" : this.Password.value
@@ -73,6 +98,7 @@ login(){
       this.setCodigoDeError(0);
       alert(v)
       this.connectionService.setToken(v)
+      this.isLoggedOut = false;
       
     }).catch(e => {
       if (e instanceof LoginError) {
@@ -80,6 +106,12 @@ login(){
       } else {
         this.setCodigoDeError(1);
       }})
+  }
+
+  getUserName() {
+    this.connectionService.loadUserName();
+    return this.connectionService.currentUserName;
+   
   }
 
   registrar(){
@@ -150,6 +182,8 @@ login(){
   hayError(): boolean {
     return this.indiceCodigoError != 0;
   }
+
+
 }
 
 

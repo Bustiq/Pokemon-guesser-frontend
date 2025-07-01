@@ -4,21 +4,51 @@ import { filter } from 'rxjs';
 import { LoginError } from './Models/loginError';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ConnectionService {
 
+  currentUserName : string;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
+
   private token: string | null = null;
 
   constructor() {
-    // Retrieve token from localStorage on service initialization
+    this.currentUserName = "";
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       this.token = storedToken;
     }
+  }
+
+  async loadUserName() {
+
+    const token = localStorage.getItem("jwtToken");
+    if (!token){
+      return
+    }
+
+    //alert("nombre de usuaro:" + this.currentUserName)
+    if (this.currentUserName != "") {
+      this.currentUserName = this.currentUserName;
+      //alert(this.currentUserName)
+      return
+    } 
+    //alert("?????")
+    
+    try{
+      var response = await axios.get(this.url + 'getUserName', this.getHeaders())
+      this.currentUserName = response.data;
+      //alert(this.currentUserName)
+    }
+    catch(error) {
+      //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+    }
+    //this.currentUserName = 
+
   }
 
   setToken(token: string) {
@@ -39,17 +69,19 @@ export class ConnectionService {
   }
 
   async login(username: String | null, password: String | null) {
+
     if (username == null || password == null || username == "" || password == "" ) {
       throw new LoginError("Nombre de usuario o contraseña vacios", 3);
     }
 
     try{
-
+            
+      alert("Intentando loguear usuario: ")
       const response = await axios.post(this.url + 'login', {
         username: username,
         password: password
       });
-
+      
       this.setToken(response.data.token);
       return response.data;
     }
