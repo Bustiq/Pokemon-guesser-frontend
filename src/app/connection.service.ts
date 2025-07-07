@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
-import { LoginError } from './Models/loginError';
+import { AccountError, EmptyFieldError, MissingTokenError } from './Models/accountError';
 
 
 
@@ -71,7 +71,7 @@ export class ConnectionService {
   async login(username: String | null, password: String | null) {
 
     if (username == null || password == null || username == "" || password == "" ) {
-      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
+      throw new EmptyFieldError()
     }
 
     try{
@@ -87,10 +87,10 @@ export class ConnectionService {
     }
     catch (error) {
       
-      throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode)
       /*if ((error as any).response.data.errorCode)
       {
-        throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode)
       }
       throw new Error("Nombre de usuario o contraseña incorrectos");
       */
@@ -101,9 +101,11 @@ export class ConnectionService {
   async signup(username: String | null, password: String | null, email: String | null) {
 
     
-    if (username == null || password == null || username == "" || password == "") {
-      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
+    if (username == null || password == null || email == null || username == "" || password == "" || email == "" ) {
+      throw new EmptyFieldError();
     }
+
+    try{
     console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
     alert("Creando...");
@@ -115,16 +117,22 @@ export class ConnectionService {
 
     alert("Usuario creado");
     return response.data;
+    } catch (error) {
+      if ((error as any).response.data.errorCode) {
+        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode);
+      }
+      throw new AccountError("Error al registrar el usuario: " + (error as any).message);
+    }
   }
 
   
   resetPassword(newPassword: String | null, token: String | null) {
 
     if (newPassword == null || newPassword == "" ) {
-      throw new Error("Contraseña vacia");
+      throw new EmptyFieldError();
     }
     if (token == null || token == "" ) {
-      throw new Error("Token vacio");
+      throw new MissingTokenError();
     }
 
     return axios.patch(this.url + 'reset-password/' + token,  {

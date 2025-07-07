@@ -3,7 +3,7 @@ import { ConnectionService } from '../connection.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginError } from '../Models/loginError';
+import { AccountError } from '../Models/accountError';
 
 @Component({
   selector: 'app-home',
@@ -101,7 +101,7 @@ login(){
       this.isLoggedOut = false;
       
     }).catch(e => {
-      if (e instanceof LoginError) {
+      if (e instanceof AccountError) {
         this.setCodigoDeError(e.codigo);
       } else {
         this.setCodigoDeError(1);
@@ -126,7 +126,7 @@ login(){
       alert("Registro exitoso")
       this.setCodigoDeError(0);
     }).catch(e => {
-      if (e instanceof LoginError) {
+      if (e instanceof AccountError) {
         this.setCodigoDeError(e.codigo);
       } else {
         this.setCodigoDeError(1);
@@ -160,6 +160,7 @@ login(){
         "Algún campo está vacío",
         "El nombre de usuario ya está en uso",
         "El email ya está en uso",
+        "Inicia sesión nuevamente",
         "El nombre de usuario no puede contener espacios ni arrobas",
         "El email no es válido",
         "El email no existe"
