@@ -37,6 +37,7 @@ html, body {
 
 .header-btn {
   background: #ffcb05;
+
   color: #2a75bb;
   border: 4px solid #2a75bb;
   padding: 0.5rem 1.2rem;
@@ -161,6 +162,35 @@ input:focus {
   line-height: 1.5;         /* Add this */
   word-break: break-word;   /* Add this */
   white-space: normal;      /* Add this */
+}
+
+.main-title {
+  text-align: center;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  font-size: 2.2rem;
+  color: #d62828;
+  margin-top: 3.5rem;
+  margin-bottom: 2.5rem;
+  text-shadow: 2px 2px #ffcb05, 0 0 8px #fff;
+  letter-spacing: 2px;
+}
+
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem; /* Lower the buttons */
+  gap: 1.2rem;
+}
+
+.main-menu-btn {
+  width: 450px;
+  font-size: 1rem;
+  margin: 0;
+  box-shadow: 0 4px #2a75bb;
+  height: 2,4rem; /* Lower button height */
+  padding: 0;
+  line-height: 2.2rem;
 }
 
 
