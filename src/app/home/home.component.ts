@@ -157,16 +157,12 @@ login(){
         "No hay error (que no se vea en rojo)",
         "Error desconocido. Perdón bro.",
         "Nombre de usuario o contraseña incorrectos",
-        "Nombre de usuario o contraseña vacíos",
+        "Algún campo está vacío",
         "El nombre de usuario ya está en uso",
         "El email ya está en uso",
-        "El email no es válido",
-        "El email no existe",
-        "El email no puede estar vacío",
-        "La contraseña no puede estar vacía",
-        "El nombre de usuario no puede estar vacío",
         "El nombre de usuario no puede contener espacios ni arrobas",
-        "Mail inválido"
+        "El email no es válido",
+        "El email no existe"
     ]
 
     this.indiceCodigoError = codigo;
