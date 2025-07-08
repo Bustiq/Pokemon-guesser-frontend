@@ -64,8 +64,9 @@
     <input type="number" [value]="selectedPokemonId" disabled>
     <label>Nombre</label>
     <input type="text" #nombreInput [value]="selectedPokemonName">
-    <label>Tipo 1</label>
-    <select #tipo1Input [value]="selectedPokemonType1">
+    <div class="tipo-selectors">
+    <label class="tipo-text">Tipo 1</label>
+    <select #tipo1Input [value]="selectedPokemonType1" class="tipo-select">
     <option value="normal">Normal</option>
     <option value="fire">Fire</option>
     <option value="water">Water</option>
@@ -85,9 +86,9 @@
     <option value="steel">Steel</option>
     <option value="fairy">Fairy</option>
     </select>
-    <label>Tipo 2</label>
+    <label class="tipo-text">Tipo 2</label>
     
-    <select matNativeControl #tipo2Input [value]="selectedPokemonType2"> 
+    <select #tipo2Input [value]="selectedPokemonType2" class="tipo-select"> 
     <option value="normal">Normal</option>
     <option value="fire">Fire</option>
     <option value="water">Water</option>
@@ -108,9 +109,11 @@
     <option value="fairy">Fairy</option>
     <option value="none">None</option>
     </select>
-    
+    </div>
+    <div class="modify-buttons-container">
     <button (click)="modificarPokemon(selectedPokemonId, nombreInput.value, tipo1Input.value, tipo2Input.value)">Guardar Cambios</button>
     <button (click)="selectedPokemonId = null">Cancelar</button>
+    </div>
   </div>
 </div>
 

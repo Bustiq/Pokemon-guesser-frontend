@@ -5,14 +5,14 @@
       <button class="header-btn" (click)="showRegister()">Register</button>
     </div>
     <ng-template #logOut class="">
-      <button class="header-btn" (click)="openUserOptions()">{{getUserName()}}</button>
+      <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
     </ng-template>
   </div>
 
 
 <div class="form-container" *ngIf="isViewingUserOptions">
    <button class="header-btn" (click)="goToUserSettings()">User Settings</button>
-    <button class="header-btn" (click)="goToABM()">ABM (admin only)</button>
+    <button class="header-btn" (click)="goToABM()" *ngIf="getUserStatus()">ABM (admin only)</button>
     <button class="header-btn" (click)="logout()">Logout</button>
   </div>
 
@@ -33,6 +33,7 @@
 
   <div class="form-container" *ngIf="wantsToRegister">
     <h2>Registro</h2>
+    <label class="successMessage" *ngIf="registered">¡Registro exitoso! Revisa tu mail para verificar tu cuenta</label>
     <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
     <label>Nombre de usuario</label>
     <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">

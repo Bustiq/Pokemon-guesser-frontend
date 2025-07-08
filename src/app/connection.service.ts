@@ -11,6 +11,7 @@ import { AccountError, EmptyFieldError, MissingTokenError } from './Models/accou
 export class ConnectionService {
 
   currentUserName : string;
+  currentUserStatus : boolean;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
 
@@ -18,13 +19,14 @@ export class ConnectionService {
 
   constructor() {
     this.currentUserName = "";
+    this.currentUserStatus = false;
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       this.token = storedToken;
     }
   }
 
-  async loadUserName() {
+  async loadUserData() {
 
     const token = localStorage.getItem("jwtToken");
     if (!token){
@@ -33,15 +35,17 @@ export class ConnectionService {
 
     //alert("nombre de usuaro:" + this.currentUserName)
     if (this.currentUserName != "") {
-      this.currentUserName = this.currentUserName;
+      
       //alert(this.currentUserName)
       return
     } 
     //alert("?????")
     
     try{
-      var response = await axios.get(this.url + 'getUserName', this.getHeaders())
-      this.currentUserName = response.data;
+      var response = await axios.get(this.url + 'getUserData', this.getHeaders())
+      this.currentUserName = response.data.username;
+      this.currentUserStatus = response.data.admin;
+      
       //alert(this.currentUserName)
     }
     catch(error) {

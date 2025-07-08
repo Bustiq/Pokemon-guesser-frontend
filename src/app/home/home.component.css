@@ -4,16 +4,27 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #ffe3b3; /* a bit darker and still warm */
+  background-color: #ffe3b3; 
 }
+
+.userNameHolder {
+  margin-top: 1rem;
+}
+
+.successMessage {
+  color: #28a745;
+  font-size: 0.8rem; 
+  margin-bottom: 0.5rem;
+}
+
 
 .container {
   min-height: 100vh;
   background: repeating-linear-gradient(
     135deg,
-    #ffd59e 0px,      /* a bit darker, warmer yellow */
+    #ffd59e 0px,     
     #ffd59e 20px,
-    #ffc1cc 20px,     /* a bit darker, warmer pink */
+    #ffc1cc 20px,    
     #ffc1cc 40px
   );
   font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
@@ -43,7 +54,7 @@ html, body {
   padding: 0.5rem 1.2rem;
   margin-right: 1rem;
   border-radius: 0;
-  font-size: 0.85rem; /* smaller font */
+  font-size: 0.85rem; 
   font-family: inherit;
   cursor: pointer;
   box-shadow: 0 4px #2a75bb;
@@ -79,13 +90,13 @@ html, body {
   color: #d62828;
   text-align: center;
   font-family: inherit;
-  font-size: 1rem; /* smaller font */
+  font-size: 1rem; 
   text-shadow: 2px 2px #ffcb05;
   letter-spacing: 2px;
 }
 
 label {
-  font-size: 0.75rem; /* smaller font */
+  font-size: 0.75rem; 
   color: #2a75bb;
   margin-bottom: 0.15rem;
   font-family: inherit;
@@ -97,7 +108,7 @@ input[type="text"], input[type="password"], input[type="email"] {
   padding: 0.5rem;
   border: 3px solid #2a75bb;
   border-radius: 0;
-  font-size: 0.9rem; /* smaller font */
+  font-size: 0.9rem; 
   outline: none;
   margin-bottom: 0.4rem;
   font-family: inherit;
@@ -134,7 +145,7 @@ input:focus {
   color: #d62828;
   border: none;
   padding: 0.5rem 0;
-  font-size: 0.85rem; /* smaller font */
+  font-size: 0.85rem; 
   cursor: pointer;
   text-align: left;
   text-decoration: underline;
@@ -142,9 +153,9 @@ input:focus {
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 1px;
-  line-height: 1.5;         /* Add this */
-  word-break: break-word;   /* Add this */
-  white-space: normal;      /* Add this */
+  line-height: 1.5;         
+  word-break: break-word;   
+  white-space: normal;      
 }
 
 .errorMessage{
@@ -152,16 +163,16 @@ input:focus {
   color: #d62828;
   border: none;
   padding: 0.5rem 0;
-  font-size: 0.6rem; /* smaller font */
+  font-size: 0.6rem;
   text-align: left;
   text-decoration: underline;
   margin-top: 0.2rem;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 1px;
-  line-height: 1.5;         /* Add this */
-  word-break: break-word;   /* Add this */
-  white-space: normal;      /* Add this */
+  line-height: 1.5;         
+  word-break: break-word; 
+  white-space: normal;      
 }
 
 .main-title {
@@ -179,7 +190,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1.5rem; /* Lower the buttons */
+  margin-top: 1.5rem; 
   gap: 1.2rem;
 }
 
@@ -188,7 +199,7 @@ input:focus {
   font-size: 1rem;
   margin: 0;
   box-shadow: 0 4px #2a75bb;
-  height: 2,4rem; /* Lower button height */
+  height: 2,4rem; 
   padding: 0;
   line-height: 2.2rem;
 }

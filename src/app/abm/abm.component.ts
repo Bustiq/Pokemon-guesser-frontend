@@ -6,10 +6,11 @@ import { Router } from '@angular/router';
 import { ConnectionService } from '../connection.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pokemon } from '../Models/pokemon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-abm',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSelectModule],
   templateUrl: './abm.component.html',
   styleUrl: './abm.component.css'
 })

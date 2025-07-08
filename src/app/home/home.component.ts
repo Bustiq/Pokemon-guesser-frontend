@@ -29,13 +29,14 @@ protected forgotPassword = false
 wantsToRegister = false;
 wantsToLogin = false;
 isViewingUserOptions = false;
+registered = false;
 
 openUserOptions() {
 this.isViewingUserOptions = !this.isViewingUserOptions;
 }
 
 isLoggedIn() : boolean{
-  return localStorage.getItem("jwtToken") != null
+  return localStorage.getItem("jwtToken") != null && localStorage.getItem("jwtToken")?.trim() != "";
 }
 protected isLoggedOut = !this.isLoggedIn()
 
@@ -45,7 +46,6 @@ logout() {
   this.isViewingUserOptions = false;
   this.connectionService.currentUserName = "";
   this.setCodigoDeError(0);
-  alert("Logged out successfully");
 }
 
 goToUserSettings() {
@@ -94,9 +94,7 @@ login(){
   }
 
     this.connectionService.login(body.nombre, body.password).then(v => {
-      alert("Login exitoso")
       this.setCodigoDeError(0);
-      alert(v)
       this.connectionService.setToken(v)
       this.isLoggedOut = false;
       
@@ -108,10 +106,15 @@ login(){
       }})
   }
 
-  getUserName() {
-    this.connectionService.loadUserName();
+   getUserName() {
+     this.connectionService.loadUserData();
     return this.connectionService.currentUserName;
    
+  }
+
+   getUserStatus() {
+     this.connectionService.loadUserData();
+    return this.connectionService.currentUserStatus;
   }
 
   registrar(){
@@ -121,10 +124,9 @@ login(){
       "email" : this.Mail.value
     }
 
-    alert("Registrando usuario: " + body.nombre + " con email: " + body.email + " y contraseña: " + body.password)
     this.connectionService.signup(body.nombre, body.password, body.email).then(v => {
-      alert("Registro exitoso")
       this.setCodigoDeError(0);
+      this.registered = true;
     }).catch(e => {
       if (e instanceof AccountError) {
         this.setCodigoDeError(e.codigo);
@@ -161,10 +163,15 @@ login(){
         "El nombre de usuario ya está en uso",
         "El email ya está en uso",
         "Inicia sesión nuevamente",
+        "Cuenta no verificada. Revisa tu mail para loguearte",
         "El nombre de usuario no puede contener espacios ni arrobas",
         "El email no es válido",
         "El email no existe"
     ]
+
+    if (codigo != 0){
+      this.registered = false
+    }
 
     this.indiceCodigoError = codigo;
     
