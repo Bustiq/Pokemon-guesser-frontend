@@ -30,6 +30,8 @@ wantsToRegister = false;
 wantsToLogin = false;
 isViewingUserOptions = false;
 registered = false;
+mailSent = false;
+sendingMail = false;
 
 openUserOptions() {
 this.isViewingUserOptions = !this.isViewingUserOptions;
@@ -93,6 +95,8 @@ login(){
     "password" : this.Password.value
   }
 
+
+
     this.connectionService.login(body.nombre, body.password).then(v => {
       this.setCodigoDeError(0);
       this.connectionService.setToken(v)
@@ -140,15 +144,22 @@ login(){
     const body = {
       "email": this.Mail.value
     };
-    alert("Intentando mandar mail de cambiar contraseña")
-    
+    this.setCodigoDeError(0);
+    this.sendingMail = true;
 
     this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
-      alert("Email enviado exitosamente");
+      this.setCodigoDeError(0);
+      this.mailSent = true;
     }).catch(e => {
-      alert("Error al enviar el email " + e.message);
+      this.mailSent = false;
+
+      if (e instanceof AccountError) {
+        this.setCodigoDeError(e.codigo);
+      } else {
+        this.setCodigoDeError(1);
+      }
     }).finally(() => {
-      alert("Mail handleado")
+        this.sendingMail = false;
     });
  }
 
@@ -164,6 +175,7 @@ login(){
         "El email ya está en uso",
         "Inicia sesión nuevamente",
         "Cuenta no verificada. Revisa tu mail para loguearte",
+        "Ese mail no está registrado",
         "El nombre de usuario no puede contener espacios ni arrobas",
         "El email no es válido",
         "El email no existe"

@@ -174,20 +174,22 @@ export class ConnectionService {
   async enviarMailCambiarContrasenia(Email: String | null) {
 
     if (Email == null || Email == "") {
-      throw new Error("Email vacio");
+      throw new EmptyFieldError()
     }
     
-    axios.post(this.url + 'request-password-reset', {
-      mail: Email
-    }).then(response => {
-        alert("Email enviado exitosamente");
-        return response.data;
+    try{
+      const response = await axios.post(this.url + 'request-password-reset', {
+        mail: Email
+      })
+      return response.data;
+    }
+    catch (error) {
+      if ((error as any).response.data.errorCode) {
+        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode);
+      }
 
-    }).catch(error => {
-        alert(":(")
-        console.error("Error al enviar el email: ", this.url + 'request-password-reset', " ", error);
-        throw error;
-    });
+      throw new AccountError("Error al registrar el usuario: " + (error as any).message);
+    }
   }
 
   async agregarPokemon(pokedexNumber : number | null) {

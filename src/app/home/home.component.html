@@ -59,6 +59,9 @@
 
   <div class="form-container" *ngIf="forgotPassword">
     <h2>Recuperar Contraseña</h2>
+    <label class="successMessage" *ngIf="mailSent">¡Mail enviado! Revisa tu bandeja de entrada</label>
+    <label class="neutralMessage" *ngIf="sendingMail">Enviando mail...</label>
+
     <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
     <label>Correo electrónico</label>
     <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
