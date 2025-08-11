@@ -54,6 +54,11 @@ goToUserSettings() {
   //this.router.navigate(['/user-settings']);
 }
 
+//asdasdasd
+
+goToDailyChallenge(){
+  this.router.navigate(['/daily-challenge']);
+}
 goToABM() {
   this.router.navigate(['/abm']);
 }

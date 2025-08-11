@@ -14,6 +14,7 @@ export class ConnectionService {
   currentUserStatus : boolean;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
+  dailyChallengeRouter = 'dailyGame/';
 
   private token: string | null = null;
 
@@ -245,6 +246,16 @@ export class ConnectionService {
       return false;
     }
     return true;
+  }
+
+  async asignDailyChallenge() {
+    try {
+      const response = await axios.get(this.url + this.dailyChallengeRouter + "asignDailyPokemon", this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al asignar el daily challenge:", error);
+      throw error;
+    }
   }
 
 }

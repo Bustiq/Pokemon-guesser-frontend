@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { AbmComponent } from './abm/abm.component';
+import { DailyChallengeComponent } from './daily-challenge/daily-challenge.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,9 @@ export const routes: Routes = [
 {
   "path": "abm",
   "component": AbmComponent
+},
+{
+  "path": "daily-challenge",
+  "component": DailyChallengeComponent
 }
-
 ];
