@@ -26,11 +26,19 @@ export class ConnectionService {
     }
   }
 
+  attempts = 10;
+
   async loadUserData() {
 
     const token = localStorage.getItem("jwtToken");
     if (!token){
       return
+    }
+
+    this.attempts -= 1;
+    if (this.attempts <= 0) {
+      console.error("No se pudo cargar el usuario después de varios intentos.");
+      return;
     }
 
     //alert("nombre de usuaro:" + this.currentUserName)
@@ -43,6 +51,7 @@ export class ConnectionService {
     
     try{
       var response = await axios.get(this.url + 'getUserData', this.getHeaders())
+      // alert("Respuesta del servidor: " + JSON.stringify(response.data))
       this.currentUserName = response.data.username;
       this.currentUserStatus = response.data.admin;
       
