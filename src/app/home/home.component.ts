@@ -136,6 +136,8 @@ login(){
     this.connectionService.signup(body.nombre, body.password, body.email).then(v => {
       this.setCodigoDeError(0);
       this.registered = true;
+
+
     }).catch(e => {
       if (e instanceof AccountError) {
         this.setCodigoDeError(e.codigo);

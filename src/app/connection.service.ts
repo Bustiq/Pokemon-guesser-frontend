@@ -210,21 +210,18 @@ export class ConnectionService {
     console.log(this.getHeaders())
 
     try {
-      alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
-      alert("Backend respondio exitosamente");
+
     } catch (error) {
       
     }
 
-    alert(pokedexNumber + " agregado exitosamente");
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
   
     console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
-    alert("Pokemon eliminado exitosamente");
     return response.data;
   }
 
@@ -247,6 +244,27 @@ export class ConnectionService {
     }
     return true;
   }
+
+  async sendPokemonGuess(guess : string) : Promise<any>
+  {
+
+    try{
+      var response = await axios.post(this.url + this.dailyChallengeRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+
+
+    
+  }
+
+
 
   async asignDailyChallenge() {
     try {

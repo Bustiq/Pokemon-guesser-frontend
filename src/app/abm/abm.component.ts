@@ -84,7 +84,6 @@ export class AbmComponent {
     async agregarPokemon()
   {
     await this.connectionService.agregarPokemon(this.idPokemon.value).then(() => {
-      alert("Pokemon agregado exitosamente (component)");
     }).catch(e => {
       alert("Error al agregar el pokemon: " + e.message);
     });
@@ -94,7 +93,6 @@ export class AbmComponent {
   async eliminarPokemon(idPokemon: number)
   {
     await this.connectionService.eliminarPokemon(idPokemon).then(() => {
-      alert("Pokemon eliminado exitosamente (component)");
     }).catch(e => {
       alert("Error al eliminar el pokemon: " + e.message);
     });

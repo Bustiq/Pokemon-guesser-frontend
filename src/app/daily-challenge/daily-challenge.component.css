@@ -1,0 +1,183 @@
+/* Container styling */
+.daily-challenge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #23272f;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  max-width: 420px;
+  margin: 2rem auto;
+}
+
+/* Title styling */
+.daily-challenge-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffcb05;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px 0 #2a75bb;
+}
+
+/* Guess grid styling */
+.guess-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.guess-cell {
+  width: 48px;
+  height: 48px;
+  background: #31363f;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  border: 2px solid #23272f;
+  transition: background 0.2s, border 0.2s;
+}
+
+/* Feedback colors */
+.guess-cell.correct {
+  background: #4caf50;
+  border-color: #388e3c;
+  color: #fff;
+}
+
+.guess-cell.present {
+  background: #ffd600;
+  border-color: #ffab00;
+  color: #23272f;
+}
+
+.guess-cell.absent {
+  background: #616161;
+  border-color: #424242;
+  color: #bdbdbd;
+}
+
+/* Input styling */
+.pokemon-input {
+  width: 100%;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #2a75bb;
+  background: #23272f;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.pokemon-input:focus {
+  border-color: #ffcb05;
+}
+
+/* Submit button */
+.submit-btn {
+  background: linear-gradient(90deg, #2a75bb 60%, #ffcb05 100%);
+  color: #23272f;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(42,117,187,0.15);
+  transition: background 0.2s, color 0.2s;
+}
+
+.submit-btn:active {
+  background: linear-gradient(90deg, #ffcb05 60%, #2a75bb 100%);
+  color: #2a75bb;
+}
+
+/* Feedback message */
+.feedback-message {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffcb05;
+  text-shadow: 1px 1px 0 #2a75bb;
+}
+
+/* Guess history table */
+.guess-history-table-wrapper {
+  margin: 2rem auto 0 auto;
+  max-width: 98vw;
+  overflow-x: auto;
+}
+
+.guess-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #23272f;
+  color: #ffcb05;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  font-size: 1rem;
+}
+
+.guess-history-table th,
+.guess-history-table td {
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #2a75bb;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.guess-history-table th {
+  background: #2a75bb;
+  color: #ffcb05;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.guess-history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.guess-history-table tr:nth-child(even) td {
+  background: #23272f;
+}
+
+.guess-history-table tr:nth-child(odd) td {
+  background: #31363f;
+}
+
+
+.red{
+    background-color: red;
+}
+
+.green{
+    background-color: green;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .daily-challenge-container {
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+  }
+  .guess-grid {
+    grid-template-columns: repeat(6, 36px);
+    gap: 0.3rem;
+  }
+  .guess-cell {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
