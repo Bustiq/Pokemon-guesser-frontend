@@ -1,14 +1,24 @@
+<head>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims">
+</head>
+
+
 <div class="daily-challenge-container">
   <div class="daily-challenge-title">PokéGuesser - Daily Challenge</div>
-
+ 
   <!-- Input and submit -->
   <input
     class="pokemon-input"
     type="text"
     #searchBarInput
     placeholder="Enter your guess"
-    (keyup.enter)="guessPokemon(searchBarInput.value)"
+    (keyup.enter)="guessPokemon(guessInput)"
     autocomplete="off"
+    [(ngModel)]="guessInput"
   />
   <button
     class="submit-btn"
@@ -16,13 +26,13 @@
   >
     Enviar
   </button>
-
+ 
   <!-- Table of previous guesses with Pokémon info -->
 </div>
 
 <!-- Guess history OUTSIDE the main container for better separation and readability -->
 <div class="guess-history-table-wrapper">
-  <table *ngIf="pokemons && pokemons.length > 0" class="guess-history-table">
+  <table *ngIf="pokemons && pokemons.size > 0" class="guess-history-table">
     <thead>
       <tr>
         <th>Nombre</th>
@@ -35,15 +45,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let pokemon of pokemons">
-        <td [class]='getCSSClass("nombre")'>{{pokemon.nombre}}</td>
-        <td [class]='getCSSClass("tipo_1")' #tipo_1 >{{pokemon.tipo_1}}</td>
-        <td [class]='getCSSClass("tipo_2")'>{{pokemon.tipo_2}}</td>
-        <td [class]='getCSSClass("pesoKilos")'>{{pokemon.pesoKilos}}</td>
-        <td [class]='getCSSClass("alturaCM")'>{{pokemon.alturaCM}}</td>
-        <td [class]='getCSSClass("grupo_huevo_1")'>{{pokemon.grupo_huevo_1}}</td>
-        <td [class]='getCSSClass("grupo_huevo_2")'>{{pokemon.grupo_huevo_2}}</td>
-        <td >{{pokemon.bodyShape}}</td>
+      <tr *ngFor="let pokemon of pokemons | keyvalue : null">
+        <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>{{pokemon.value.nombre}}</td>
+        <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >{{pokemon.value.tipo_1}}</td>
+        <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>{{pokemon.value.tipo_2}}</td>
+        <td [class]='getCSSClass("pesoKilos", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.pesoKilos}}
+          </div>
+          
+        </td>
+        <td [class]='getCSSClass("alturaCM", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.alturaCM}}
+          </div>
+          
+        </td>
+        <td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
+        <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>
+        
       </tr>
     </tbody>
   </table>

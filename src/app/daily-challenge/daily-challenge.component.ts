@@ -4,23 +4,23 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import axios from 'axios';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-daily-challenge',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './daily-challenge.component.html',
   styleUrl: './daily-challenge.component.css'
 })
 export class DailyChallengeComponent {
- @ViewChild('tipo_1', { static: false }) tipo1HTML: ElementRef;
-  pokemons: any[] = [];
 
-  comparison: any;
+  pokemons: Map<string, any> = new Map;
 
-  constructor(private router: Router, private connectionService: ConnectionService, private elementRef: ElementRef) {
-    this.tipo1HTML = new ElementRef(null);
-    this.pokemons = [];
+  comparisons: Map<string, any> = new Map;
+  guessInput: string = '';
+
+  constructor(private router: Router, private connectionService: ConnectionService) {
 
   }
   ngOnInit() {
@@ -30,6 +30,8 @@ export class DailyChallengeComponent {
       console.error("Error al asignar el desafío diario:", error);
 
     });
+
+
   }
 
   
@@ -39,23 +41,31 @@ export class DailyChallengeComponent {
     try{
       const response = await this.connectionService.sendPokemonGuess(guess)
       
+      
       var guessedPokemon = response.pokemonData
+
 
       
       if(this.pokemonWasAttempted(guessedPokemon)) {
         return
       }
       
-      if (this.tipo1HTML && this.tipo1HTML.nativeElement) {
-        this.tipo1HTML.nativeElement.style.backgroundColor = "red";
-      }
-      this.comparison = response.dataComparison;
-      alert(JSON.stringify(this.comparison))
-      this.pokemons.push(guessedPokemon);
 
+      
+      var comparison = response.dataComparison;
+      this.comparisons.set(guessedPokemon.nombre, comparison);
+
+
+
+      this.pokemons.set(guessedPokemon.nombre, guessedPokemon);
+
+      
+      console.log(this.pokemons);
+      
       if (response.dataComparison.correct) {
-          alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
+        alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
+        this.guessInput = ''; // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);
@@ -71,13 +81,13 @@ export class DailyChallengeComponent {
 
   pokemonWasAttempted(pokemon: any): boolean {
   
-    return this.pokemons.some(p => p.nombre === pokemon.nombre);
+    return this.pokemons.has(pokemon.nombre);
   }
   
-  getCSSClass(field : string): string {
+  getCSSClass(field : string, pokemonName : string): string {
     
-    alert(field  + ": " + this.comparison[field])
-    return "red"
-    //return this.comparison[field];
+    //alert(field  + ": " + this.comparisons.get(pokemonName)[field])
+
+    return this.comparisons.get(pokemonName)[field];
   }
 }

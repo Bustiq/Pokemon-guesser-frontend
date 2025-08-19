@@ -115,10 +115,13 @@
   margin: 2rem auto 0 auto;
   max-width: 98vw;
   overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .guess-history-table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
   background: #23272f;
   color: #ffcb05;
@@ -126,13 +129,18 @@
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0,0,0,0.12);
   font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .guess-history-table th,
 .guess-history-table td {
-  padding: 0.6rem 0.8rem;
+  padding-left:  0rem;
+  padding-right: 0rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
   text-align: center;
-  border-bottom: 1px solid #2a75bb;
+  border-bottom: 2px solid #757575;
   color: #fff;
   white-space: nowrap;
 }
@@ -148,23 +156,58 @@
   border-bottom: none;
 }
 
-.guess-history-table tr:nth-child(even) td {
-  background: #23272f;
+
+
+.guess-history-table tr:nth-child(even) .red {
+  background: #ff0000;
 }
 
-.guess-history-table tr:nth-child(odd) td {
-  background: #31363f;
+.guess-history-table tr:nth-child(odd) .red{
+  background: #c50000;
 }
 
+.guess-history-table tr:nth-child(even) .higher {
+  background: #ff0000;
+}
+
+.guess-history-table tr:nth-child(odd) .higher{
+  background: #c50000;
+}
+
+.guess-history-table tr:nth-child(even) .lower {
+  background: #ff0000;
+}
+
+.guess-history-table tr:nth-child(odd) .lower{
+  background: #c50000;
+}
+
+.guess-history-table tr:nth-child(even) .yellow {
+  background: #ff7300;
+}
+
+.guess-history-table tr:nth-child(odd) .yellow{
+  background: #bb5400;
+}
+
+.guess-history-table tr:nth-child(even) .green {
+  background: #00ff00;
+}
+
+.guess-history-table tr:nth-child(odd) .green{
+  background: #00c500;
+}
+
+/*
 
 .red{
-    background-color: red;
+    background: red;
 }
 
 .green{
-    background-color: green;
+    background: green;
 }
-
+*/
 /* Responsive */
 @media (max-width: 600px) {
   .daily-challenge-container {
@@ -180,4 +223,22 @@
     height: 36px;
     font-size: 1rem;
   }
+}
+
+.arrow-up{
+  display: none;
+}
+
+.arrow-down{
+  display: none;
+}
+
+
+
+.higher .arrow-up{
+  display: inline-block;
+}
+
+.lower .arrow-down{
+  display: inline-block;
 }
