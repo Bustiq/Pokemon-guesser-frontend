@@ -27,11 +27,12 @@ export class ConnectionService {
     }
   }
 
-  attempts = 10;
+  attempts = 20;
 
   async loadUserData() {
 
     const token = localStorage.getItem("jwtToken");
+    console.log("Token cargado: " + token);
     if (!token){
       return
     }
@@ -90,7 +91,7 @@ export class ConnectionService {
 
     try{
             
-      alert("Intentando loguear usuario: ")
+
       const response = await axios.post(this.url + 'login', {
         username: username,
         password: password
@@ -120,16 +121,13 @@ export class ConnectionService {
     }
 
     try{
-    console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
-    alert("Creando...");
     const response = await axios.post(this.url + 'register', {
       username: username,
       password: password,
       mail: email
     });
 
-    alert("Usuario creado");
     return response.data;
     } catch (error) {
       if ((error as any).response.data.errorCode) {
@@ -167,7 +165,7 @@ export class ConnectionService {
       filtros: filters
 
     };
-    console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
+    //console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
     try {
       const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
         params: params,
@@ -220,7 +218,7 @@ export class ConnectionService {
 
   async eliminarPokemon(pokedexNumber: number | null) {
   
-    console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
+    //console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
     return response.data;
   }
@@ -233,7 +231,7 @@ export class ConnectionService {
 
     }, this.getHeaders());
 
-    alert("Pokemon modificado exitosamente");
+
     return response.data;
   }
  

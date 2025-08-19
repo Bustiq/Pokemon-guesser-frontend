@@ -198,6 +198,13 @@
   background: #00c500;
 }
 
+.guessImage {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin: auto;
+}
+
 /*
 
 .red{

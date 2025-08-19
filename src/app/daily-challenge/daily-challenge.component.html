@@ -42,13 +42,22 @@
         <th>Altura (cm)</th>
         <th>Grupo Huevo 1</th>
         <th>Grupo Huevo 2</th>
+        <th>Forma Corporal</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let pokemon of pokemons | keyvalue : null">
         <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>{{pokemon.value.nombre}}</td>
-        <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >{{pokemon.value.tipo_1}}</td>
-        <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>{{pokemon.value.tipo_2}}</td>
+        <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_1}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_2}}.svg" alt="">
+          </div>
+        </td>
         <td [class]='getCSSClass("pesoKilos", pokemon.value.nombre)'>
           <div class="table-content">
             <i class='fas fa-angle-up arrow-up'></i>
@@ -67,6 +76,13 @@
         </td>
         <td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
         <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>
+        <td [class]='getCSSClass("forma_corporal", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="BodyShapes/{{pokemon.value.forma_corporal}}.png" alt="">
+          </div>
+        </td>
+
+
         
       </tr>
     </tbody>
