@@ -17,6 +17,8 @@ export class DailyChallengeComponent {
 
   pokemons: Map<string, any> = new Map;
 
+  names: string[] = [];
+
   comparisons: Map<string, any> = new Map;
   guessInput: string = '';
 
@@ -31,6 +33,16 @@ export class DailyChallengeComponent {
 
     });
 
+
+    this.connectionService.getAllPokemonNames().then((response) => {
+
+      response.forEach((pokemon: any) => {
+        this.names.push(pokemon.nombre);
+      });
+      
+    }).catch((error) => {
+      console.error("Error al obtener los nombres de los pokemons:", error);
+    });
 
   }
 

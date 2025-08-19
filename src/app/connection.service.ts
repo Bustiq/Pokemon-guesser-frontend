@@ -274,4 +274,15 @@ export class ConnectionService {
     }
   }
 
+
+  async getAllPokemonNames(){
+    try {
+      const response = await axios.get(this.url + this.pokemonRouter + "names", this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los nombres de los pokemons:", error);
+      throw error;
+    }
+  }
+
 }
