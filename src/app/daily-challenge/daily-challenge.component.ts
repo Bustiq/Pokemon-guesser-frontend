@@ -56,8 +56,15 @@ export class DailyChallengeComponent {
       this.comparisons.set(guessedPokemon.nombre, comparison);
 
 
+      const tempMap = new Map<string, number>();
+      tempMap.set(guessedPokemon.nombre, guessedPokemon);
 
-      this.pokemons.set(guessedPokemon.nombre, guessedPokemon);
+
+      this.pokemons.forEach((value, key) => {
+        tempMap.set(key, value);
+      });
+
+      this.pokemons = tempMap
 
       
       console.log(this.pokemons);

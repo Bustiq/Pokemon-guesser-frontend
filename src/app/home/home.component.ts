@@ -106,6 +106,9 @@ login(){
       this.setCodigoDeError(0);
       this.connectionService.setToken(v)
       this.isLoggedOut = false;
+      this.wantsToRegister = false;
+      this.wantsToLogin = false;
+      this.forgotPassword = false;
       
     }).catch(e => {
       if (e instanceof AccountError) {
