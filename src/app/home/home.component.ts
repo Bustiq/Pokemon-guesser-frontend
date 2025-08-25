@@ -129,6 +129,10 @@ login(){
     return this.connectionService.currentUserStatus;
   }
 
+  goToEndlessMode(){
+    return;
+  }
+
   registrar(){
     const body = {
       "nombre" : this.NombreUsuario.value,
