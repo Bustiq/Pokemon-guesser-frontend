@@ -41,8 +41,9 @@
         <th>Tipo 2</th>
         <th>Peso (kg)</th>
         <th>Altura (cm)</th>
-        <th>Grupo Huevo 1</th>
-        <th>Grupo Huevo 2</th>
+        <th>Etapa Evolutiva</th>
+       <!-- <th>Grupo Huevo 1</th>
+        <th>Grupo Huevo 2</th>-->
         <th>Forma Corporal</th>
       </tr>
     </thead>
@@ -75,8 +76,11 @@
           </div>
           
         </td>
-        <td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
-        <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>
+        <!--<td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
+        <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>-->
+
+        <td [class]='getCSSClass("etapa_evolutiva", pokemon.value.nombre)'>{{pokemon.value.etapa_evolutiva}}</td>
+
         <td [class]='getCSSClass("forma_corporal", pokemon.value.nombre)'>
           <div class="table-content">
             <img class="guessImage" src="BodyShapes/{{pokemon.value.forma_corporal}}.png" alt="">

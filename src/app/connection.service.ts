@@ -15,6 +15,7 @@ export class ConnectionService {
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
+  endlessModeRouter = 'endlessMode/';
 
   private token: string | null = null;
 
@@ -283,6 +284,18 @@ export class ConnectionService {
       console.error("Error al obtener los nombres de los pokemons:", error);
       throw error;
     }
+  }
+
+
+  async asignEndlessModePokemon(generations : number[]){
+    try {
+      const response = await axios.post(this.url + this.endlessModeRouter + "asignEndlessModePokemon", {generations}, this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al asignar el endless mode pokemon:", error);
+      throw error;
+    }
+
   }
 
 }

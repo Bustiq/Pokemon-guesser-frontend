@@ -1,0 +1,19 @@
+<p>endless-mode works!</p>
+<div class="generations-checkboxes">
+  <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]">
+      <!-- esta parte no se como funciona :P-->
+    <input
+
+      type="checkbox"
+      [checked]="generations.includes(gen)"
+      #cb
+      (change)="onGenerationChange(gen, cb.checked)"
+    />
+    Generación {{ gen }}
+  </label>
+
+
+  <button class="start-game-btn" (click)="startGame()">
+    Start Game
+  </button>
+</div>
