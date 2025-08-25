@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { AbmComponent } from './abm/abm.component';
 import { DailyChallengeComponent } from './daily-challenge/daily-challenge.component';
+import { EndlessModeComponent } from './endless-mode/endless-mode.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +21,9 @@ export const routes: Routes = [
 {
   "path": "daily-challenge",
   "component": DailyChallengeComponent
+},
+{
+  "path": "endless-mode",
+  "component": EndlessModeComponent
 }
 ];
