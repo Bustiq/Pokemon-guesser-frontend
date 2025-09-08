@@ -51,7 +51,7 @@ export class DailyChallengeComponent {
    async guessPokemon(guess: string) {
 
     try{
-      const response = await this.connectionService.sendPokemonGuess(guess)
+      const response = await this.connectionService.sendDailyPokemonGuess(guess)
       
       
       var guessedPokemon = response.pokemonData
