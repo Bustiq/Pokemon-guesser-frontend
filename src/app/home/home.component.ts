@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountError } from '../Models/accountError';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -28,13 +29,36 @@ protected Mail = new FormControl<String>('')
 protected forgotPassword = false
 wantsToRegister = false;
 wantsToLogin = false;
+wantsToChallengeUser = false;
 isViewingUserOptions = false;
 registered = false;
+challengeAmount = 0;
+challengeUserName = '';
 mailSent = false;
 sendingMail = false;
 
+challengeGenerations: number[] = [];
+
+onChallengeGenerationChange(gen: number, checked: boolean) {
+  if (checked) {
+    if (!this.challengeGenerations.includes(gen)) {
+      this.challengeGenerations.push(gen);
+    }
+  } else {
+    this.challengeGenerations = this.challengeGenerations.filter(g => g !== gen);
+  }
+}
+
 openUserOptions() {
 this.isViewingUserOptions = !this.isViewingUserOptions;
+}
+
+sendChallenge() {
+  return
+}
+
+cancelChallenge() {
+  return;
 }
 
 isLoggedIn() : boolean{
@@ -52,6 +76,10 @@ logout() {
 
 goToUserSettings() {
   //this.router.navigate(['/user-settings']);
+}
+
+openChallengeUserForm() {
+  this.wantsToChallengeUser = !this.wantsToChallengeUser;
 }
 
 //asdasdasd

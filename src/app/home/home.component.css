@@ -222,3 +222,50 @@ input:focus {
 }
 
 
+
+.challenge-user-form-container {
+  position: absolute;
+  top: 5.2rem;           /* Moved up */
+  left: 2.5rem;
+  width: 260px;
+  background: #23272f;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.20);
+  padding: 1rem 0.8rem;
+  color: #ffcb05;
+  z-index: 20;
+  font-size: 0.92rem;    /* Decreased font size */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.challenge-user-form-container h2 {
+  font-size: 1.08rem;    /* Decreased font size */
+  margin-bottom: 0.8rem;
+  text-shadow: 1px 2px 0 #2a75bb;
+}
+
+.challenge-input {
+  width: 100%;
+  margin-bottom: 0.7rem;
+  padding: 0.38rem 0.6rem;
+  border-radius: 7px;
+  border: 2px solid #2a75bb;
+  background: #23272f;
+  color: #fff;
+  font-size: 0.92rem;    /* Decreased font size */
+}
+
+.generations-checkboxes {
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.generations-checkboxes label {
+  font-size: 0.92rem;    /* Decreased font size */
+  border-radius: 5px;
+  padding: 0.13rem 0.7rem;
+}
+
+

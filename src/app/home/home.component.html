@@ -5,7 +5,9 @@
       <button class="header-btn" (click)="showRegister()">Register</button>
     </div>
     <ng-template #logOut class="">
+      <img src="" alt="">
       <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
+      
     </ng-template>
   </div>
 
@@ -26,9 +28,10 @@
 
  
   <div class="main-menu">
-    <button class="header-btn main-menu-btn" (click) = "goToDailyChallenge()">Daily Challenge</button>
-    <button class="header-btn main-menu-btn" (click) = "goToEndlessMode()">Endless Mode</button>
-    <button class="header-btn main-menu-btn">Challenge User</button>
+
+    <button class="header-btn main-menu-btn" (click)="goToDailyChallenge()">Daily Challenge</button>
+    <button class="header-btn main-menu-btn" (click)="goToEndlessMode()">Endless Mode</button>
+    <button class="header-btn main-menu-btn" (click)="openChallengeUserForm()">Challenge User</button>
     <button class="header-btn main-menu-btn">Options</button>
   </div>
 
@@ -69,6 +72,52 @@
     <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
     <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
   </div>
+
+  <!-- Add this just before the main-menu div, outside or above it for left alignment -->
+<div
+  class="challenge-user-form-container"
+  *ngIf="wantsToChallengeUser"
+>
+  <h2>Desafiar Usuario</h2>
+  <form (ngSubmit)="sendChallenge()">
+    <label>Username</label>
+    <input
+      type="text"
+      [(ngModel)]="challengeUserName"
+      name="challengeUserName"
+      placeholder="Usuario"
+      required
+      class="challenge-input"
+    />
+
+    <label>Generaciones incluidas</label>
+    <div class="generations-checkboxes">
+      <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]">
+        <input
+          type="checkbox"
+          [checked]="challengeGenerations.includes(gen)"
+          #cb
+          (change)="onChallengeGenerationChange(gen, cb.checked)"
+        />
+        Gen {{ gen }}
+      </label>
+    </div>
+
+    <label>Bet amount</label>
+    <input
+      type="number"
+      min="0"
+      [(ngModel)]="challengeAmount"
+      name="challengeAmount"
+      placeholder="Monto"
+      required
+      class="challenge-input"
+    />
+
+    <button class="action-btn" type="submit">Challenge</button>
+    <button class="link-btn" type="button" (click)="cancelChallenge()">Cancelar</button>
+  </form>
+</div>
 </div>
 
 
