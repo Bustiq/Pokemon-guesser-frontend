@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { ConnectionService } from '../connection.service';
 import { CommonModule } from '@angular/common';
@@ -6,14 +7,16 @@ import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import axios from 'axios';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
-  selector: 'app-daily-challenge',
-  imports: [CommonModule, FormsModule],
-  templateUrl: './daily-challenge.component.html',
-  styleUrl: './daily-challenge.component.css'
+  selector: 'app-endless-mode',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './endless-mode.component.html',
+  styleUrl: './endless-mode.component.css'
 })
-export class DailyChallengeComponent {
+export class EndlessModeComponent {
+
+  generations: number[] = [];
+
 
   pokemons: Map<string, any> = new Map;
 
@@ -21,19 +24,14 @@ export class DailyChallengeComponent {
 
   comparisons: Map<string, any> = new Map;
   guessInput: string = '';
-
+  
   constructor(private router: Router, private connectionService: ConnectionService) {
 
   }
+
+
+
   ngOnInit() {
-    this.connectionService.asignDailyChallenge().then(() => {
-      
-    }).catch((error) => {
-      console.error("Error al asignar el desafío diario:", error);
-
-    });
-
-
     this.connectionService.getAllPokemonNames().then((response) => {
 
       response.forEach((pokemon: any) => {
@@ -46,12 +44,48 @@ export class DailyChallengeComponent {
 
   }
 
-  
+  addGeneration(gen: number) {
+    if (!this.generations.includes(gen)) {
+      this.generations.push(gen);
+    }
+  }
 
-   async guessPokemon(guess: string) {
+  removeGeneration(gen: number) {
+    const index = this.generations.indexOf(gen);
+    if (index > -1) {
+      this.generations.splice(index, 1);
+    }
+  }
+
+  onGenerationChange(gen: number, checked: boolean) {
+    if (checked) {
+      this.addGeneration(gen);
+    } else {
+      this.removeGeneration(gen);
+    }
+    console.log(this.generations);
+  }
+
+
+  async startGame(){
+
+
+    this.pokemons.clear();
+    this.comparisons.clear();
+    this.guessInput = '';
+    await this.connectionService.asignEndlessModePokemon(this.generations).then( (response) => {
+      console.log("Ok")
+    
+    }).catch( (error) => {
+      console.error("Error al iniciar el modo endless: " + error);
+    });
+  }
+
+
+  async guessPokemon(guess: string) {
 
     try{
-      const response = await this.connectionService.sendDailyPokemonGuess(guess)
+      const response = await this.connectionService.sendEndlessPokemonGuess(guess)
       
       
       var guessedPokemon = response.pokemonData
@@ -109,4 +143,8 @@ export class DailyChallengeComponent {
 
     return this.comparisons.get(pokemonName)[field];
   }
+
+
+
+
 }

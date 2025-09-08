@@ -15,6 +15,7 @@ export class ConnectionService {
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
+  endlessModeRouter = 'endlessMode/';
 
   private token: string | null = null;
 
@@ -243,7 +244,7 @@ export class ConnectionService {
     return true;
   }
 
-  async sendPokemonGuess(guess : string) : Promise<any>
+  async sendDailyPokemonGuess(guess : string) : Promise<any>
   {
 
     try{
@@ -285,4 +286,36 @@ export class ConnectionService {
     }
   }
 
+
+  async asignEndlessModePokemon(generations : number[]){
+    try {
+      const response = await axios.post(this.url + this.endlessModeRouter + "asignEndlessModePokemon", {generations}, this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al asignar el endless mode pokemon:", error);
+      throw error;
+    }
+
+  }
+
+
+
+  async sendEndlessPokemonGuess(guess : string) : Promise<any>
+  {
+
+    try{
+      var response = await axios.post(this.url + this.endlessModeRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+
+
+    
+  }
 }

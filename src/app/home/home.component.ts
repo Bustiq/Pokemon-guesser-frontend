@@ -14,13 +14,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class HomeComponent {
 
-protected errorMessages: string[] = []
+  protected errorMessages: string[] = []
 
 
-protected indiceCodigoError = 0
-protected mensajeError = "Todo bien (no mostrar)"
+  protected indiceCodigoError = 0
+  protected mensajeError = "Todo bien (no mostrar)"
 
-constructor(private router: Router, private connectionService: ConnectionService) {
+  constructor(private router: Router, private connectionService: ConnectionService) {
 
 }
 protected Password = new FormControl<String>('')
@@ -61,18 +61,18 @@ cancelChallenge() {
   return;
 }
 
-isLoggedIn() : boolean{
-  return localStorage.getItem("jwtToken") != null && localStorage.getItem("jwtToken")?.trim() != "";
-}
-protected isLoggedOut = !this.isLoggedIn()
+  isLoggedIn() : boolean{
+    return localStorage.getItem("jwtToken") != null && localStorage.getItem("jwtToken")?.trim() != "";
+  }
+  protected isLoggedOut = !this.isLoggedIn()
 
-logout() {
-  this.connectionService.setToken("");
-  this.isLoggedOut = true;
-  this.isViewingUserOptions = false;
-  this.connectionService.currentUserName = "";
-  this.setCodigoDeError(0);
-}
+  logout() {
+    this.connectionService.setToken("");
+    this.isLoggedOut = true;
+    this.isViewingUserOptions = false;
+    this.connectionService.currentUserName = "";
+    this.setCodigoDeError(0);
+  }
 
 goToUserSettings() {
   //this.router.navigate(['/user-settings']);
@@ -82,45 +82,48 @@ openChallengeUserForm() {
   this.wantsToChallengeUser = !this.wantsToChallengeUser;
 }
 
-//asdasdasd
+  //asdasdasd
 
-goToDailyChallenge(){
-  this.router.navigate(['/daily-challenge']);
-}
-goToABM() {
-  this.router.navigate(['/abm']);
-}
-showRegister() {
-  this.setCodigoDeError(0);
-  this.wantsToRegister = true;
-  this.wantsToLogin = false;
-  this.forgotPassword = false;
-}
-showLogin() {
-  this.setCodigoDeError(0);
-  this.wantsToLogin = true;
-  this.wantsToRegister = false;
-  this.forgotPassword = false;
-}
-cancel() {
-  this.setCodigoDeError(0);
-  this.wantsToRegister = false;
-  this.wantsToLogin = false;
-  this.forgotPassword = false;
-}
-resetPass() {
-  this.setCodigoDeError(0);
-  this.forgotPassword = true;
-  this.wantsToRegister = false;
-  this.wantsToLogin = false;
-}
+  goToDailyChallenge(){
+    this.router.navigate(['/daily-challenge']);
+  }
+  goToEndlessMode(){
+    this.router.navigate(['/endless-mode']);
+  }
+  goToABM() {
+    this.router.navigate(['/abm']);
+  }
+  showRegister() {
+    this.setCodigoDeError(0);
+    this.wantsToRegister = true;
+    this.wantsToLogin = false;
+    this.forgotPassword = false;
+  }
+  showLogin() {
+    this.setCodigoDeError(0);
+    this.wantsToLogin = true;
+    this.wantsToRegister = false;
+    this.forgotPassword = false;
+  }
+  cancel() {
+    this.setCodigoDeError(0);
+    this.wantsToRegister = false;
+    this.wantsToLogin = false;
+    this.forgotPassword = false;
+  }
+  resetPass() {
+    this.setCodigoDeError(0);
+    this.forgotPassword = true;
+    this.wantsToRegister = false;
+    this.wantsToLogin = false;
+  }
 
 
 
-cancelarCambioContrasenia(){
-  this.setCodigoDeError(0);
-  this.forgotPassword = false
-}
+  cancelarCambioContrasenia(){
+    this.setCodigoDeError(0);
+    this.forgotPassword = false
+  }
 
 login(){
   const body = {
@@ -157,9 +160,6 @@ login(){
     return this.connectionService.currentUserStatus;
   }
 
-  goToEndlessMode(){
-    return;
-  }
 
   registrar(){
     const body = {
