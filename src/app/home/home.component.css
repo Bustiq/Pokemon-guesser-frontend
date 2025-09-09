@@ -8,7 +8,7 @@ html, body {
 }
 
 .userNameHolder {
-  margin-top: 1rem;
+  margin-top: 0rem;
 }
 
 .successMessage {
@@ -222,6 +222,20 @@ input:focus {
 }
 
 
+.user-info {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;   /* Vertically center children */
+  gap: 0.7rem;           /* Optional: space between image and button */
+}
+
+.coin {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
 
 .challenge-user-form-container {
   position: absolute;

@@ -4,10 +4,11 @@
       <button class="header-btn" (click)="showLogin()">Login</button>
       <button class="header-btn" (click)="showRegister()">Register</button>
     </div>
-    <ng-template #logOut class="">
-      <img src="" alt="">
-      <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
-      
+    <ng-template #logOut >
+      <div class = "user-info">
+        <img class = "coin" src="coin.png" alt="">
+        <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
+      </div>
     </ng-template>
   </div>
 
