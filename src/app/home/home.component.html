@@ -6,8 +6,10 @@
     </div>
     <ng-template #logOut >
       <div class = "user-info">
+        <p>{{getUserCoins()}}</p>
         <img class = "coin" src="coin.png" alt="">
         <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
+
       </div>
     </ng-template>
   </div>
@@ -30,10 +32,10 @@
  
   <div class="main-menu">
 
-    <button class="header-btn main-menu-btn" (click)="goToDailyChallenge()">Daily Challenge</button>
-    <button class="header-btn main-menu-btn" (click)="goToEndlessMode()">Endless Mode</button>
-    <button class="header-btn main-menu-btn" (click)="openChallengeUserForm()">Challenge User</button>
-    <button class="header-btn main-menu-btn">Options</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="goToDailyChallenge()">Daily Challenge</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()"(click)="goToEndlessMode()">Endless Mode</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="openChallengeUserForm()">Challenge User</button>
+    <button class="header-btn main-menu-btn colored-button">Options</button>
   </div>
 
   <div class="form-container" *ngIf="wantsToRegister">
@@ -75,11 +77,8 @@
   </div>
 
   <!-- Add this just before the main-menu div, outside or above it for left alignment -->
-<div
-  class="challenge-user-form-container"
-  *ngIf="wantsToChallengeUser"
->
-  <h2>Desafiar Usuario</h2>
+<div class="challenge-user-form-container" *ngIf="wantsToChallengeUser">
+  <h2 class="challenge-title">Challenge User</h2>
   <form (ngSubmit)="sendChallenge()">
     <label>Username</label>
     <input
@@ -91,16 +90,18 @@
       class="challenge-input"
     />
 
-    <label>Generaciones incluidas</label>
+    <label>Generaciones</label>
     <div class="generations-checkboxes">
-      <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]">
-        <input
-          type="checkbox"
-          [checked]="challengeGenerations.includes(gen)"
-          #cb
-          (change)="onChallengeGenerationChange(gen, cb.checked)"
-        />
-        Gen {{ gen }}
+      <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]" class="checkbox-with-image-label">
+        <div class="checkbox-with-image">
+          <input
+            type="checkbox"
+            [checked]="challengeGenerations.includes(gen)"
+            #cb
+            (change)="onChallengeGenerationChange(gen, cb.checked)"
+          />
+          <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="">
+        </div>
       </label>
     </div>
 
@@ -115,8 +116,12 @@
       class="challenge-input"
     />
 
-    <button class="action-btn" type="submit">Challenge</button>
-    <button class="link-btn" type="button" (click)="cancelChallenge()">Cancelar</button>
+    <div class="center-challenge-btn">
+      <button class="action-btn" type="submit">
+        Challenge
+      </button>
+    </div>
+    <button class="link-btn" type="button" (click)="cancelChallenge()">Cancel</button>
   </form>
 </div>
 </div>

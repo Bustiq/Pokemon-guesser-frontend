@@ -12,6 +12,7 @@ export class ConnectionService {
 
   currentUserName : string;
   currentUserStatus : boolean;
+  currentCoins : number = 0;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
@@ -22,46 +23,46 @@ export class ConnectionService {
   constructor() {
     this.currentUserName = "";
     this.currentUserStatus = false;
+    this.currentCoins = 0;
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       this.token = storedToken;
     }
   }
 
-  attempts = 20;
+  attempts = 100;
 
   async loadUserData() {
 
-    const token = localStorage.getItem("jwtToken");
-    console.log("Token cargado: " + token);
-    if (!token){
-      return
-    }
 
-    this.attempts -= 1;
-    if (this.attempts <= 0) {
-      console.error("No se pudo cargar el usuario después de varios intentos.");
-      return;
-    }
+    while (this.attempts > 0) {
+      const token = localStorage.getItem("jwtToken");
+      console.log("Token cargado: " + token);
+      if (!token){
+        return
+      }
 
-    //alert("nombre de usuaro:" + this.currentUserName)
-    if (this.currentUserName != "") {
+      this.attempts -= 1;
+      if (this.attempts <= 0) {
+        console.error("No se pudo cargar el usuario después de varios intentos.");
+        return;
+      }
       
-      //alert(this.currentUserName)
-      return
-    } 
-    //alert("?????")
-    
-    try{
-      var response = await axios.get(this.url + 'getUserData', this.getHeaders())
-      // alert("Respuesta del servidor: " + JSON.stringify(response.data))
-      this.currentUserName = response.data.username;
-      this.currentUserStatus = response.data.admin;
-      
-      //alert(this.currentUserName)
-    }
-    catch(error) {
-      //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+      try{
+        var response = await axios.get(this.url + 'getUserData', this.getHeaders())
+        // alert("Respuesta del servidor: " + JSON.stringify(response.data))
+        this.currentUserName = response.data.username;
+        this.currentUserStatus = response.data.admin;
+        this.currentCoins = response.data.coins;
+
+        return
+        
+        //alert(this.currentUserName)
+      }
+      catch(error) {
+        return
+        //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+      }
     }
     //this.currentUserName = 
 

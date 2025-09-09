@@ -22,43 +22,58 @@ export class HomeComponent {
 
   constructor(private router: Router, private connectionService: ConnectionService) {
 
-}
-protected Password = new FormControl<String>('')
-protected NombreUsuario = new FormControl<String>('')
-protected Mail = new FormControl<String>('')
-protected forgotPassword = false
-wantsToRegister = false;
-wantsToLogin = false;
-wantsToChallengeUser = false;
-isViewingUserOptions = false;
-registered = false;
-challengeAmount = 0;
-challengeUserName = '';
-mailSent = false;
-sendingMail = false;
-
-challengeGenerations: number[] = [];
-
-onChallengeGenerationChange(gen: number, checked: boolean) {
-  if (checked) {
-    if (!this.challengeGenerations.includes(gen)) {
-      this.challengeGenerations.push(gen);
-    }
-  } else {
-    this.challengeGenerations = this.challengeGenerations.filter(g => g !== gen);
   }
-}
+  protected Password = new FormControl<String>('')
+  protected NombreUsuario = new FormControl<String>('')
+  protected Mail = new FormControl<String>('')
+  protected forgotPassword = false
+  wantsToRegister = false;
+  wantsToLogin = false;
+  wantsToChallengeUser = false;
+  isViewingUserOptions = false;
+  registered = false;
+  challengeAmount = 0;
+  challengeUserName = '';
+  mailSent = false;
+  sendingMail = false;
 
-openUserOptions() {
-this.isViewingUserOptions = !this.isViewingUserOptions;
-}
+  challengeGenerations: number[] = [];
+
+
+  currentName = ""
+  currentStatus = false
+  currentCoins = 0
+
+  async ngOnInit() {
+    await this.connectionService.loadUserData();
+    this.currentName = this.connectionService.currentUserName;
+    this.currentStatus = this.connectionService.currentUserStatus;
+    this.currentCoins = this.connectionService.currentCoins;
+
+  }
+
+
+
+  onChallengeGenerationChange(gen: number, checked: boolean) {
+    if (checked) {
+      if (!this.challengeGenerations.includes(gen)) {
+        this.challengeGenerations.push(gen);
+      }
+    } else {
+      this.challengeGenerations = this.challengeGenerations.filter(g => g !== gen);
+    }
+  }
+
+  openUserOptions() {
+    this.isViewingUserOptions = !this.isViewingUserOptions;
+  }
 
 sendChallenge() {
   return
 }
 
 cancelChallenge() {
-  return;
+  this.wantsToChallengeUser = false;
 }
 
   isLoggedIn() : boolean{
@@ -72,6 +87,7 @@ cancelChallenge() {
     this.isViewingUserOptions = false;
     this.connectionService.currentUserName = "";
     this.setCodigoDeError(0);
+    this.wantsToChallengeUser = false;
   }
 
 goToUserSettings() {
@@ -79,18 +95,29 @@ goToUserSettings() {
 }
 
 openChallengeUserForm() {
+  if (!this.isLoggedIn()){
+    return
+  }
   this.wantsToChallengeUser = !this.wantsToChallengeUser;
 }
 
   //asdasdasd
 
   goToDailyChallenge(){
+
+    if (!this.isLoggedIn()){
+      return
+    }
     this.router.navigate(['/daily-challenge']);
   }
   goToEndlessMode(){
+    if (!this.isLoggedIn()){
+      return
+    }
     this.router.navigate(['/endless-mode']);
   }
   goToABM() {
+
     this.router.navigate(['/abm']);
   }
   showRegister() {
@@ -149,15 +176,17 @@ login(){
       }})
   }
 
-   getUserName() {
-     this.connectionService.loadUserData();
-    return this.connectionService.currentUserName;
-   
+  getUserName() {
+    return this.currentName;
   }
 
-   getUserStatus() {
-     this.connectionService.loadUserData();
-    return this.connectionService.currentUserStatus;
+  getUserStatus() {
+    return this.currentStatus;
+  }
+
+  getUserCoins(){
+
+    return this.currentCoins;
   }
 
 
@@ -242,6 +271,9 @@ login(){
   }
 
 
+  getButtonClass(): string {
+    return this.isLoggedIn() ? 'colored-button' : 'greyed-out-button';
+  }
 }
 
 
