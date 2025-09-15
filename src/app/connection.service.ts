@@ -33,7 +33,7 @@ export class ConnectionService {
   attempts = 100;
 
   async loadUserData() {
-
+   
 
     while (this.attempts > 0) {
       const token = localStorage.getItem("jwtToken");
@@ -54,6 +54,8 @@ export class ConnectionService {
         this.currentUserName = response.data.username;
         this.currentUserStatus = response.data.admin;
         this.currentCoins = response.data.coins;
+        this.generateWebSocket()
+
 
         return
         
@@ -65,6 +67,26 @@ export class ConnectionService {
       }
     }
     //this.currentUserName = 
+
+  }
+
+  socket! : WebSocket
+
+  generateWebSocket( ) {
+    this.socket = new WebSocket('ws://localhost:8080');
+    
+    this.socket.addEventListener('open', (event) => {
+      console.log('Conexión WebSocket establecida');
+      if (this.token) {
+        this.socket.send(JSON.stringify({ purpose : "connect", token : this.token}));
+      }
+    });
+
+    this.socket.addEventListener('message', (event) => {
+      console.log('Mensaje del servidor:', event.data);
+      const message = JSON.parse(event.data);
+      alert("Mensaje del servidor: " + event.data)
+    });
 
   }
 
@@ -318,5 +340,21 @@ export class ConnectionService {
 
 
     
+  }
+
+  async sendChallenge(opponentName : string, generations : number[], stake : number)
+  {
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "challenge",
+      stake : stake,
+      opponentName : opponentName,
+      generations : generations,
+      token : this.token
+    }))
   }
 }

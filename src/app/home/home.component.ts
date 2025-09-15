@@ -49,7 +49,7 @@ export class HomeComponent {
     this.currentName = this.connectionService.currentUserName;
     this.currentStatus = this.connectionService.currentUserStatus;
     this.currentCoins = this.connectionService.currentCoins;
-
+    
   }
 
 
@@ -69,7 +69,7 @@ export class HomeComponent {
   }
 
 sendChallenge() {
-  return
+  this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeAmount)
 }
 
 cancelChallenge() {
@@ -167,6 +167,13 @@ login(){
       this.wantsToRegister = false;
       this.wantsToLogin = false;
       this.forgotPassword = false;
+
+
+      this.connectionService.loadUserData().then(() => {
+        this.currentName = this.connectionService.currentUserName;
+        this.currentStatus = this.connectionService.currentUserStatus;
+        this.currentCoins = this.connectionService.currentCoins;
+      })
       
     }).catch(e => {
       if (e instanceof AccountError) {
