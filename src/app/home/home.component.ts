@@ -32,24 +32,67 @@ export class HomeComponent {
   wantsToChallengeUser = false;
   isViewingUserOptions = false;
   registered = false;
-  challengeAmount = 0;
+  challengeStake = 0;
   challengeUserName = '';
   mailSent = false;
   sendingMail = false;
-
   challengeGenerations: number[] = [];
-
-
   currentName = ""
   currentStatus = false
   currentCoins = 0
+  hasReceivedChallenge = false;
+  challengerName = ''
+  receivedChallengeGenerations : number[] = [];
+  receivedChallengeStake : number = 0
+  isWaitingForChallengeResponse = false
+
 
   async ngOnInit() {
     await this.connectionService.loadUserData();
     this.currentName = this.connectionService.currentUserName;
     this.currentStatus = this.connectionService.currentUserStatus;
     this.currentCoins = this.connectionService.currentCoins;
-    
+    this.connectionService.socket.addEventListener('message', (event) => {
+      const message = JSON.parse(event.data);
+      if(message.purpose === 'challengeDelivery') {
+        this.challengerName = message.challengerName
+        this.receivedChallengeGenerations = message.challengeGenerations
+        this.receivedChallengeStake = message.challengeStake
+        this.hasReceivedChallenge = true;
+       
+      }
+      if (message.purpose === 'challengeSuccess')
+      {
+        this.wantsToChallengeUser = false
+        this.isWaitingForChallengeResponse = true
+      }
+
+      if (message.purpose === 'cancelChallenge')
+      {
+        this.hasReceivedChallenge = false;
+        this.receivedChallengeGenerations = []
+        this.receivedChallengeStake = 0
+        this.challengerName = ''
+      }
+      if (message.purpose === 'challengeDeclined')
+      {
+        this.isWaitingForChallengeResponse = false;
+        this.challengeUserName = ''
+        this.challengeStake = 0
+        this.challengeGenerations = []
+
+      }
+
+      if (message.purpose === 'matchStart')
+      {
+        //this.router.navigate(['/match'])
+      }
+
+    })
+  }
+
+  cancelChallengeProposal() {
+    return
   }
 
 
@@ -69,12 +112,22 @@ export class HomeComponent {
   }
 
 sendChallenge() {
-  this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeAmount)
+  this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeStake)
+
 }
 
 cancelChallenge() {
   this.wantsToChallengeUser = false;
 }
+
+answerChallenge(accept : boolean) {
+  this.connectionService.answerChallenge(accept)
+  this.hasReceivedChallenge = false;
+  this.isWaitingForChallengeResponse = false;
+}
+
+
+
 
   isLoggedIn() : boolean{
     return localStorage.getItem("jwtToken") != null && localStorage.getItem("jwtToken")?.trim() != "";

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
 import { AccountError, EmptyFieldError, MissingTokenError } from './Models/accountError';
-
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -20,7 +20,9 @@ export class ConnectionService {
 
   private token: string | null = null;
 
-  constructor() {
+
+
+  constructor(private router: Router) {
     this.currentUserName = "";
     this.currentUserStatus = false;
     this.currentCoins = 0;
@@ -86,6 +88,10 @@ export class ConnectionService {
       console.log('Mensaje del servidor:', event.data);
       const message = JSON.parse(event.data);
       alert("Mensaje del servidor: " + event.data)
+      if (message.purpose === 'matchStart')
+      {
+        this.router.navigate(['/match'])
+      }
     });
 
   }
@@ -342,8 +348,11 @@ export class ConnectionService {
     
   }
 
+
+
   async sendChallenge(opponentName : string, generations : number[], stake : number)
   {
+
     if (!this.socket)
     {
       this.generateWebSocket()
@@ -354,7 +363,21 @@ export class ConnectionService {
       stake : stake,
       opponentName : opponentName,
       generations : generations,
-      token : this.token
+      token : this.token,
+    }))
+  }
+
+  async answerChallenge(accept : boolean)
+  {
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "answerChallenge",
+      token : this.token,
+      accepted : accept
     }))
   }
 }
