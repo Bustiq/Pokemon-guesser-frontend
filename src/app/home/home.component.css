@@ -1,4 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+.challenge-action-btns {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.decline-btn {
+  font-size: 0.72rem;
+  padding: 0.08rem 0.1rem;
+  min-width: 32px;
+  line-height: 1.05;
+  background: #e74c3c;
+  color: #fff;
+  border-color: #c0392b;
+  box-shadow: 0 4px #c0392b;
+}
+/* Bottom right invisible challenge info container */
+.challenge-info-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 400px;
+  background: #23272f;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.20);
+  padding: 1rem 0.8rem;
+  color: #ffcb05;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  box-sizing: border-box;
+  left: auto !important;
+  right: 24px !important;
+  top: auto !important;
+  bottom: 24px !important;
+}
+
+
+.challenge-info-content {
+  width: 100%;
+  background: transparent;
+  color: #ffcb05;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  font-size: 0.92rem;
+  min-width: unset;
+}
+.received-generations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: flex-start;
+}
 
 html, body {
   margin: 0;

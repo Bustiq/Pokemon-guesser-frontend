@@ -4,7 +4,7 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { AbmComponent } from './abm/abm.component';
 import { DailyChallengeComponent } from './daily-challenge/daily-challenge.component';
 import { EndlessModeComponent } from './endless-mode/endless-mode.component';
-
+import { MatchComponent } from './match/match.component'
 export const routes: Routes = [
   {
     "path": "",
@@ -25,5 +25,9 @@ export const routes: Routes = [
 {
   "path": "endless-mode",
   "component": EndlessModeComponent
+},
+{
+  "path": "match",
+  "component": MatchComponent
 }
 ];
