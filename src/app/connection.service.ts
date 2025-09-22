@@ -412,8 +412,10 @@ export class ConnectionService {
       console.error("Error al enviar el guess:", error);
       throw error;
     }
+  }
 
+  async checkCurrentMatch(){
+      
 
-    
   }
 }
