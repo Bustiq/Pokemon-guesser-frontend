@@ -1,1 +1,141 @@
-<p>match works!</p>
+<!-- Win/Lose Popups -->
+<div *ngIf="showWinPopup" class="match-popup-overlay">
+  <div class="match-popup-box">
+    <h2 class="match-popup-title">You win!</h2>
+    <div class="match-popup-btns">
+      <button class="action-btn" (click)="requestRematch()">Rematch</button>
+      <button class="action-btn" (click)="goHome()">Home</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="showLosePopup" class="match-popup-overlay">
+  <div class="match-popup-box">
+    <h2 class="match-popup-title">You lost</h2>
+    <div class="match-popup-btns">
+      <button class="action-btn" (click)="requestRematch()">Rematch</button>
+      <button class="action-btn" (click)="goHome()">Home</button>
+    </div>
+  </div>
+</div>
+<!-- Opponent info box 
+ 
+<div class="match-info-container">
+  <h2 class="match-info-title">Match Info</h2>
+  <div class="match-info-content">
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Opponent:</strong> {{ opponentName }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Stake:</strong> {{ matchStake }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Generations:</strong>
+      <div class="generations-checkboxes match-generations">
+        <ng-container *ngFor="let gen of matchGenerations">
+          <label class="checkbox-with-image-label">
+            <div class="checkbox-with-image">
+              <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+              <span style="color:#ffcb05;">{{ gen }}</span>
+            </div>
+          </label>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<head>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims">
+</head>
+
+
+<div class="daily-challenge-container">
+  <div class="daily-challenge-title">Live match</div>
+ 
+  <!-- Input and submit -->
+  <input
+  
+    class="pokemon-input"
+    type="text"
+    #searchBarInput
+    placeholder="Enter your guess"
+    (keyup.enter)="guessPokemon(guessInput)"
+    autocomplete="off"
+    [(ngModel)]="guessInput"
+  />
+  <button
+    class="submit-btn"
+    (click)="guessPokemon(searchBarInput.value)"
+  >
+    Enviar
+  </button>
+ 
+  <!-- Table of previous guesses with Pokémon info -->
+</div>
+
+<!-- Guess history OUTSIDE the main container for better separation and readability -->
+<div class="guess-history-table-wrapper">
+  <table *ngIf="pokemons && pokemons.size > 0" class="guess-history-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo 1</th>
+        <th>Tipo 2</th>
+        <th>Peso (kg)</th>
+        <th>Altura (cm)</th>
+        <th>Etapa Evolutiva</th>
+       <!-- <th>Grupo Huevo 1</th>
+        <th>Grupo Huevo 2</th>-->
+        <th>Forma Corporal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pokemon of pokemons | keyvalue : null">
+        <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>{{pokemon.value.nombre}}</td>
+        <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_1}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_2}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("pesoKilos", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.pesoKilos}}
+          </div>
+          
+        </td>
+        <td [class]='getCSSClass("alturaCM", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.alturaCM}}
+          </div>
+          
+        </td>
+        <!--<td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
+        <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>-->
+
+        <td [class]='getCSSClass("etapa_evolutiva", pokemon.value.nombre)'>{{pokemon.value.etapa_evolutiva}}</td>
+
+        <td [class]='getCSSClass("forma_corporal", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="BodyShapes/{{pokemon.value.forma_corporal}}.png" alt="">
+          </div>
+        </td>
+
+
+        
+      </tr>
+    </tbody>
+  </table>
+</div>

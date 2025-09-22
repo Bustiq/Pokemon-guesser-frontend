@@ -17,6 +17,7 @@ export class ConnectionService {
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
   endlessModeRouter = 'endlessMode/';
+  matchRouter = "match/";
 
   private token: string | null = null;
 
@@ -92,6 +93,7 @@ export class ConnectionService {
       {
         this.router.navigate(['/match'])
       }
+      
     });
 
   }
@@ -367,6 +369,20 @@ export class ConnectionService {
     }))
   }
 
+  async sendMatchPokemonGuessWebSocket(guess : string)
+  {
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "guess",
+      guess : guess,
+      token : this.token,
+    }))
+  }
+
   async answerChallenge(accept : boolean)
   {
     if (!this.socket)
@@ -379,5 +395,25 @@ export class ConnectionService {
       token : this.token,
       accepted : accept
     }))
+  }
+
+
+  async sendMatchPokemonGuess(guess : string) : Promise<any>
+  {
+
+    try{
+      var response = await axios.post(this.url + this.matchRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+
+
+    
   }
 }

@@ -1,0 +1,367 @@
+/* Win/Lose popup overlay */
+.match-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.match-popup-box {
+  background: #23272f;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+  padding: 2.2rem 2.5rem 1.5rem 2.5rem;
+  color: #ffcb05;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 260px;
+  max-width: 90vw;
+}
+.match-popup-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 2px 0 #2a75bb;
+}
+.match-popup-btns {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+.match-info-container {
+  /* ...existing styles... */
+}
+
+@media (max-width: 900px) {
+  .match-info-container {
+    position: static;
+    width: 98vw;
+    left: unset;
+    right: unset;
+    min-width: 0;
+    max-width: 100vw;
+    margin: 0 auto 1rem auto;
+    top: unset;
+    padding: 0.7rem 0.3rem;
+    font-size: 0.85rem;
+    z-index: 1;
+  }
+  .daily-challenge-container {
+    margin-top: 0.5rem !important;
+  }
+  .match-info-title {
+    font-size: 1rem;
+  }
+  .starter-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+/* Match info box (top left) */
+.match-info-container {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 400px;
+  background: #23272f;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.20);
+  padding: 1rem 0.8rem;
+  color: #ffcb05;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  font-size: 0.92rem;
+  box-sizing: border-box;
+}
+.match-info-title {
+  font-size: 1.08rem;
+  margin-bottom: 0.8rem;
+  text-shadow: 1px 2px 0 #2a75bb;
+}
+.match-info-content {
+  width: 100%;
+}
+.match-generations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: flex-start;
+}
+.checkbox-with-image-label {
+  flex: 0 0 33.3333%;
+  max-width: 33.3333%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.checkbox-with-image {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.starter-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+/* Container styling */
+.daily-challenge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #23272f;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  max-width: 420px;
+  margin: 2rem auto;
+}
+
+/* Title styling */
+.daily-challenge-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffcb05;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px 0 #2a75bb;
+}
+
+/* Guess grid styling */
+.guess-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 48px);
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.guess-cell {
+  width: 48px;
+  height: 48px;
+  background: #31363f;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  border: 2px solid #23272f;
+  transition: background 0.2s, border 0.2s;
+}
+
+/* Feedback colors */
+.guess-cell.correct {
+  background: #4caf50;
+  border-color: #388e3c;
+  color: #fff;
+}
+
+.guess-cell.present {
+  background: #ffd600;
+  border-color: #ffab00;
+  color: #23272f;
+}
+
+.guess-cell.absent {
+  background: #616161;
+  border-color: #424242;
+  color: #bdbdbd;
+}
+
+/* Input styling */
+.pokemon-input {
+  width: 100%;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #2a75bb;
+  background: #23272f;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.pokemon-input:focus {
+  border-color: #ffcb05;
+}
+
+/* Submit button */
+.submit-btn {
+  background: linear-gradient(90deg, #2a75bb 60%, #ffcb05 100%);
+  color: #23272f;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(42,117,187,0.15);
+  transition: background 0.2s, color 0.2s;
+}
+
+.submit-btn:active {
+  background: linear-gradient(90deg, #ffcb05 60%, #2a75bb 100%);
+  color: #2a75bb;
+}
+
+/* Feedback message */
+.feedback-message {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #ffcb05;
+  text-shadow: 1px 1px 0 #2a75bb;
+}
+
+/* Guess history table */
+.guess-history-table-wrapper {
+  margin: 2rem auto 0 auto;
+  max-width: 98vw;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guess-history-table {
+  width: 70%;
+  border-collapse: collapse;
+  background: #23272f;
+  color: #ffcb05;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  font-size: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.guess-history-table th,
+.guess-history-table td {
+  padding-left:  0rem;
+  padding-right: 0rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  text-align: center;
+  border-bottom: 2px solid #757575;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.guess-history-table th {
+  background: #2a75bb;
+  color: #ffcb05;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.guess-history-table tr:last-child td {
+  border-bottom: none;
+}
+
+
+
+.guess-history-table tr:nth-child(even) .red {
+  background: #ff0000;
+}
+
+.guess-history-table tr:nth-child(odd) .red{
+  background: #c50000;
+}
+
+.guess-history-table tr:nth-child(even) .higher {
+  background: #ff0000;
+}
+
+.guess-history-table tr:nth-child(odd) .higher{
+  background: #c50000;
+}
+
+.guess-history-table tr:nth-child(even) .lower {
+  background: #ff0000;
+}
+
+.guess-history-table tr:nth-child(odd) .lower{
+  background: #c50000;
+}
+
+.guess-history-table tr:nth-child(even) .yellow {
+  background: #ff7300;
+}
+
+.guess-history-table tr:nth-child(odd) .yellow{
+  background: #bb5400;
+}
+
+.guess-history-table tr:nth-child(even) .green {
+  background: #00ff00;
+}
+
+.guess-history-table tr:nth-child(odd) .green{
+  background: #00c500;
+}
+
+.guessImage {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin: auto;
+}
+
+/*
+
+.red{
+    background: red;
+}
+
+.green{
+    background: green;
+}
+*/
+/* Responsive */
+@media (max-width: 600px) {
+  .daily-challenge-container {
+    max-width: 98vw;
+    padding: 1rem 0.5rem;
+  }
+  .guess-grid {
+    grid-template-columns: repeat(6, 36px);
+    gap: 0.3rem;
+  }
+  .guess-cell {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+}
+
+.arrow-up{
+  display: none;
+}
+
+.arrow-down{
+  display: none;
+}
+
+
+
+.higher .arrow-up{
+  display: inline-block;
+}
+
+.lower .arrow-down{
+  display: inline-block;
+}
