@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AccountError } from '../Models/accountError';
 import { FormsModule } from '@angular/forms';
 
+
 @Component({
   selector: 'app-home',
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
@@ -42,6 +43,7 @@ export class HomeComponent {
   currentCoins = 0
   hasReceivedChallenge = false;
   challengerName = ''
+  challengeIsARematch = false
   receivedChallengeGenerations : number[] = [];
   receivedChallengeStake : number = 0
   isWaitingForChallengeResponse = false
@@ -55,6 +57,11 @@ export class HomeComponent {
     this.connectionService.socket.addEventListener('message', (event) => {
       const message = JSON.parse(event.data);
       if(message.purpose === 'challengeDelivery') {
+
+        if (message.rematch)
+        {
+          this.challengeIsARematch = true;
+        }
         this.challengerName = message.challengerName
         this.receivedChallengeGenerations = message.challengeGenerations
         this.receivedChallengeStake = message.challengeStake
@@ -83,10 +90,7 @@ export class HomeComponent {
 
       }
 
-      if (message.purpose === 'matchStart')
-      {
-        //this.router.navigate(['/match'])
-      }
+      
 
     })
     this.checkForCurrentMatch()
@@ -150,7 +154,7 @@ export class HomeComponent {
   }
 
 sendChallenge() {
-  this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeStake)
+  this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeStake, false)
 
 }
 

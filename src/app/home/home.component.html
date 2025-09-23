@@ -1,10 +1,11 @@
 
 <!-- Invisible challenge info container -->
 <div class="challenge-info-container challenge-user-form-container" *ngIf="hasReceivedChallenge">
-  <h2 class="challenge-title">Received Challenge</h2>
+  <h2 class="challenge-title" *ngIf="!challengeIsARematch">Received Challenge</h2>
+  <h2 class="challenge-title" *ngIf="challengeIsARematch"> {{challengerName}} wants a rematch</h2>
   <div class="challenge-info-content" style="width:100%">
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
-      <strong>Challenger:</strong> {{ challengerName }}
+      <strong *ngIf="!challengeIsARematch">Challenger:</strong> {{ challengerName }}
     </div>
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
       <strong>Stake:</strong> {{ receivedChallengeStake }}

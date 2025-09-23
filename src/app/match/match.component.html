@@ -1,4 +1,5 @@
 <!-- Win/Lose Popups -->
+<!-- Win/Lose Popups -->
 <div *ngIf="showWinPopup" class="match-popup-overlay">
   <div class="match-popup-box">
     <h2 class="match-popup-title">You win!</h2>
@@ -6,6 +7,33 @@
       <button class="action-btn" (click)="requestRematch()">Rematch</button>
       <button class="action-btn" (click)="goHome()">Home</button>
     </div>
+    <ng-container *ngIf="hasReceivedRematchRequest">
+      <div class="rematch-popup-info">
+        <h3 class="challenge-title">{{opponentName}} wants a rematch</h3>
+        <div class="challenge-info-content" style="width:100%">
+          <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+            <strong>Stake:</strong> {{ matchStake }}
+          </div>
+          <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+            <strong>Generations:</strong>
+            <div class="generations-checkboxes received-generations">
+              <ng-container *ngFor="let gen of matchGenerations">
+                <label class="checkbox-with-image-label">
+                  <div class="checkbox-with-image">
+                    <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+                    <span style="color:#ffcb05;">{{ gen }}</span>
+                  </div>
+                </label>
+              </ng-container>
+            </div>
+          </div>
+          <div class="challenge-action-btns">
+            <button class="action-btn small-btn" (click)="answerRematch(true)">Accept</button>
+            <button class="action-btn small-btn decline-btn" (click)="answerRematch(false)">Decline</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
 <div *ngIf="showLosePopup" class="match-popup-overlay">
@@ -15,9 +43,36 @@
       <button class="action-btn" (click)="requestRematch()">Rematch</button>
       <button class="action-btn" (click)="goHome()">Home</button>
     </div>
+    <ng-container *ngIf="hasReceivedRematchRequest">
+      <div class="rematch-popup-info">
+        <h3 class="challenge-title">{{opponentName}} wants a rematch</h3>
+        <div class="challenge-info-content" style="width:100%">
+          <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+            <strong>Stake:</strong> {{ matchStake }}
+          </div>
+          <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+            <strong>Generations:</strong>
+            <div class="generations-checkboxes received-generations">
+              <ng-container *ngFor="let gen of matchGenerations">
+                <label class="checkbox-with-image-label">
+                  <div class="checkbox-with-image">
+                    <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+                    <span style="color:#ffcb05;">{{ gen }}</span>
+                  </div>
+                </label>
+              </ng-container>
+            </div>
+          </div>
+          <div class="challenge-action-btns">
+            <button class="action-btn small-btn" (click)="answerRematch(true)">Accept</button>
+            <button class="action-btn small-btn decline-btn" (click)="answerRematch(false)">Decline</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
-<!-- Opponent info box 
+ Opponent info box 
  
 <div class="match-info-container">
   <h2 class="match-info-title">Match Info</h2>
@@ -43,7 +98,7 @@
     </div>
   </div>
 </div>
--->
+
 <head>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
