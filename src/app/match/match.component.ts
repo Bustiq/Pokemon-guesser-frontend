@@ -17,19 +17,22 @@ pokemons: Map<string, any> = new Map;
 
   opponentName = "";
   matchStake = 0;
+  hasReceivedRematchRequest = false
   matchGenerations : number[] = [];
   names: string[] = [];
   showLosePopup = false;
   showWinPopup = false;
   comparisons: Map<string, any> = new Map;
   guessInput: string = '';
-
+  
   constructor(private router: Router, private connectionService: ConnectionService) {
-
+    
   }
   ngOnInit() {
+    //to do: Debería vaciar toda la informacion de la partida sin reiniciar la pagina
+    this.connectionService.generateWebSocket();
     this.connectionService.getAllPokemonNames().then((response) => {
-
+      
       response.forEach((pokemon: any) => {
         this.names.push(pokemon.nombre);
       });
@@ -37,7 +40,8 @@ pokemons: Map<string, any> = new Map;
     }).catch((error) => {
       console.error("Error al obtener los nombres de los pokemons:", error);
     });
-
+    this.checkForCurrentMatch();
+    
     this.connectionService.socket.addEventListener('message', (event) => {
       const message = JSON.parse(event.data);
       if (message.purpose === "notifyWin") {
@@ -45,15 +49,52 @@ pokemons: Map<string, any> = new Map;
         this.showLosePopup = false;
       }
       else if (message.purpose === "notifyLoss")
+        {
+          this.showLosePopup = true;
+          this.showWinPopup = false;
+        }
+
+      else if (message.purpose === 'challengeDelivery' && message.rematch)
       {
-        this.showLosePopup = true;
-        this.showWinPopup = false;
+        this.hasReceivedRematchRequest = true
+        
       }
-    })
+      })
+    }
+    
+  async answerRematch(answer : boolean)
+  {
+    await this.connectionService.answerChallenge(answer);
+    this.hasReceivedRematchRequest = false
+    if(!answer)
+    {
+      this.router.navigate(['/'])
+    }
   }
 
+
+  checkForCurrentMatch()
+    {
+      
+      this.connectionService.checkCurrentMatch().then(v => {
+        alert(JSON.stringify(v))
+        if (v.hasMatch)
+        { 
+          this.matchStake = v.stake
+          this.matchGenerations = v.generations
+          this.opponentName = v.opponent
+        }
+  
+      })
+    }
+
   requestRematch() {
-    return
+    if(!this.hasReceivedRematchRequest) {
+    this.connectionService.sendChallenge(this.opponentName, this.matchGenerations, this.matchStake, true)
+    }
+    else {
+      this.answerRematch(true);
+    }
   }
 
   goHome() {

@@ -92,6 +92,10 @@ export class ConnectionService {
       if (message.purpose === 'matchStart')
       {
         this.router.navigate(['/match'])
+        if(this.router.url.includes('/match'))
+        {
+          window.location.reload();
+        }
       }
       
     });
@@ -349,7 +353,7 @@ export class ConnectionService {
 
 
 
-  async sendChallenge(opponentName : string, generations : number[], stake : number)
+  async sendChallenge(opponentName : string, generations : number[], stake : number, isARematch : boolean)
   {
 
     if (!this.socket)
@@ -363,6 +367,7 @@ export class ConnectionService {
       opponentName : opponentName,
       generations : generations,
       token : this.token,
+      isARematch : isARematch
     }))
   }
 
