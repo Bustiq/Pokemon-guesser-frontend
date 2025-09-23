@@ -88,7 +88,7 @@ export class ConnectionService {
     this.socket.addEventListener('message', (event) => {
       console.log('Mensaje del servidor:', event.data);
       const message = JSON.parse(event.data);
-      alert("Mensaje del servidor: " + event.data)
+     // alert("Mensaje del servidor: " + event.data)
       if (message.purpose === 'matchStart')
       {
         this.router.navigate(['/match'])
@@ -277,7 +277,6 @@ export class ConnectionService {
 
   async sendDailyPokemonGuess(guess : string) : Promise<any>
   {
-
     try{
       var response = await axios.post(this.url + this.dailyChallengeRouter + "compareGuess", {
         guess: guess
@@ -289,8 +288,6 @@ export class ConnectionService {
       console.error("Error al enviar el guess:", error);
       throw error;
     }
-
-
     
   }
 
@@ -412,8 +409,17 @@ export class ConnectionService {
       console.error("Error al enviar el guess:", error);
       throw error;
     }
+  }
 
-
+  async checkCurrentMatch(){
+    try{
+      var response = await axios.get(this.url + this.matchRouter + "currentMatch", this.getHeaders());
+      return response.data.response;
+    }
+      catch (error) {
+      console.error("Error al verificar currentMatch:", error);
+      throw error;
+    }
     
   }
 }

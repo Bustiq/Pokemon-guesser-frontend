@@ -59,14 +59,14 @@
 <div class="container">
   <div class="header-container">
     <div *ngIf="isLoggedOut; else logOut" class="header">
-      <button class="header-btn" (click)="showLogin()">Login</button>
-      <button class="header-btn" (click)="showRegister()">Register</button>
+      <button class="header-btn margin-btn" (click)="showLogin()">Login</button>
+      <button class="header-btn margin-btn" (click)="showRegister()">Register</button>
     </div>
     <ng-template #logOut >
       <div class = "user-info">
         <p>{{getUserCoins()}}</p>
         <img class = "coin" src="coin.png" alt="">
-        <button class="header-btn userNameHolder" (click)="openUserOptions()">{{getUserName()}}</button>
+        <button class="header-btn userNameHolder margin-btn" (click)="openUserOptions()">{{getUserName()}}</button>
 
       </div>
     </ng-template>

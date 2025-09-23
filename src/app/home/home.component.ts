@@ -89,6 +89,44 @@ export class HomeComponent {
       }
 
     })
+    this.checkForCurrentMatch()
+  }
+
+
+  checkForCurrentMatch()
+  {
+    this.connectionService.checkCurrentMatch().then(v => {
+
+      if (v.hasMatch)
+      {
+        if(v.matchState == 0)
+        {
+          if (v.isChallenger)
+          {
+            this.challengeStake = v.stake
+            this.challengeGenerations = v.generations
+            this.challengeUserName = v.opponent
+            this.isWaitingForChallengeResponse = true
+          }
+          else
+          {
+            this.receivedChallengeGenerations = v.generations;
+            this.receivedChallengeStake = v.stake;
+            this.challengerName = v.opponent
+            this.hasReceivedChallenge = true
+          }
+        }
+        
+      }
+
+    }).catch(e => {
+      if (e instanceof AccountError) {
+        this.setCodigoDeError(e.codigo);
+      } else {
+        this.setCodigoDeError(1);
+      }
+    })
+    
   }
 
   cancelChallengeProposal() {

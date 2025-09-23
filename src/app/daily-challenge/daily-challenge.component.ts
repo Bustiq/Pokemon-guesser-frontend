@@ -94,7 +94,7 @@ export class DailyChallengeComponent {
       }
     } catch(error) {
       console.error("Error al enviar el guess:", error);
-      alert("Error al enviar el guess. Por favor, inténtalo de nuevo.");
+      alert(error);
     }
   }
 
