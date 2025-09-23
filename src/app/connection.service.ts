@@ -138,10 +138,10 @@ export class ConnectionService {
     }
     catch (error) {
       
-      throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode)
+      throw new AccountError((error as any).response.data.errorCode)
       /*if ((error as any).response.data.errorCode)
       {
-        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode)
+        throw new AccountError((error as any).response.data.errorCode)
       }
       throw new Error("Nombre de usuario o contraseña incorrectos");
       */
@@ -167,9 +167,9 @@ export class ConnectionService {
     return response.data;
     } catch (error) {
       if ((error as any).response.data.errorCode) {
-        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode);
+        throw new AccountError((error as any).response.data.errorCode);
       }
-      throw new AccountError("Error al registrar el usuario: " + (error as any).message);
+      throw new AccountError(1);
     }
   }
 
@@ -229,10 +229,10 @@ export class ConnectionService {
     }
     catch (error) {
       if ((error as any).response.data.errorCode) {
-        throw new AccountError((error as any).response.data.error, (error as any).response.data.errorCode);
+        throw new AccountError((error as any).response.data.errorCode);
       }
 
-      throw new AccountError("Error al registrar el usuario: " + (error as any).message);
+      throw new AccountError(1);
     }
   }
 

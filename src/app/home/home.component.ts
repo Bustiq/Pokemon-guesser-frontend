@@ -15,11 +15,15 @@ import { FormsModule } from '@angular/forms';
 })
 export class HomeComponent {
 
-  protected errorMessages: string[] = []
+  
+  
+  protected accountErrorMessages: string[] = []
+  protected indiceCodigoErrorCuenta = 0
+  protected mensajeErrorCuenta = "Todo bien (no mostrar)"
 
-
-  protected indiceCodigoError = 0
-  protected mensajeError = "Todo bien (no mostrar)"
+  protected matchErrorMessages: string[] = []
+  protected indiceCodigoErrorMatch = 0
+  protected mensajeErrorMatch = "Todo bien (no mostrar)"
 
   constructor(private router: Router, private connectionService: ConnectionService) {
 
@@ -67,6 +71,11 @@ export class HomeComponent {
         this.receivedChallengeStake = message.challengeStake
         this.hasReceivedChallenge = true;
        
+      }
+      if(message.purpose === 'matchError')
+      {
+
+        this.setCodigoDeErrorMatch(message.errorCode)
       }
       if (message.purpose === 'challengeSuccess')
       {
@@ -125,9 +134,9 @@ export class HomeComponent {
 
     }).catch(e => {
       if (e instanceof AccountError) {
-        this.setCodigoDeError(e.codigo);
+        this.setCodigoDeErrorCuenta(e.codigo);
       } else {
-        this.setCodigoDeError(1);
+        this.setCodigoDeErrorCuenta(1);
       }
     })
     
@@ -160,6 +169,7 @@ sendChallenge() {
 
 cancelChallenge() {
   this.wantsToChallengeUser = false;
+  this.setCodigoDeErrorMatch(0)
 }
 
 answerChallenge(accept : boolean) {
@@ -181,7 +191,7 @@ answerChallenge(accept : boolean) {
     this.isLoggedOut = true;
     this.isViewingUserOptions = false;
     this.connectionService.currentUserName = "";
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.wantsToChallengeUser = false;
   }
 
@@ -216,25 +226,25 @@ openChallengeUserForm() {
     this.router.navigate(['/abm']);
   }
   showRegister() {
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.wantsToRegister = true;
     this.wantsToLogin = false;
     this.forgotPassword = false;
   }
   showLogin() {
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.wantsToLogin = true;
     this.wantsToRegister = false;
     this.forgotPassword = false;
   }
   cancel() {
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.wantsToRegister = false;
     this.wantsToLogin = false;
     this.forgotPassword = false;
   }
   resetPass() {
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.forgotPassword = true;
     this.wantsToRegister = false;
     this.wantsToLogin = false;
@@ -243,7 +253,7 @@ openChallengeUserForm() {
 
 
   cancelarCambioContrasenia(){
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.forgotPassword = false
   }
 
@@ -256,7 +266,7 @@ login(){
 
 
     this.connectionService.login(body.nombre, body.password).then(v => {
-      this.setCodigoDeError(0);
+      this.setCodigoDeErrorCuenta(0);
       this.connectionService.setToken(v)
       this.isLoggedOut = false;
       this.wantsToRegister = false;
@@ -272,9 +282,9 @@ login(){
       
     }).catch(e => {
       if (e instanceof AccountError) {
-        this.setCodigoDeError(e.codigo);
+        this.setCodigoDeErrorCuenta(e.codigo);
       } else {
-        this.setCodigoDeError(1);
+        this.setCodigoDeErrorCuenta(1);
       }})
   }
 
@@ -300,15 +310,15 @@ login(){
     }
 
     this.connectionService.signup(body.nombre, body.password, body.email).then(v => {
-      this.setCodigoDeError(0);
+      this.setCodigoDeErrorCuenta(0);
       this.registered = true;
 
 
     }).catch(e => {
       if (e instanceof AccountError) {
-        this.setCodigoDeError(e.codigo);
+        this.setCodigoDeErrorCuenta(e.codigo);
       } else {
-        this.setCodigoDeError(1);
+        this.setCodigoDeErrorCuenta(1);
       }
     })
   }
@@ -317,19 +327,19 @@ login(){
     const body = {
       "email": this.Mail.value
     };
-    this.setCodigoDeError(0);
+    this.setCodigoDeErrorCuenta(0);
     this.sendingMail = true;
 
     this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
-      this.setCodigoDeError(0);
+      this.setCodigoDeErrorCuenta(0);
       this.mailSent = true;
     }).catch(e => {
       this.mailSent = false;
 
       if (e instanceof AccountError) {
-        this.setCodigoDeError(e.codigo);
+        this.setCodigoDeErrorCuenta(e.codigo);
       } else {
-        this.setCodigoDeError(1);
+        this.setCodigoDeErrorCuenta(1);
       }
     }).finally(() => {
         this.sendingMail = false;
@@ -338,8 +348,8 @@ login(){
 
 
 
-  setCodigoDeError(codigo: number) {
-      this.errorMessages = [
+  setCodigoDeErrorCuenta(codigo: number) {
+      this.accountErrorMessages = [
         "No hay error (que no se vea en rojo)",
         "Error desconocido. Perdón bro.",
         "Nombre de usuario o contraseña incorrectos",
@@ -358,19 +368,44 @@ login(){
       this.registered = false
     }
 
-    this.indiceCodigoError = codigo;
+    this.indiceCodigoErrorCuenta = codigo;
     
-    if (this.indiceCodigoError < 0 || this.indiceCodigoError >= this.errorMessages.length) {
-      this.mensajeError = "Error desconocido";
-      alert(this.mensajeError)
+    if (this.indiceCodigoErrorCuenta < 0 || this.indiceCodigoErrorCuenta >= this.accountErrorMessages.length) {
+      this.mensajeErrorCuenta = "Error super desconocido";
+      alert(this.mensajeErrorCuenta)
       return
     }
-    this.mensajeError = this.errorMessages[this.indiceCodigoError];
+    this.mensajeErrorCuenta = this.accountErrorMessages[this.indiceCodigoErrorCuenta];
   }
 
-  hayError(): boolean {
-    return this.indiceCodigoError != 0;
+
+  setCodigoDeErrorMatch(codigo: number) {
+    this.matchErrorMessages = [
+      "No hay error (que no se vea en rojo)",
+      "Error desconocido. Perdón bro.",
+      "Algún campo está vacío",
+      "Error de base de datos. por favor reportar",
+      "No tienes monedas suficientes",
+      "Tienes una partida pendiente o activa. Mira tus notificaciones",
+      "No puedes desafiarte a ti mismo",
+      "No hay nadie con ese nombre",
+      "Esa cuenta no tiene suficientes monedas",
+      "Esa cuenta tiene una partida pendiente o activa",
+      "Esa cuenta está offline"
+    ]
+
+
+    this.indiceCodigoErrorMatch = codigo;
+    
+    if (this.indiceCodigoErrorMatch < 0 || this.indiceCodigoErrorMatch >= this.matchErrorMessages.length) {
+      this.mensajeErrorCuenta = "Error super desconocido";
+      alert(this.mensajeErrorCuenta)
+      return
+    }
+    this.mensajeErrorMatch = this.matchErrorMessages[this.indiceCodigoErrorMatch];
   }
+
+
 
 
   getButtonClass(): string {
