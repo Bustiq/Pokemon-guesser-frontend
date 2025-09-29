@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { filter } from 'rxjs';
-import { AccountError, EmptyFieldError, MissingTokenError } from './Models/accountError';
+import { AccountError, EmptyFieldError, InvalidCharacterInNameError, LongNameError, MissingTokenError } from './Models/accountError';
 import { Router } from '@angular/router';
 
 
@@ -154,6 +154,20 @@ export class ConnectionService {
     
     if (username == null || password == null || email == null || username == "" || password == "" || email == "" ) {
       throw new EmptyFieldError();
+    }
+
+    if (username.length > 12)
+    {
+      throw new LongNameError()
+    }
+
+
+    const validChars = "1234567890abcdefghijklmnopqrstuvwxyz_-"
+    for (const character of username) {
+        if (!validChars.includes(character))
+        {
+          throw new InvalidCharacterInNameError()
+        }
     }
 
     try{

@@ -42,7 +42,7 @@
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
       <strong>Generations:</strong>
       <div class="generations-checkboxes received-generations">
-        <ng-container *ngFor="let gen of challengeGenerations">
+        <ng-container *ngFor="let gen of receivedChallengeGenerations">
           <label class="checkbox-with-image-label">
             <div class="checkbox-with-image">
               <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
@@ -86,11 +86,9 @@
 
 
 
+
   <h1 class="main-title">Pokedle</h1>
-
- 
   <div class="main-menu">
-
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="goToDailyChallenge()">Daily Challenge</button>
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()"(click)="goToEndlessMode()">Endless Mode</button>
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="openChallengeUserForm()">Challenge User</button>
@@ -136,13 +134,13 @@
   </div>
 
   <!-- Add this just before the main-menu div, outside or above it for left alignment -->
-<div class="challenge-user-form-container" *ngIf="wantsToChallengeUser">
+<div class="challenge-user-form-container form-container" *ngIf="wantsToChallengeUser">
   <label class="errorMessage" *ngIf="indiceCodigoErrorMatch">{{matchErrorMessages[indiceCodigoErrorMatch]}}</label>
   <h2 class="challenge-title">Challenge User</h2>
   <form (ngSubmit)="sendChallenge()">
     <label>Username</label>
     <input
-      style = "color : #000000"
+      style = "color : #ffcb05"
       type="text"
       [(ngModel)]="challengeUserName"
       name="challengeUserName"
@@ -168,7 +166,7 @@
 
     <label>Bet amount</label>
     <input
-      style = "color : #ffffff"
+      style = "color : #ffcb05"
       type="number"
       min="0"
       [(ngModel)]="challengeStake"

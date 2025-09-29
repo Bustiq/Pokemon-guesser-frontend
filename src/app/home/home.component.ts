@@ -81,6 +81,11 @@ export class HomeComponent {
       {
         this.wantsToChallengeUser = false
         this.isWaitingForChallengeResponse = true
+        this.receivedChallengeGenerations = []
+        for (const gen of this.challengeGenerations)
+        {
+          this.receivedChallengeGenerations.push(gen)
+        }
       }
 
       if (message.purpose === 'cancelChallenge')
@@ -117,7 +122,7 @@ export class HomeComponent {
           if (v.isChallenger)
           {
             this.challengeStake = v.stake
-            this.challengeGenerations = v.generations
+            this.receivedChallengeGenerations = v.generations
             this.challengeUserName = v.opponent
             this.isWaitingForChallengeResponse = true
           }
@@ -358,10 +363,8 @@ login(){
         "El email ya está en uso",
         "Inicia sesión nuevamente",
         "Cuenta no verificada. Revisa tu mail para loguearte",
-        "Ese mail no está registrado",
-        "El nombre de usuario no puede contener espacios ni arrobas",
-        "El email no es válido",
-        "El email no existe"
+        "Los nombres de usuario sólo pueden tener letras y números",
+        "Los nombres de usuario no pueden exceder 12 caracteres"
     ]
 
     if (codigo != 0){
@@ -386,7 +389,7 @@ login(){
       "Algún campo está vacío",
       "Error de base de datos. por favor reportar",
       "No tienes monedas suficientes",
-      "Tienes una partida pendiente o activa. Mira tus notificaciones",
+      "Tienes una partida pendiente o activa",
       "No puedes desafiarte a ti mismo",
       "No hay nadie con ese nombre",
       "Esa cuenta no tiene suficientes monedas",

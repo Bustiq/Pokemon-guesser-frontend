@@ -6,4 +6,14 @@ html, body {
   background-color: #f4f4f4;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+
+  background-image:
+    linear-gradient(rgba(35,39,47,0.7), rgba(35,39,47,0.95)),
+    url('/homeBackground.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+}
