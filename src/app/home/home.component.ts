@@ -46,7 +46,7 @@ export class HomeComponent {
   currentStatus = false
   currentCoins = 0
   hasReceivedChallenge = false;
-  challengerName = ''
+  receivedOpponentName = ''
   challengeIsARematch = false
   receivedChallengeGenerations : number[] = [];
   receivedChallengeStake : number = 0
@@ -66,10 +66,12 @@ export class HomeComponent {
         {
           this.challengeIsARematch = true;
         }
-        this.challengerName = message.challengerName
+        this.receivedOpponentName = message.challengerName
         this.receivedChallengeGenerations = message.challengeGenerations
         this.receivedChallengeStake = message.challengeStake
         this.hasReceivedChallenge = true;
+
+        this.receivedChallengeGenerations.sort()
        
       }
       if(message.purpose === 'matchError')
@@ -86,6 +88,9 @@ export class HomeComponent {
         {
           this.receivedChallengeGenerations.push(gen)
         }
+        this.receivedChallengeGenerations.sort()
+        this.receivedChallengeStake = this.challengeStake
+        this.receivedOpponentName = this.challengeUserName.toLowerCase()
       }
 
       if (message.purpose === 'cancelChallenge')
@@ -93,7 +98,7 @@ export class HomeComponent {
         this.hasReceivedChallenge = false;
         this.receivedChallengeGenerations = []
         this.receivedChallengeStake = 0
-        this.challengerName = ''
+        this.receivedOpponentName = ''
       }
       if (message.purpose === 'challengeDeclined')
       {
@@ -110,6 +115,7 @@ export class HomeComponent {
     this.checkForCurrentMatch()
   }
 
+  
 
   checkForCurrentMatch()
   {
@@ -119,20 +125,18 @@ export class HomeComponent {
       {
         if(v.matchState == 0)
         {
+          this.receivedChallengeGenerations = v.generations
+          this.receivedChallengeStake = v.stake
+          this.receivedOpponentName = v.opponent
           if (v.isChallenger)
           {
-            this.challengeStake = v.stake
-            this.receivedChallengeGenerations = v.generations
-            this.challengeUserName = v.opponent
             this.isWaitingForChallengeResponse = true
           }
           else
           {
-            this.receivedChallengeGenerations = v.generations;
-            this.receivedChallengeStake = v.stake;
-            this.challengerName = v.opponent
             this.hasReceivedChallenge = true
           }
+          this.receivedChallengeGenerations.sort()
         }
         
       }
@@ -168,6 +172,7 @@ export class HomeComponent {
   }
 
 sendChallenge() {
+  
   this.connectionService.sendChallenge(this.challengeUserName, this.challengeGenerations, this.challengeStake, false)
 
 }
@@ -333,6 +338,7 @@ login(){
       "email": this.Mail.value
     };
     this.setCodigoDeErrorCuenta(0);
+    this.mailSent = false
     this.sendingMail = true;
 
     this.connectionService.enviarMailCambiarContrasenia(body.email).then(() => {
@@ -394,7 +400,8 @@ login(){
       "No hay nadie con ese nombre",
       "Esa cuenta no tiene suficientes monedas",
       "Esa cuenta tiene una partida pendiente o activa",
-      "Esa cuenta está offline"
+      "Esa cuenta está offline",
+      "No puedes apostar monedas negativas"
     ]
 
 

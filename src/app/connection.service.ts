@@ -200,7 +200,7 @@ export class ConnectionService {
     return axios.patch(this.url + 'reset-password/' + token,  {
       newPassword: newPassword
     }).then(response => {
-        alert("Contraseña cambiada exitosamente");
+        
         return response.data;
       })
       .catch(error => {

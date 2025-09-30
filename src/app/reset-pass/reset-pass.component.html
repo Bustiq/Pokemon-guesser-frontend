@@ -1,8 +1,15 @@
+<div *ngIf="hasChangedPassword" class="popup-success">
+    <span class="popup-success-text">Contraseña cambiada correctamente, ya puedes cerrar esta pestaña</span>
+</div>
+<div class="reset-pass-container" *ngIf="!hasChangedPassword">
+    <h2 class="reset-title">Restablecer contraseña</h2>
 
-<h1>Generar nueva contraseña</h1>
-    <h2>Nueva contraseña</h2>
-    <input [formControl]="Contrasenia" type="password">
-    <h2>Confirmar nueva contraseña</h2>
-    <input [formControl]="Confirmacion" type="password">
-    <button (click)="cambiarContrasenia()">Cambiar contraseña</button>
-    
+        <label for="password" style="color:#ffcb05;font-family:'Press Start 2P','Montserrat',Arial,sans-serif;">Nueva contraseña:</label>
+        <input type="password" id="password" [formControl]="Contrasenia">
+        <label for="confirmacion" style="color:#ffcb05;font-family:'Press Start 2P','Montserrat',Arial,sans-serif;">Confirmar nueva contraseña:</label>
+        <input type="password" id="confirmacion" [formControl]="Confirmacion">
+
+    <button (click) = "cambiarContrasenia()">Restablecer</button>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+</div>

@@ -2,10 +2,10 @@
 <!-- Invisible challenge info container -->
 <div class="challenge-info-container challenge-user-form-container" *ngIf="hasReceivedChallenge">
   <h2 class="challenge-title" *ngIf="!challengeIsARematch">Received Challenge</h2>
-  <h2 class="challenge-title" *ngIf="challengeIsARematch"> {{challengerName}} wants a rematch</h2>
+  <h2 class="challenge-title" *ngIf="challengeIsARematch"> {{receivedOpponentName}} wants a rematch</h2>
   <div class="challenge-info-content" style="width:100%">
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
-      <strong *ngIf="!challengeIsARematch">Challenger:</strong> {{ challengerName }}
+      <strong *ngIf="!challengeIsARematch">Challenger:</strong> {{ receivedOpponentName }}
     </div>
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
       <strong>Stake:</strong> {{ receivedChallengeStake }}
@@ -34,10 +34,10 @@
   <h2 class="challenge-title">Waiting for response...</h2>
   <div class="challenge-info-content" style="width:100%">
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
-      <strong>Opponent:</strong> {{ challengeUserName }}
+      <strong>Opponent:</strong> {{ receivedOpponentName }}
     </div>
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
-      <strong>Stake:</strong> {{ challengeStake }}
+      <strong>Stake:</strong> {{ receivedChallengeStake }}
     </div>
     <div style="margin-bottom: 0.5rem; color: #ffcb05;">
       <strong>Generations:</strong>
@@ -154,6 +154,7 @@
       <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]" class="checkbox-with-image-label">
         <div class="checkbox-with-image">
           <input
+            class = "match-checkbox"
             type="checkbox"
             [checked]="challengeGenerations.includes(gen)"
             #cb
@@ -177,7 +178,7 @@
     />
 
     <div class="center-challenge-btn">
-      <button class="action-btn" type="submit">
+      <button class="action-btn" type="submit" click="sendChallenge()">
         Challenge
       </button>
     </div>
