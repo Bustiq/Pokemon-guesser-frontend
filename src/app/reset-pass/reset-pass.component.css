@@ -1,0 +1,113 @@
+.error-message {
+	font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+	color: #ff4c4c;
+	background: #23272f;
+	border: 2px solid #2a75bb;
+	border-radius: 8px;
+	padding: 10px 18px;
+	margin-top: 16px;
+	text-align: center;
+	font-size: 1rem;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	letter-spacing: 1px;
+}
+.reset-pass-container form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.reset-pass-container label {
+	text-align: left;
+	align-self: flex-start;
+	margin-bottom: 4px;
+}
+
+.popup-success {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #23272f;
+	border: 2px solid #2a75bb;
+	border-radius: 16px;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+	padding: 32px 40px;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.popup-success-text {
+	font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+	color: #ffcb05;
+	font-size: 1.2rem;
+	text-align: center;
+	text-shadow: 2px 2px 0 #2a75bb, 0 0 8px #23272f;
+	letter-spacing: 1px;
+}
+body, .reset-pass-container {
+	font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+	background: none;
+	color: #ffcb05;
+}
+
+.reset-pass-container {
+	background: #23272f;
+	border: 2px solid #2a75bb;
+	border-radius: 12px;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+	padding: 32px 24px;
+	max-width: 400px;
+	margin: 48px auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.reset-title {
+	font-size: 2rem;
+	font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+	color: #ffcb05;
+	margin-bottom: 24px;
+	text-shadow: 2px 2px 0 #2a75bb, 0 0 8px #23272f;
+	letter-spacing: 2px;
+}
+
+input[type="email"], input[type="password"] {
+	font-family: inherit;
+	background: #23272f;
+	color: #ffcb05;
+	border: 2px solid #2a75bb;
+	border-radius: 8px;
+	padding: 8px 12px;
+	margin-bottom: 18px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+button {
+	font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+	background: #2a75bb;
+	color: #ffcb05;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 24px;
+	font-size: 1rem;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+
+button:hover {
+	background: #ffcb05;
+	color: #2a75bb;
+}
+
+.reset-message {
+	font-size: 1rem;
+	color: #ffcb05;
+	margin-top: 16px;
+	text-align: center;
+}

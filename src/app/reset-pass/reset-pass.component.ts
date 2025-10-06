@@ -11,28 +11,28 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './reset-pass.component.css'
 })
 export class ResetPassComponent {
+  hasChangedPassword = false;
   Contrasenia = new FormControl<string>('');
   Confirmacion = new FormControl<string>('');
   token: string | null = "";
+  errorMessage: string = '';
 
   constructor(private router: Router, private connectionService: ConnectionService, private route: ActivatedRoute) {}
   
-ngOnInit(): void {
-  this.token = this.route.snapshot.paramMap.get('token');
-  console.log(this.token)
-
-}
+  ngOnInit(): void {
+    this.token = this.route.snapshot.paramMap.get('token');
+  }
 
   cambiarContrasenia() {
+    this.errorMessage = '';
     if (this.Contrasenia.value !== this.Confirmacion.value) {
-      alert("Las contraseñas no coinciden");
+      this.errorMessage = "Las contraseñas no coinciden";
       return;
     }
+
     this.connectionService.resetPassword(this.Contrasenia.value, this.token).then(() => {
-      alert("Contraseña cambiada exitosamente");
+      this.hasChangedPassword = true; 
       
-    }
-    
-    );
-}
+    });
+  }
 }

@@ -49,3 +49,20 @@ export class MissingTokenError extends AccountError {
         //this.name = "MissingTokenError";
     }
 }
+
+
+export class InvalidCharacterInNameError extends AccountError
+{
+    constructor() {
+        super(8);
+    }
+}
+
+export class LongNameError extends AccountError
+{
+    constructor() {
+        super(9);
+    }
+}
+
+
