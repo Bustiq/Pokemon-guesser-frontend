@@ -322,9 +322,10 @@ export class ConnectionService {
   }
 
 
-  async getAllPokemonNames(){
+  async getAllPokemonFromGenerations(generations : number[]){
     try {
-      const response = await axios.get(this.url + this.pokemonRouter + "names", this.getHeaders());
+      console.log("gengen", generations)
+      const response = await axios.post(this.url + this.pokemonRouter + "names", {generations : generations} ,this.getHeaders());
       return response.data;
     } catch (error) {
       console.error("Error al obtener los nombres de los pokemons:", error);

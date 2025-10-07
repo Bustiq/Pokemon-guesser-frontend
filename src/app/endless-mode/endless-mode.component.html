@@ -17,12 +17,55 @@
     Start Game
   </button>
 </div>
+<div class="infinite-challenge-container">
+  <div class="infinite-challenge-title">Endless Mode</div>
+ 
+  <!-- Input and submit
+  <input
+  
+    class="pokemon-input"
+    type="text"
+    #searchBarInput
+    placeholder="Enter your guess"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    autocomplete="off"
+    [(ngModel)]="guessInput"
+  /> -->
 
-
+  <input 
+    #searchBarInput
+    class = "pokemon-input"
+    type="text"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    placeholder="Enter your guess"
+    aria-label="Pokemon"
+    matInput
+    [formControl]="guessInput"
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
+      @for (option of filteredNames | async; track option) {
+        <mat-option [value]="option" style="background-color: #fff; display: flex; align-items: center; justify-content: center; padding-bottom: 0.5em; padding-top: 0.5em">
+          <div style="display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center;">
+            <img class="guessImage" src="{{getImageUrl(option)}}" alt="" style="height: 48px; width: 48px; object-fit: contain;">
+            <span style="font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif; color: #23272f; font-size: 1rem;">{{option[0].toUpperCase() + option.substr(1).toLowerCase()}}</span>
+          </div>
+        </mat-option>
+      }
+    </mat-autocomplete>
+  <button
+    class="submit-btn"
+    (click)="guessPokemon(searchBarInput.value)"
+  >
+    Enviar
+  </button>
+ 
+  <!-- Table of previous guesses with Pokémon info -->
+</div>
+<!--
 <div class="infinite-challenge-container">
   <div class="infinite-challenge-title">PokéGuesser - Infinite Challenge</div>
  
-  <!-- Input and submit -->
+   Input and submit 
   <input
   
     class="pokemon-input"
@@ -40,8 +83,9 @@
     Enviar
   </button>
  
-  <!-- Table of previous guesses with Pokémon info -->
+
 </div>
+-->
 
 <!-- Guess history OUTSIDE the main container for better separation and readability -->
 <div class="guess-history-table-wrapper">
