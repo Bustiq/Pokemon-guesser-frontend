@@ -6,6 +6,7 @@ body {
 
   background-image:
   url('/homeBackgroundDark.webp');
+  /*position: absolute;*/
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -31,7 +31,7 @@ pokemons: Map<string, any> = new Map;
   ngOnInit() {
     //to do: Debería vaciar toda la informacion de la partida sin reiniciar la pagina
     this.connectionService.generateWebSocket();
-    this.connectionService.getAllPokemonNames().then((response) => {
+    this.connectionService.getAllPokemonFromGenerations([1,2,3,4,5,6,7,8,9]).then((response) => {
       
       response.forEach((pokemon: any) => {
         this.names.push(pokemon.nombre);

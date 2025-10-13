@@ -1,28 +1,41 @@
 import { Component } from '@angular/core';
 import { ConnectionService } from '../connection.service';
+import { GuessService } from '../guess.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import axios from 'axios';
-import { FormsModule } from '@angular/forms';
-
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {AsyncPipe} from '@angular/common';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 @Component({
   selector: 'app-daily-challenge',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    AsyncPipe,],
   templateUrl: './daily-challenge.component.html',
   styleUrl: './daily-challenge.component.css'
 })
 export class DailyChallengeComponent {
 
+  names: Map<string, number> = new Map;
+  filteredNames!: Observable<string[]>;
+  guessInput = new FormControl('');
   pokemons: Map<string, any> = new Map;
-
-  names: string[] = [];
-
   comparisons: Map<string, any> = new Map;
-  guessInput: string = '';
 
-  constructor(private router: Router, private connectionService: ConnectionService) {
+
+
+  constructor(private router: Router, private connectionService: ConnectionService, private guessService: GuessService) {
 
   }
   ngOnInit() {
@@ -34,21 +47,34 @@ export class DailyChallengeComponent {
     });
 
 
-    this.connectionService.getAllPokemonNames().then((response) => {
+    this.connectionService.getAllPokemonFromGenerations([1]).then((response) => {
 
       response.forEach((pokemon: any) => {
-        this.names.push(pokemon.nombre);
+        this.names.set(pokemon.nombre, pokemon.numeroPokedex);
       });
       
     }).catch((error) => {
       console.error("Error al obtener los nombres de los pokemons:", error);
     });
 
+    this.filteredNames = this.guessInput.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filter(value || '')),
+    );
+
   }
 
   
+  filter(value: string): string[] {
+    return this.guessService.filter(value, this.names)
+  }
 
    async guessPokemon(guess: string) {
+
+    if (!this.names.has(guess.toLowerCase()))
+    {
+      return
+    }
 
     try{
       const response = await this.connectionService.sendDailyPokemonGuess(guess)
@@ -84,7 +110,7 @@ export class DailyChallengeComponent {
       if (response.dataComparison.correct) {
         alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
-        this.guessInput = ''; // Vacía el input también en caso de fallo
+        this.guessInput.setValue(''); // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);
@@ -94,7 +120,6 @@ export class DailyChallengeComponent {
       }
     } catch(error) {
       console.error("Error al enviar el guess:", error);
-      alert(error);
     }
   }
 
@@ -108,5 +133,10 @@ export class DailyChallengeComponent {
     //alert(field  + ": " + this.comparisons.get(pokemonName)[field])
 
     return this.comparisons.get(pokemonName)[field];
+  }
+
+  getImageUrl(pokemonName : string){
+    pokemonName = pokemonName.toLocaleLowerCase()
+    return this.guessService.getImageUrl(this.names.get(pokemonName))
   }
 }

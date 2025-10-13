@@ -1,47 +1,65 @@
 
 import { Component } from '@angular/core';
 import { ConnectionService } from '../connection.service';
+import { GuessService } from '../guess.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import axios from 'axios';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {AsyncPipe} from '@angular/common';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 @Component({
   selector: 'app-endless-mode',
-  imports: [FormsModule, CommonModule],
+  imports: [
+    FormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    AsyncPipe
+  ],
   templateUrl: './endless-mode.component.html',
   styleUrl: './endless-mode.component.css'
 })
 export class EndlessModeComponent {
 
-  generations: number[] = [];
-
-
+  names: Map<string, number> = new Map;
+  filteredNames!: Observable<string[]>;
+  guessInput = new FormControl('');
   pokemons: Map<string, any> = new Map;
-
-  names: string[] = [];
-
   comparisons: Map<string, any> = new Map;
-  guessInput: string = '';
+
   
-  constructor(private router: Router, private connectionService: ConnectionService) {
+  generations: number[] = [];
+  generationsToPlay : number[] = []
+
+
+  
+  constructor(private router: Router, private connectionService: ConnectionService, private guessService : GuessService) {
 
   }
 
 
 
   ngOnInit() {
-    this.connectionService.getAllPokemonNames().then((response) => {
 
-      response.forEach((pokemon: any) => {
-        this.names.push(pokemon.nombre);
-      });
-      
-    }).catch((error) => {
-      console.error("Error al obtener los nombres de los pokemons:", error);
-    });
 
+
+    this.filteredNames = this.guessInput.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filter(value || '')),
+    );
+
+  }
+  filter(value: string): string[] {
+    return this.guessService.filter(value, this.names)
   }
 
   addGeneration(gen: number) {
@@ -72,12 +90,34 @@ export class EndlessModeComponent {
 
     this.pokemons.clear();
     this.comparisons.clear();
-    this.guessInput = '';
+    this.guessInput.setValue('');
+
     await this.connectionService.asignEndlessModePokemon(this.generations).then( (response) => {
       console.log("Ok")
-    
+      
     }).catch( (error) => {
       console.error("Error al iniciar el modo endless: " + error);
+    });
+    
+    this.generationsToPlay = []
+    this.names = new Map()
+    for (const gen of this.generations)
+    {
+      this.generationsToPlay.push(gen)
+    }
+
+
+    this.generationsToPlay.sort()
+
+
+    this.connectionService.getAllPokemonFromGenerations(this.generationsToPlay).then((response) => {
+
+      response.forEach((pokemon: any) => {
+        this.names.set(pokemon.nombre, pokemon.numeroPokedex);
+      });
+      
+    }).catch((error) => {
+      console.error("Error al obtener los nombres de los pokemons:", error);
     });
   }
 
@@ -118,7 +158,7 @@ export class EndlessModeComponent {
       if (response.dataComparison.correct) {
         alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
-        this.guessInput = ''; // Vacía el input también en caso de fallo
+        this.guessInput.setValue('');  // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);
@@ -128,7 +168,6 @@ export class EndlessModeComponent {
       }
     } catch(error) {
       console.error("Error al enviar el guess:", error);
-      alert("Error al enviar el guess. Por favor, inténtalo de nuevo.");
     }
   }
 
@@ -144,6 +183,10 @@ export class EndlessModeComponent {
     return this.comparisons.get(pokemonName)[field];
   }
 
+  getImageUrl(pokemonName : string){
+    pokemonName = pokemonName.toLocaleLowerCase()
+    return this.guessService.getImageUrl(this.names.get(pokemonName))
+  }
 
 
 
