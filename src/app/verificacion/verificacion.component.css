@@ -1,0 +1,52 @@
+.verificacion-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.success-message {
+  color: #2ecc40;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.verificacion-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 2rem 2.5rem;
+  text-align: center;
+  max-width: 350px;
+}
+
+.pokeball-icon {
+  width: 64px;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: #e3350d;
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  color: #e3350d;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.loader {
+  margin: 1.5rem auto 0;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #e3350d;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}

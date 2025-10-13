@@ -1,2 +1,10 @@
-<h1>Account verified! you will be redirected to the home page and logged in</h1>
-<p>If you are not redirected, click <a routerLink="/home">here</a>.</p>
+
+<div class="verificacion-container">
+  <div class="verificacion-card">
+    <img src="Types/grass.svg" alt="Pokeball" class="pokeball-icon">
+    <h2>Verificando tu cuenta...</h2>
+    <p *ngIf="!error">Por favor espera mientras verificamos tu cuenta Pokémon.</p>
+    <p *ngIf="error" class="error-message">No se pudo verificar tu cuenta. Intenta nuevamente.</p>
+    <div *ngIf="!error" class="loader"></div>
+  </div>
+</div>

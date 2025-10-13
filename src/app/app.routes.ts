@@ -5,6 +5,7 @@ import { AbmComponent } from './abm/abm.component';
 import { DailyChallengeComponent } from './daily-challenge/daily-challenge.component';
 import { EndlessModeComponent } from './endless-mode/endless-mode.component';
 import { MatchComponent } from './match/match.component'
+import { VerificacionComponent } from './verificacion/verificacion.component';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
 {
   "path": "match",
   "component": MatchComponent
+},
+{
+  "path": "verify/:token",
+  "component": VerificacionComponent
 }
 ];

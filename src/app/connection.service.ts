@@ -442,4 +442,17 @@ export class ConnectionService {
     }
     
   }
+
+
+  async verify(verificationToken : string | null){
+    try{
+      var response = await axios.get(this.url + "verify/" + verificationToken);
+      return response.data.response;
+    }
+      catch (error) {
+      console.error("Error al verificar usuario:", error);
+      throw error;
+    }
+
+  }
 }
