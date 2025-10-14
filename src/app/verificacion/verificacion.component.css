@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
 }
 .success-message {
   color: #2ecc40;
@@ -12,12 +12,32 @@
 }
 
 .verificacion-card {
-  background: #fff;
+  background: #23272f;
+  border: 4px solid #2a75bb;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
   padding: 2rem 2.5rem;
   text-align: center;
   max-width: 350px;
+  color: #ffcb05;
+}
+
+
+.form-container {
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 3.5rem;
+  max-width: 350px;
+  padding: 1rem 0.7rem 0.7rem 0.7rem;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 5.5rem;
+  width: 269px;
+  z-index: 10;
 }
 
 .pokeball-icon {
@@ -26,12 +46,11 @@
 }
 
 h2 {
-  color: #e3350d;
   margin-bottom: 0.5rem;
 }
 
 .error-message {
-  color: #e3350d;
+  color: #e30d0d;
   font-weight: bold;
   margin-top: 1rem;
 }
@@ -39,7 +58,7 @@ h2 {
 .loader {
   margin: 1.5rem auto 0;
   border: 6px solid #f3f3f3;
-  border-top: 6px solid #e3350d;
+  border-top: 6px solid #ffcb05;
   border-radius: 50%;
   width: 40px;
   height: 40px;

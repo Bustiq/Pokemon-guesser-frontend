@@ -22,14 +22,13 @@ export class VerificacionComponent {
   ngOnInit() {
     this.token = this.route.snapshot.paramMap.get('token');
     this.connectionService.verify(this.token).then(() => {
-      // Success: you can add a success message or redirect
+
       this.accountVerified = true;
       setTimeout(() => {
         window.location.href = '/';
       }, 3000);
     
     }).catch(e => {
-      alert("etiopia")
       this.error = true;
     });
   }

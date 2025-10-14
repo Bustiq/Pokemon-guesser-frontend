@@ -92,7 +92,7 @@
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="goToDailyChallenge()">Daily Challenge</button>
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()"(click)="goToEndlessMode()">Endless Mode</button>
     <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="openChallengeUserForm()">Challenge User</button>
-    <button class="header-btn main-menu-btn colored-button">Options</button>
+    <button class="header-btn main-menu-btn colored-button" (click)="goToLeaderboard()">Leaderboard</button>
   </div>
 
   <div class="form-container" *ngIf="wantsToRegister">

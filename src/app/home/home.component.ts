@@ -209,6 +209,7 @@ goToUserSettings() {
   //this.router.navigate(['/user-settings']);
 }
 
+
 openChallengeUserForm() {
   if (!this.isLoggedIn()){
     return
@@ -231,6 +232,12 @@ openChallengeUserForm() {
     }
     this.router.navigate(['/endless-mode']);
   }
+
+  goToLeaderboard(){
+    this.router.navigate(['/leaderboard']);
+  }
+
+
   goToABM() {
 
     this.router.navigate(['/abm']);
@@ -370,7 +377,8 @@ login(){
         "Inicia sesión nuevamente",
         "Cuenta no verificada. Revisa tu mail para loguearte",
         "Los nombres de usuario sólo pueden tener letras y números",
-        "Los nombres de usuario no pueden exceder 12 caracteres"
+        "Los nombres de usuario no pueden exceder 12 caracteres",
+        "El mail de verificación no se pudo enviar. Intente con otro mail o contacte con administradores."
     ]
 
     if (codigo != 0){

@@ -6,6 +6,7 @@ import { DailyChallengeComponent } from './daily-challenge/daily-challenge.compo
 import { EndlessModeComponent } from './endless-mode/endless-mode.component';
 import { MatchComponent } from './match/match.component'
 import { VerificacionComponent } from './verificacion/verificacion.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 export const routes: Routes = [
   {
@@ -35,5 +36,9 @@ export const routes: Routes = [
 {
   "path": "verify/:token",
   "component": VerificacionComponent
+},
+{
+  "path": "leaderboard",
+  "component": LeaderboardComponent
 }
 ];

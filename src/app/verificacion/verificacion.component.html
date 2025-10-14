@@ -3,8 +3,11 @@
   <div class="verificacion-card">
     <img src="Types/grass.svg" alt="Pokeball" class="pokeball-icon">
     <h2>Verificando tu cuenta...</h2>
-    <p *ngIf="!error">Por favor espera mientras verificamos tu cuenta Pokémon.</p>
+    <p *ngIf="!accountVerified && !error">Por favor espera mientras verificamos tu cuenta Pokémon.</p>
     <p *ngIf="error" class="error-message">No se pudo verificar tu cuenta. Intenta nuevamente.</p>
-    <div *ngIf="!error" class="loader"></div>
+    <p *ngIf="accountVerified" class="success-message">
+      ¡Cuenta verificada exitosamente! Serás redirigido en unos segundos...
+    </p>
+    <div class="loader" *ngIf="!accountVerified && !error"></div>
   </div>
 </div>
