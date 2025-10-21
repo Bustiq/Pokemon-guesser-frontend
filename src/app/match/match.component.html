@@ -72,7 +72,7 @@
     </ng-container>
   </div>
 </div>
- Opponent info box 
+
  
 <div class="match-info-container">
   <h2 class="match-info-title">Match Info</h2>
@@ -109,19 +109,40 @@
 
 
 <div class="daily-challenge-container">
-  <div class="daily-challenge-title">Live match</div>
+  <div class="daily-challenge-title">PokéGuesser - Daily Challenge</div>
  
-  <!-- Input and submit -->
+  <!-- Input and submit
   <input
   
     class="pokemon-input"
     type="text"
     #searchBarInput
     placeholder="Enter your guess"
-    (keyup.enter)="guessPokemon(guessInput)"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
     autocomplete="off"
     [(ngModel)]="guessInput"
-  />
+  /> -->
+
+  <input 
+    #searchBarInput
+    class = "pokemon-input"
+    type="text"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    placeholder="Enter your guess"
+    aria-label="Pokemon"
+    matInput
+    [formControl]="guessInput"
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
+      @for (option of filteredNames | async; track option) {
+        <mat-option [value]="option" style="background-color: #fff; display: flex; align-items: center; justify-content: center; padding-bottom: 0.5em; padding-top: 0.5em">
+          <div style="display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center;">
+            <img class="guessImage" src="{{getImageUrl(option)}}"/>           
+            <span style="font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif; color: #23272f; font-size: 1rem;">{{option[0].toUpperCase() + option.substr(1).toLowerCase()}}</span>
+          </div>
+        </mat-option>
+      }
+    </mat-autocomplete>
   <button
     class="submit-btn"
     (click)="guessPokemon(searchBarInput.value)"
@@ -137,9 +158,10 @@
   <table *ngIf="pokemons && pokemons.size > 0" class="guess-history-table">
     <thead>
       <tr>
-        <th>Nombre</th>
+        <th>Pokemon</th>
         <th>Tipo 1</th>
         <th>Tipo 2</th>
+        <th>Color</th>
         <th>Peso (kg)</th>
         <th>Altura (cm)</th>
         <th>Etapa Evolutiva</th>
@@ -150,7 +172,11 @@
     </thead>
     <tbody>
       <tr *ngFor="let pokemon of pokemons | keyvalue : null">
-        <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>{{pokemon.value.nombre}}</td>
+        <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="{{getImageUrl(pokemon.value.nombre)}}" alt="">
+          </div>
+        </td>
         <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >
           <div class="table-content">
             <img class="guessImage" src="Types/{{pokemon.value.tipo_1}}.svg" alt="">
@@ -159,6 +185,11 @@
         <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>
           <div class="table-content">
             <img class="guessImage" src="Types/{{pokemon.value.tipo_2}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("color", pokemon.value.nombre)'>
+          <div class="table-content">
+            {{pokemon.value.color}}
           </div>
         </td>
         <td [class]='getCSSClass("pesoKilos", pokemon.value.nombre)'>

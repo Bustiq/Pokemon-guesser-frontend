@@ -8,7 +8,7 @@ export class GuessService {
   constructor() { }
 
   getImageUrl(pokedexNumber : number | undefined){
-    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" + pokedexNumber + ".svg"
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNumber + ".png"
   }
 
    filter(value: string, namesMap : Map<string, number>): string[] {

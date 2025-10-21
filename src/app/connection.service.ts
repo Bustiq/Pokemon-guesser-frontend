@@ -455,4 +455,28 @@ export class ConnectionService {
     }
 
   }
+
+
+
+  async getDailyGuesses(){
+    try{
+      var response = await axios.get(this.url + this.dailyChallengeRouter + "getDailyGuesses", this.getHeaders());
+      return response.data.guesses;
+    }
+      catch (error) {
+      console.error("Error al obtener intentos diarios:", error);
+      throw error;
+    }
+  }
+
+    async getEndlessGuesses(){
+    try{
+      var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
+      return response.data.guesses;
+    }
+      catch (error) {
+      console.error("Error al obtener intentos infinitos:", error);
+      throw error;
+    }
+  }
 }

@@ -1,47 +1,61 @@
 import { Component } from '@angular/core';
 import { ConnectionService } from '../connection.service';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
+import { CommonModule } from '@angular/common';
+import { GuessService } from '../guess.service';
+import { Observable } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import {map, startWith} from 'rxjs/operators';
+import {AsyncPipe} from '@angular/common';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 @Component({
   selector: 'app-match',
-  imports: [CommonModule, FormsModule],
+
+  imports: [
+    FormsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    AsyncPipe
+  ],
   templateUrl: './match.component.html',
   styleUrl: './match.component.css'
 })
 export class MatchComponent {
-pokemons: Map<string, any> = new Map;
-
 
   opponentName = "";
   matchStake = 0;
   hasReceivedRematchRequest = false
   matchGenerations : number[] = [];
-  names: string[] = [];
+  names: Map<string, number> = new Map;
+  filteredNames!: Observable<string[]>;
+  guessInput = new FormControl('');
+  pokemons: Map<string, any> = new Map;
+  comparisons: Map<string, any> = new Map;
   showLosePopup = false;
   showWinPopup = false;
-  comparisons: Map<string, any> = new Map;
-  guessInput: string = '';
   
-  constructor(private router: Router, private connectionService: ConnectionService) {
-    
+
+  constructor(private router: Router, private connectionService: ConnectionService, private guessService: GuessService) {
+
   }
   ngOnInit() {
     //to do: Debería vaciar toda la informacion de la partida sin reiniciar la pagina
     this.connectionService.generateWebSocket();
-    this.connectionService.getAllPokemonFromGenerations([1,2,3,4,5,6,7,8,9]).then((response) => {
-      
-      response.forEach((pokemon: any) => {
-        this.names.push(pokemon.nombre);
-      });
-      
-    }).catch((error) => {
-      console.error("Error al obtener los nombres de los pokemons:", error);
-    });
     this.checkForCurrentMatch();
     
+    this.filteredNames = this.guessInput.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filter(value || '')),
+    );
+
     this.connectionService.socket.addEventListener('message', (event) => {
       const message = JSON.parse(event.data);
       if (message.purpose === "notifyWin") {
@@ -61,6 +75,15 @@ pokemons: Map<string, any> = new Map;
       }
       })
     }
+
+    getImageUrl(pokemonName : string){
+    pokemonName = pokemonName.toLocaleLowerCase()
+    return this.guessService.getImageUrl(this.names.get(pokemonName))
+  }
+
+  filter(value: string): string[] {
+    return this.guessService.filter(value, this.names)
+  }
     
   async answerRematch(answer : boolean)
   {
@@ -78,11 +101,21 @@ pokemons: Map<string, any> = new Map;
       
       this.connectionService.checkCurrentMatch().then(v => {
         alert(JSON.stringify(v))
-        if (v.hasMatch)
+        if (v.hasMatch && v.matchState == 1)
         { 
           this.matchStake = v.stake
           this.matchGenerations = v.generations
           this.opponentName = v.opponent
+
+          this.connectionService.getAllPokemonFromGenerations(this.matchGenerations).then((response) => {
+
+            response.forEach((pokemon: any) => {
+              this.names.set(pokemon.nombre, pokemon.numeroPokedex);
+            });
+            
+          }).catch((error) => {
+            console.error("Error al obtener los nombres de los pokemons:", error);
+          });
         }
   
       })
@@ -146,7 +179,7 @@ pokemons: Map<string, any> = new Map;
       if (response.dataComparison.correct) {
         alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
-        this.guessInput = ''; // Vacía el input también en caso de fallo
+        this.guessInput.setValue(''); // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);

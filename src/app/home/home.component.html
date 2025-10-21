@@ -57,6 +57,38 @@
     </div>
   </div>
 </div>
+
+<div class="challenge-info-container challenge-user-form-container" *ngIf="hasActiveMatch">
+  <h2 class="challenge-title">You have an active match!</h2>
+  <!--
+  <div class="challenge-info-content" style="width:100%">
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Opponent:</strong> {{ receivedOpponentName }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Stake:</strong> {{ receivedChallengeStake }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Generations:</strong>
+      <div class="generations-checkboxes received-generations">
+        <ng-container *ngFor="let gen of receivedChallengeGenerations">
+          <label class="checkbox-with-image-label">
+            <div class="checkbox-with-image">
+              <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+              <span style="color:#ffcb05;">{{ gen }}</span>
+            </div>
+          </label>
+        </ng-container>
+      </div>
+    </div> -->
+    <div class="challenge-action-btns">
+      <button class="action-btn small-btn decline-btn" (click)="goToMatch()">Go!</button>
+    </div>
+  </div>
+<!--</div>-->
+
+
+
 <div class="container">
   <div class="header-container">
     <div *ngIf="isLoggedOut; else logOut" class="header">

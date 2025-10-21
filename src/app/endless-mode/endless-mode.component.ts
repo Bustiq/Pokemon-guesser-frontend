@@ -57,6 +57,12 @@ export class EndlessModeComponent {
       map(value => this.filter(value || '')),
     );
 
+    this.connectionService.getEndlessGuesses().then(async (guessData) =>{
+      for (const data of guessData){
+        this.addComparisonToTable(data)
+      }
+    })
+
   }
   filter(value: string): string[] {
     return this.guessService.filter(value, this.names)
@@ -98,6 +104,8 @@ export class EndlessModeComponent {
     }).catch( (error) => {
       console.error("Error al iniciar el modo endless: " + error);
     });
+
+
     
     this.generationsToPlay = []
     this.names = new Map()
@@ -138,19 +146,7 @@ export class EndlessModeComponent {
       
 
       
-      var comparison = response.dataComparison;
-      this.comparisons.set(guessedPokemon.nombre, comparison);
-
-
-      const tempMap = new Map<string, number>();
-      tempMap.set(guessedPokemon.nombre, guessedPokemon);
-
-
-      this.pokemons.forEach((value, key) => {
-        tempMap.set(key, value);
-      });
-
-      this.pokemons = tempMap
+      this.addComparisonToTable(response)
 
       
       console.log(this.pokemons);
@@ -169,6 +165,24 @@ export class EndlessModeComponent {
     } catch(error) {
       console.error("Error al enviar el guess:", error);
     }
+  }
+
+
+  addComparisonToTable(guessData : any){
+     var comparison = guessData.dataComparison;
+     var guessedPokemon = guessData.pokemonData
+      this.comparisons.set(guessedPokemon.nombre, comparison);
+
+
+      const tempMap = new Map<string, number>();
+      tempMap.set(guessedPokemon.nombre, guessedPokemon);
+
+
+      this.pokemons.forEach((value, key) => {
+        tempMap.set(key, value);
+      });
+
+      this.pokemons = tempMap
   }
 
   pokemonWasAttempted(pokemon: any): boolean {

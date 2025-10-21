@@ -3,12 +3,12 @@
 html, body { height: 100%; }
 
 body {
+  background: linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)), url('/background.png');
 
-  background-image:
-  url('/homeBackgroundDark.webp');
   /*position: absolute;*/
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  background-color: 0, 0, 0, 0.6;
 }

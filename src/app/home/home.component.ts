@@ -50,7 +50,8 @@ export class HomeComponent {
   challengeIsARematch = false
   receivedChallengeGenerations : number[] = [];
   receivedChallengeStake : number = 0
-  isWaitingForChallengeResponse = false
+  isWaitingForChallengeResponse : boolean = false;
+  hasActiveMatch: boolean = false;
 
 
   async ngOnInit() {
@@ -123,11 +124,13 @@ export class HomeComponent {
 
       if (v.hasMatch)
       {
+        this.receivedChallengeGenerations = v.generations
+        this.receivedChallengeGenerations.sort()
+        this.receivedChallengeStake = v.stake
+        this.receivedOpponentName = v.opponent
+
         if(v.matchState == 0)
         {
-          this.receivedChallengeGenerations = v.generations
-          this.receivedChallengeStake = v.stake
-          this.receivedOpponentName = v.opponent
           if (v.isChallenger)
           {
             this.isWaitingForChallengeResponse = true
@@ -136,7 +139,9 @@ export class HomeComponent {
           {
             this.hasReceivedChallenge = true
           }
-          this.receivedChallengeGenerations.sort()
+        }
+        else{
+          this.hasActiveMatch = true
         }
         
       }
@@ -203,6 +208,10 @@ answerChallenge(accept : boolean) {
     this.connectionService.currentUserName = "";
     this.setCodigoDeErrorCuenta(0);
     this.wantsToChallengeUser = false;
+    this.hasActiveMatch = false;
+    this.Password.setValue("")
+    this.NombreUsuario.setValue("")
+    this.Mail.setValue("")
   }
 
 goToUserSettings() {
@@ -235,6 +244,13 @@ openChallengeUserForm() {
 
   goToLeaderboard(){
     this.router.navigate(['/leaderboard']);
+  }
+
+  goToMatch(){
+    if (!this.isLoggedIn()){
+      return
+    }
+    this.router.navigate(['/match']);
   }
 
 
