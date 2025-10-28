@@ -13,7 +13,7 @@ export class ConnectionService {
   currentUserName : string;
   currentUserStatus : boolean;
   currentCoins : number = 0;
-  url = 'http://localhost:3000/' ;
+  url = 'http://pokedle-backend-nkiy35-bd237f-186-153-57-93.traefik.me/' ;
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
   endlessModeRouter = 'endlessMode/';
