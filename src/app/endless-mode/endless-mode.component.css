@@ -21,7 +21,7 @@
   text-shadow: 1px 2px 0 #2a75bb;
 }
 
-/* Guess grid styling */
+
 .guess-grid {
   display: grid;
   grid-template-columns: repeat(6, 48px);
