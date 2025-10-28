@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { filter } from 'rxjs';
 import { AccountError, EmptyFieldError, InvalidCharacterInNameError, LongNameError, MissingTokenError } from './Models/accountError';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class ConnectionService {
   dailyChallengeRouter = 'dailyGame/';
   endlessModeRouter = 'endlessMode/';
   matchRouter = "match/";
+  transactionRouter = "transaction/";
 
   private token: string | null = null;
 
@@ -106,6 +107,12 @@ export class ConnectionService {
     this.token = token;
     // Store the token in localStorage
     localStorage.setItem('jwtToken', token);
+  }
+
+
+  async fetchLeaderBoard()
+  {
+    return (await axios.get(this.url + this.transactionRouter + "topPlayers")).data
   }
 
   private getHeaders() {
