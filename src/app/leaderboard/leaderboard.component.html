@@ -1,0 +1,29 @@
+<div class="leaderboard-container">
+  <h2 class="leaderboard-title">Top 50 Players</h2>
+  <div class="leaderboard-scroll">
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Profile</th>
+          <th>Name</th>
+          <th>Coins</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let player of leaderBoard | slice:0:50; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <img [src]="player.urlPfp"  class="leaderboard-pfp" />
+          </td>
+          <td>{{ player.nombre }}</td>
+          <td>
+            <span class="coin-icon">🪙</span>
+            {{ player.coinBalance }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

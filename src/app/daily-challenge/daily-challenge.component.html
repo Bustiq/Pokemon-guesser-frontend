@@ -1,1 +1,126 @@
-<p>daily-challenge works!</p>
+<head>
+  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/v4-shims">
+</head>
+
+
+<div class="daily-challenge-container">
+  <div class="daily-challenge-title">PokéGuesser - Daily Challenge</div>
+ 
+  <!-- Input and submit
+  <input
+  
+    class="pokemon-input"
+    type="text"
+    #searchBarInput
+    placeholder="Enter your guess"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    autocomplete="off"
+    [(ngModel)]="guessInput"
+  /> -->
+
+  <input 
+    #searchBarInput
+    class = "pokemon-input"
+    type="text"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    placeholder="Enter your guess"
+    aria-label="Pokemon"
+    matInput
+    [formControl]="guessInput"
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
+      @for (option of filteredNames | async; track option) {
+        <mat-option [value]="option" style="background-color: #fff; display: flex; align-items: center; justify-content: center; padding-bottom: 0.5em; padding-top: 0.5em">
+          <div style="display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center;">
+            <img class="guessImage" src="{{getImageUrl(option)}}"/>           
+            <span style="font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif; color: #23272f; font-size: 1rem;">{{option[0].toUpperCase() + option.substr(1).toLowerCase()}}</span>
+          </div>
+        </mat-option>
+      }
+    </mat-autocomplete>
+  <button
+    class="submit-btn"
+    (click)="guessPokemon(searchBarInput.value)"
+  >
+    Enviar
+  </button>
+ 
+  <!-- Table of previous guesses with Pokémon info -->
+</div>
+
+<!-- Guess history OUTSIDE the main container for better separation and readability -->
+<div class="guess-history-table-wrapper">
+  <table *ngIf="pokemons && pokemons.size > 0" class="guess-history-table">
+    <thead>
+      <tr>
+        <th>Pokemon</th>
+        <th>Tipo 1</th>
+        <th>Tipo 2</th>
+        <th>Color</th>
+        <th>Peso (kg)</th>
+        <th>Altura (cm)</th>
+        <th>Etapa Evolutiva</th>
+       <!-- <th>Grupo Huevo 1</th>
+        <th>Grupo Huevo 2</th>-->
+        <th>Forma Corporal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pokemon of pokemons | keyvalue : null">
+        <td [class]='getCSSClass("nombre", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="{{getImageUrl(pokemon.value.nombre)}}" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("tipo_1", pokemon.value.nombre)' >
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_1}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("tipo_2", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="Types/{{pokemon.value.tipo_2}}.svg" alt="">
+          </div>
+        </td>
+        <td [class]='getCSSClass("color", pokemon.value.nombre)'>
+          <div class="table-content">
+            {{pokemon.value.color}}
+          </div>
+        </td>
+        <td [class]='getCSSClass("pesoKilos", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.pesoKilos}}
+          </div>
+          
+        </td>
+        <td [class]='getCSSClass("alturaCM", pokemon.value.nombre)'>
+          <div class="table-content">
+            <i class='fas fa-angle-up arrow-up'></i>
+            <i class="fas fa-angle-down arrow-down"></i>
+            {{pokemon.value.alturaCM}}
+          </div>
+          
+        </td>
+        <!--<td [class]='getCSSClass("grupo_huevo_1", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_1}}</td>
+        <td [class]='getCSSClass("grupo_huevo_2", pokemon.value.nombre)'>{{pokemon.value.grupo_huevo_2}}</td>-->
+
+        <td [class]='getCSSClass("etapa_evolutiva", pokemon.value.nombre)'>{{pokemon.value.etapa_evolutiva}}</td>
+
+        <td [class]='getCSSClass("forma_corporal", pokemon.value.nombre)'>
+          <div class="table-content">
+            <img class="guessImage" src="BodyShapes/{{pokemon.value.forma_corporal}}.png" alt="">
+          </div>
+        </td>
+
+
+        
+      </tr>
+    </tbody>
+  </table>
+</div>

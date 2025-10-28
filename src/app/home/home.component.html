@@ -1,18 +1,114 @@
+
+<!-- Invisible challenge info container -->
+<div class="challenge-info-container challenge-user-form-container" *ngIf="hasReceivedChallenge">
+  <h2 class="challenge-title" *ngIf="!challengeIsARematch">Received Challenge</h2>
+  <h2 class="challenge-title" *ngIf="challengeIsARematch"> {{receivedOpponentName}} wants a rematch</h2>
+  <div class="challenge-info-content" style="width:100%">
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong *ngIf="!challengeIsARematch">Challenger:</strong> {{ receivedOpponentName }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Stake:</strong> {{ receivedChallengeStake }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Generations:</strong>
+      <div class="generations-checkboxes received-generations">
+        <ng-container *ngFor="let gen of receivedChallengeGenerations">
+          <label class="checkbox-with-image-label">
+            <div class="checkbox-with-image">
+              <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+              <span style="color:#ffcb05;">{{ gen }}</span>
+            </div>
+          </label>
+        </ng-container>
+      </div>
+    </div>
+    <div class="challenge-action-btns">
+      <button class="action-btn small-btn" (click)="answerChallenge(true)">Accept</button>
+      <button class="action-btn small-btn decline-btn" (click)="answerChallenge(false)">Decline</button>
+    </div>
+  </div>
+</div>
+
+<div class="challenge-info-container challenge-user-form-container" *ngIf="isWaitingForChallengeResponse">
+  <h2 class="challenge-title">Waiting for response...</h2>
+  <div class="challenge-info-content" style="width:100%">
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Opponent:</strong> {{ receivedOpponentName }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Stake:</strong> {{ receivedChallengeStake }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Generations:</strong>
+      <div class="generations-checkboxes received-generations">
+        <ng-container *ngFor="let gen of receivedChallengeGenerations">
+          <label class="checkbox-with-image-label">
+            <div class="checkbox-with-image">
+              <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+              <span style="color:#ffcb05;">{{ gen }}</span>
+            </div>
+          </label>
+        </ng-container>
+      </div>
+    </div>
+    <div class="challenge-action-btns">
+      <button class="action-btn small-btn decline-btn" (click)="answerChallenge(false)">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="challenge-info-container challenge-user-form-container" *ngIf="hasActiveMatch">
+  <h2 class="challenge-title">You have an active match!</h2>
+  <!--
+  <div class="challenge-info-content" style="width:100%">
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Opponent:</strong> {{ receivedOpponentName }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Stake:</strong> {{ receivedChallengeStake }}
+    </div>
+    <div style="margin-bottom: 0.5rem; color: #ffcb05;">
+      <strong>Generations:</strong>
+      <div class="generations-checkboxes received-generations">
+        <ng-container *ngFor="let gen of receivedChallengeGenerations">
+          <label class="checkbox-with-image-label">
+            <div class="checkbox-with-image">
+              <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="Gen {{gen}}">
+              <span style="color:#ffcb05;">{{ gen }}</span>
+            </div>
+          </label>
+        </ng-container>
+      </div>
+    </div> -->
+    <div class="challenge-action-btns">
+      <button class="action-btn small-btn decline-btn" (click)="goToMatch()">Go!</button>
+    </div>
+  </div>
+<!--</div>-->
+
+
+
 <div class="container">
   <div class="header-container">
     <div *ngIf="isLoggedOut; else logOut" class="header">
-      <button class="header-btn" (click)="showLogin()">Login</button>
-      <button class="header-btn" (click)="showRegister()">Register</button>
+      <button class="header-btn margin-btn" (click)="showLogin()">Login</button>
+      <button class="header-btn margin-btn" (click)="showRegister()">Register</button>
     </div>
-    <ng-template #logOut class="">
-      <button class="header-btn" (click)="openUserOptions()">{{getUserName()}}</button>
+    <ng-template #logOut >
+      <div class = "user-info">
+        <p>{{getUserCoins()}}</p>
+        <img class = "coin" src="coin.png" alt="">
+        <button class="header-btn userNameHolder margin-btn" (click)="openUserOptions()">{{getUserName()}}</button>
+
+      </div>
     </ng-template>
   </div>
 
 
 <div class="form-container" *ngIf="isViewingUserOptions">
    <button class="header-btn" (click)="goToUserSettings()">User Settings</button>
-    <button class="header-btn" (click)="goToABM()">ABM (admin only)</button>
+    <button class="header-btn" (click)="goToABM()" *ngIf="getUserStatus()">ABM</button>
     <button class="header-btn" (click)="logout()">Logout</button>
   </div>
 
@@ -22,18 +118,19 @@
 
 
 
-  <h1 class="main-title">Pokedle</h1>
 
- 
+  <h1 class="main-title">Pokedle</h1>
   <div class="main-menu">
-    <button class="header-btn main-menu-btn">Daily Challenge</button>
-    <button class="header-btn main-menu-btn">Challenge User</button>
-    <button class="header-btn main-menu-btn">Options</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="goToDailyChallenge()">Daily Challenge</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()"(click)="goToEndlessMode()">Endless Mode</button>
+    <button class="header-btn main-menu-btn" [class] = "getButtonClass()" (click)="openChallengeUserForm()">Challenge User</button>
+    <button class="header-btn main-menu-btn colored-button" (click)="goToLeaderboard()">Leaderboard</button>
   </div>
 
   <div class="form-container" *ngIf="wantsToRegister">
     <h2>Registro</h2>
-    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label class="successMessage" *ngIf="registered">¡Registro exitoso! Revisa tu mail para verificar tu cuenta</label>
+    <label class="errorMessage" *ngIf="indiceCodigoErrorCuenta">{{accountErrorMessages[indiceCodigoErrorCuenta]}}</label>
     <label>Nombre de usuario</label>
     <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
     <label>Correo electrónico</label>
@@ -46,7 +143,7 @@
 
   <div class="form-container" *ngIf="wantsToLogin">
     <h2>Iniciar Sesión</h2>
-    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label class="errorMessage" *ngIf="indiceCodigoErrorCuenta">{{accountErrorMessages[indiceCodigoErrorCuenta]}}</label>
     <label>Nombre de usuario</label>
     <input [formControl]="NombreUsuario" type="text" placeholder="Usuario">
     <label>Contraseña</label>
@@ -58,12 +155,68 @@
 
   <div class="form-container" *ngIf="forgotPassword">
     <h2>Recuperar Contraseña</h2>
-    <label class="errorMessage" *ngIf="indiceCodigoError">{{errorMessages[indiceCodigoError]}}</label>
+    <label class="successMessage" *ngIf="mailSent">¡Mail enviado! Revisa tu bandeja de entrada</label>
+    <label class="neutralMessage" *ngIf="sendingMail">Enviando mail...</label>
+
+    <label class="errorMessage" *ngIf="indiceCodigoErrorCuenta">{{accountErrorMessages[indiceCodigoErrorCuenta]}}</label>
     <label>Correo electrónico</label>
     <input [formControl]="Mail" type="email" placeholder="ejemplo@mail.com">
     <button class="action-btn" (click)="enviarMailCambiarContrasenia()">Enviar mail</button>
     <button class="link-btn" (click)="cancelarCambioContrasenia()">Cancelar</button>
   </div>
+
+  <!-- Add this just before the main-menu div, outside or above it for left alignment -->
+<div class="challenge-user-form-container form-container" *ngIf="wantsToChallengeUser">
+  <label class="errorMessage" *ngIf="indiceCodigoErrorMatch">{{matchErrorMessages[indiceCodigoErrorMatch]}}</label>
+  <h2 class="challenge-title">Challenge User</h2>
+  <form (ngSubmit)="sendChallenge()">
+    <label>Username</label>
+    <input
+      style = "color : #ffcb05"
+      type="text"
+      [(ngModel)]="challengeUserName"
+      name="challengeUserName"
+      placeholder="Usuario"
+      required
+      class="challenge-input"
+    />
+
+    <label>Generaciones</label>
+    <div class="generations-checkboxes">
+      <label *ngFor="let gen of [1,2,3,4,5,6,7,8,9]" class="checkbox-with-image-label">
+        <div class="checkbox-with-image">
+          <input
+            class = "match-checkbox"
+            type="checkbox"
+            [checked]="challengeGenerations.includes(gen)"
+            #cb
+            (change)="onChallengeGenerationChange(gen, cb.checked)"
+          />
+          <img class="starter-icon" src="Starters/{{ gen }}_grass.png" alt="">
+        </div>
+      </label>
+    </div>
+
+    <label>Bet amount</label>
+    <input
+      style = "color : #ffcb05"
+      type="number"
+      min="0"
+      [(ngModel)]="challengeStake"
+      name="challengeAmount"
+      placeholder="Monto"
+      required
+      class="challenge-input"
+    />
+
+    <div class="center-challenge-btn">
+      <button class="action-btn" type="submit" click="sendChallenge()">
+        Challenge
+      </button>
+    </div>
+    <button class="link-btn" type="button" (click)="cancelChallenge()">Cancel</button>
+  </form>
+</div>
 </div>
 
 

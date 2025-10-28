@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import { filter } from 'rxjs';
-import { LoginError } from './Models/loginError';
-
+import { AccountError, EmptyFieldError, InvalidCharacterInNameError, LongNameError, MissingTokenError } from './Models/accountError';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -11,43 +11,95 @@ import { LoginError } from './Models/loginError';
 export class ConnectionService {
 
   currentUserName : string;
+  currentUserStatus : boolean;
+  currentCoins : number = 0;
   url = 'http://localhost:3000/' ;
   pokemonRouter = 'pokemon/';
+  dailyChallengeRouter = 'dailyGame/';
+  endlessModeRouter = 'endlessMode/';
+  matchRouter = "match/";
+  transactionRouter = "transaction/";
 
   private token: string | null = null;
 
-  constructor() {
+
+
+  constructor(private router: Router) {
     this.currentUserName = "";
+    this.currentUserStatus = false;
+    this.currentCoins = 0;
     const storedToken = localStorage.getItem('jwtToken');
     if (storedToken) {
       this.token = storedToken;
     }
   }
 
-  async loadUserName() {
+  attempts = 100;
 
-    const token = localStorage.getItem("jwtToken");
-    if (!token){
-      return
-    }
+  async loadUserData() {
+   
 
-    //alert("nombre de usuaro:" + this.currentUserName)
-    if (this.currentUserName != "") {
-      this.currentUserName = this.currentUserName;
-      //alert(this.currentUserName)
-      return
-    } 
-    //alert("?????")
-    
-    try{
-      var response = await axios.get(this.url + 'getUserName', this.getHeaders())
-      this.currentUserName = response.data;
-      //alert(this.currentUserName)
-    }
-    catch(error) {
-      //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+    while (this.attempts > 0) {
+      const token = localStorage.getItem("jwtToken");
+      console.log("Token cargado: " + token);
+      if (!token){
+        return
+      }
+
+      this.attempts -= 1;
+      if (this.attempts <= 0) {
+        console.error("No se pudo cargar el usuario después de varios intentos.");
+        return;
+      }
+      
+      try{
+        var response = await axios.get(this.url + 'getUserData', this.getHeaders())
+        // alert("Respuesta del servidor: " + JSON.stringify(response.data))
+        this.currentUserName = response.data.username;
+        this.currentUserStatus = response.data.admin;
+        this.currentCoins = response.data.coins;
+        this.generateWebSocket()
+
+
+        return
+        
+        //alert(this.currentUserName)
+      }
+      catch(error) {
+        return
+        //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+      }
     }
     //this.currentUserName = 
+
+  }
+
+  socket! : WebSocket
+
+  generateWebSocket( ) {
+    this.socket = new WebSocket('ws://localhost:8080');
+    
+    this.socket.addEventListener('open', (event) => {
+      console.log('Conexión WebSocket establecida');
+      if (this.token) {
+        this.socket.send(JSON.stringify({ purpose : "connect", token : this.token}));
+      }
+    });
+
+    this.socket.addEventListener('message', (event) => {
+      console.log('Mensaje del servidor:', event.data);
+      const message = JSON.parse(event.data);
+     // alert("Mensaje del servidor: " + event.data)
+      if (message.purpose === 'matchStart')
+      {
+        this.router.navigate(['/match'])
+        if(this.router.url.includes('/match'))
+        {
+          window.location.reload();
+        }
+      }
+      
+    });
 
   }
 
@@ -55,6 +107,12 @@ export class ConnectionService {
     this.token = token;
     // Store the token in localStorage
     localStorage.setItem('jwtToken', token);
+  }
+
+
+  async fetchLeaderBoard()
+  {
+    return (await axios.get(this.url + this.transactionRouter + "topPlayers")).data
   }
 
   private getHeaders() {
@@ -71,12 +129,12 @@ export class ConnectionService {
   async login(username: String | null, password: String | null) {
 
     if (username == null || password == null || username == "" || password == "" ) {
-      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
+      throw new EmptyFieldError()
     }
 
     try{
             
-      alert("Intentando loguear usuario: ")
+
       const response = await axios.post(this.url + 'login', {
         username: username,
         password: password
@@ -87,10 +145,10 @@ export class ConnectionService {
     }
     catch (error) {
       
-      throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+      throw new AccountError((error as any).response.data.errorCode)
       /*if ((error as any).response.data.errorCode)
       {
-        throw new LoginError((error as any).response.data.error, (error as any).response.data.errorCode)
+        throw new AccountError((error as any).response.data.errorCode)
       }
       throw new Error("Nombre de usuario o contraseña incorrectos");
       */
@@ -101,36 +159,55 @@ export class ConnectionService {
   async signup(username: String | null, password: String | null, email: String | null) {
 
     
-    if (username == null || password == null || username == "" || password == "") {
-      throw new LoginError("Nombre de usuario o contraseña vacios", 3);
+    if (username == null || password == null || email == null || username == "" || password == "" || email == "" ) {
+      throw new EmptyFieldError();
     }
-    console.log("Registrando usuario: " + username + " con email: " + email + " y contraseña: " + password);
 
-    alert("Creando...");
+    if (username.length > 12)
+    {
+      throw new LongNameError()
+    }
+
+
+    const validChars = "1234567890abcdefghijklmnopqrstuvwxyz_-"
+    for (const character of username) {
+        if (!validChars.includes(character))
+        {
+          throw new InvalidCharacterInNameError()
+        }
+    }
+
+    try{
+
     const response = await axios.post(this.url + 'register', {
       username: username,
       password: password,
       mail: email
     });
 
-    alert("Usuario creado");
     return response.data;
+    } catch (error) {
+      if ((error as any).response.data.errorCode) {
+        throw new AccountError((error as any).response.data.errorCode);
+      }
+      throw new AccountError(1);
+    }
   }
 
   
   resetPassword(newPassword: String | null, token: String | null) {
 
     if (newPassword == null || newPassword == "" ) {
-      throw new Error("Contraseña vacia");
+      throw new EmptyFieldError();
     }
     if (token == null || token == "" ) {
-      throw new Error("Token vacio");
+      throw new MissingTokenError();
     }
 
     return axios.patch(this.url + 'reset-password/' + token,  {
       newPassword: newPassword
     }).then(response => {
-        alert("Contraseña cambiada exitosamente");
+        
         return response.data;
       })
       .catch(error => {
@@ -145,7 +222,7 @@ export class ConnectionService {
       filtros: filters
 
     };
-    console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
+    //console.log("Obteniendo pokemons con los siguientes parametros: ", params, " desde la URL: ", this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina));
     try {
       const response = await axios.post(this.url + this.pokemonRouter + 'pagina/' + String(numeroPagina), {
         params: params,
@@ -162,20 +239,22 @@ export class ConnectionService {
   async enviarMailCambiarContrasenia(Email: String | null) {
 
     if (Email == null || Email == "") {
-      throw new Error("Email vacio");
+      throw new EmptyFieldError()
     }
     
-    axios.post(this.url + 'request-password-reset', {
-      mail: Email
-    }).then(response => {
-        alert("Email enviado exitosamente");
-        return response.data;
+    try{
+      const response = await axios.post(this.url + 'request-password-reset', {
+        mail: Email
+      })
+      return response.data;
+    }
+    catch (error) {
+      if ((error as any).response.data.errorCode) {
+        throw new AccountError((error as any).response.data.errorCode);
+      }
 
-    }).catch(error => {
-        alert(":(")
-        console.error("Error al enviar el email: ", this.url + 'request-password-reset', " ", error);
-        throw error;
-    });
+      throw new AccountError(1);
+    }
   }
 
   async agregarPokemon(pokedexNumber : number | null) {
@@ -186,21 +265,18 @@ export class ConnectionService {
     console.log(this.getHeaders())
 
     try {
-      alert("Comenzando comunicacion con el back (si no hay más alerts está mal)")
       response = await axios.post(this.url + this.pokemonRouter + "addPokemon/" +String(pokedexNumber),undefined , this.getHeaders());
-      alert("Backend respondio exitosamente");
+
     } catch (error) {
       
     }
 
-    alert(pokedexNumber + " agregado exitosamente");
   }
 
   async eliminarPokemon(pokedexNumber: number | null) {
   
-    console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
+    //console.log("Eliminando Pokemon con numero de pokedex: " + String(pokedexNumber), " desde la URL: " + this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber));
     const response = await axios.delete(this.url + this.pokemonRouter + "deletePokemon/" + String(pokedexNumber), this.getHeaders());
-    alert("Pokemon eliminado exitosamente");
     return response.data;
   }
 
@@ -212,7 +288,7 @@ export class ConnectionService {
 
     }, this.getHeaders());
 
-    alert("Pokemon modificado exitosamente");
+
     return response.data;
   }
  
@@ -224,4 +300,190 @@ export class ConnectionService {
     return true;
   }
 
+  async sendDailyPokemonGuess(guess : string) : Promise<any>
+  {
+    try{
+      var response = await axios.post(this.url + this.dailyChallengeRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+    
+  }
+
+
+
+  async asignDailyChallenge() {
+    try {
+      const response = await axios.get(this.url + this.dailyChallengeRouter + "asignDailyPokemon", this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al asignar el daily challenge:", error);
+      throw error;
+    }
+  }
+
+
+  async getAllPokemonFromGenerations(generations : number[]){
+    try {
+      console.log("gengen", generations)
+      const response = await axios.post(this.url + this.pokemonRouter + "names", {generations : generations} ,this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los nombres de los pokemons:", error);
+      throw error;
+    }
+  }
+
+
+  async asignEndlessModePokemon(generations : number[]){
+    try {
+      const response = await axios.post(this.url + this.endlessModeRouter + "asignEndlessModePokemon", {generations}, this.getHeaders());
+      return response.data;
+    } catch (error) {
+      console.error("Error al asignar el endless mode pokemon:", error);
+      throw error;
+    }
+
+  }
+
+
+
+  async sendEndlessPokemonGuess(guess : string) : Promise<any>
+  {
+
+    try{
+      var response = await axios.post(this.url + this.endlessModeRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+
+
+    
+  }
+
+
+
+  async sendChallenge(opponentName : string, generations : number[], stake : number, isARematch : boolean)
+  {
+
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "challenge",
+      stake : stake,
+      opponentName : opponentName,
+      generations : generations,
+      token : this.token,
+      isARematch : isARematch
+    }))
+  }
+
+  async sendMatchPokemonGuessWebSocket(guess : string)
+  {
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "guess",
+      guess : guess,
+      token : this.token,
+    }))
+  }
+
+  async answerChallenge(accept : boolean)
+  {
+    if (!this.socket)
+    {
+      this.generateWebSocket()
+    }
+
+    this.socket.send(JSON.stringify({
+      purpose : "answerChallenge",
+      token : this.token,
+      accepted : accept
+    }))
+  }
+
+
+  async sendMatchPokemonGuess(guess : string) : Promise<any>
+  {
+
+    try{
+      var response = await axios.post(this.url + this.matchRouter + "compareGuess", {
+        guess: guess
+      }, this.getHeaders());
+
+      return response.data.response;
+    }
+    catch (error) {
+      console.error("Error al enviar el guess:", error);
+      throw error;
+    }
+  }
+
+  async checkCurrentMatch(){
+    try{
+      var response = await axios.get(this.url + this.matchRouter + "currentMatch", this.getHeaders());
+      return response.data.response;
+    }
+      catch (error) {
+      console.error("Error al verificar currentMatch:", error);
+      throw error;
+    }
+    
+  }
+
+
+  async verify(verificationToken : string | null){
+    try{
+      var response = await axios.get(this.url + "verify/" + verificationToken);
+      return response.data.response;
+    }
+      catch (error) {
+      console.error("Error al verificar usuario:", error);
+      throw error;
+    }
+
+  }
+
+
+
+  async getDailyGuesses(){
+    try{
+      var response = await axios.get(this.url + this.dailyChallengeRouter + "getDailyGuesses", this.getHeaders());
+      return response.data.guesses;
+    }
+      catch (error) {
+      console.error("Error al obtener intentos diarios:", error);
+      throw error;
+    }
+  }
+
+    async getEndlessGuesses(){
+    try{
+      var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
+      return response.data.guesses;
+    }
+      catch (error) {
+      console.error("Error al obtener intentos infinitos:", error);
+      throw error;
+    }
+  }
 }

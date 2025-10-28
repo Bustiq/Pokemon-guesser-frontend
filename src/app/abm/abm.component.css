@@ -10,6 +10,33 @@
   padding: 24px;
 }
 
+.tipo-text {
+  margin-top: 3px;
+}
+
+.tipo-select {
+  
+  padding: 4px;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.tipo-selectors {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.modify-buttons-container {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+
 .abm-left {
   grid-row: 1 / 2;
   grid-column: 1 / 2;
