@@ -85,7 +85,7 @@ export class AbmComponent {
   {
     await this.connectionService.agregarPokemon(this.idPokemon.value).then(() => {
     }).catch(e => {
-      alert("Error al agregar el pokemon: " + e.message);
+      ("Error al agregar el pokemon: " + e.message);
     });
     this.goToPage(this.currentPage)
   }
@@ -94,7 +94,7 @@ export class AbmComponent {
   {
     await this.connectionService.eliminarPokemon(idPokemon).then(() => {
     }).catch(e => {
-      alert("Error al eliminar el pokemon: " + e.message);
+      ("Error al eliminar el pokemon: " + e.message);
     });
     this.goToPage(this.currentPage)
   }

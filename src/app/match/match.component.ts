@@ -100,7 +100,7 @@ export class MatchComponent {
     {
       
       this.connectionService.checkCurrentMatch().then(v => {
-        alert(JSON.stringify(v))
+        (JSON.stringify(v))
         if (v.hasMatch && v.matchState == 1)
         { 
           this.matchStake = v.stake
@@ -177,19 +177,19 @@ export class MatchComponent {
      
       
       if (response.dataComparison.correct) {
-        alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
+        ("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
         this.guessInput.setValue(''); // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);
         for (let [key, value] of entries) {
-         // alert(`${key}: ${value}`);
+         // (`${key}: ${value}`);
         }*/
       }
     } catch(error) {
       console.error("Error al enviar el guess:", error);
-      alert(error);
+      (error);
     }
   }
 
@@ -200,7 +200,7 @@ export class MatchComponent {
   
   getCSSClass(field : string, pokemonName : string): string {
     
-    //alert(field  + ": " + this.comparisons.get(pokemonName)[field])
+    //(field  + ": " + this.comparisons.get(pokemonName)[field])
 
     return this.comparisons.get(pokemonName)[field];
   }

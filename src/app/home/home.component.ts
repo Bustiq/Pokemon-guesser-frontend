@@ -405,7 +405,7 @@ login(){
     
     if (this.indiceCodigoErrorCuenta < 0 || this.indiceCodigoErrorCuenta >= this.accountErrorMessages.length) {
       this.mensajeErrorCuenta = "Error super desconocido";
-      alert(this.mensajeErrorCuenta)
+      (this.mensajeErrorCuenta)
       return
     }
     this.mensajeErrorCuenta = this.accountErrorMessages[this.indiceCodigoErrorCuenta];
@@ -433,7 +433,7 @@ login(){
     
     if (this.indiceCodigoErrorMatch < 0 || this.indiceCodigoErrorMatch >= this.matchErrorMessages.length) {
       this.mensajeErrorCuenta = "Error super desconocido";
-      alert(this.mensajeErrorCuenta)
+      (this.mensajeErrorCuenta)
       return
     }
     this.mensajeErrorMatch = this.matchErrorMessages[this.indiceCodigoErrorMatch];

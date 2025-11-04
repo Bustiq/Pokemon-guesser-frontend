@@ -152,14 +152,14 @@ export class EndlessModeComponent {
       console.log(this.pokemons);
       
       if (response.dataComparison.correct) {
-        alert("¡Felicidades! Has adivinado el Pokémon correctamente.");
+        ("¡Felicidades! Has adivinado el Pokémon correctamente.");
       } else {
         this.guessInput.setValue('');  // Vacía el input también en caso de fallo
         /*
         var comparison = response.dataComparison;
         var entries = Object.entries(comparison);
         for (let [key, value] of entries) {
-         // alert(`${key}: ${value}`);
+         // (`${key}: ${value}`);
         }*/
       }
     } catch(error) {
@@ -192,7 +192,7 @@ export class EndlessModeComponent {
   
   getCSSClass(field : string, pokemonName : string): string {
     
-    //alert(field  + ": " + this.comparisons.get(pokemonName)[field])
+    //(field  + ": " + this.comparisons.get(pokemonName)[field])
 
     return this.comparisons.get(pokemonName)[field];
   }

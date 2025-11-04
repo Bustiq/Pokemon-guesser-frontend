@@ -54,7 +54,7 @@ export class ConnectionService {
       
       try{
         var response = await axios.get(this.url + 'getUserData', this.getHeaders())
-        // alert("Respuesta del servidor: " + JSON.stringify(response.data))
+        // ("Respuesta del servidor: " + JSON.stringify(response.data))
         this.currentUserName = response.data.username;
         this.currentUserStatus = response.data.admin;
         this.currentCoins = response.data.coins;
@@ -63,11 +63,11 @@ export class ConnectionService {
 
         return
         
-        //alert(this.currentUserName)
+        //(this.currentUserName)
       }
       catch(error) {
         return
-        //alert("errorrrrrrrrr: #" + JSON.stringify(error))
+        //("errorrrrrrrrr: #" + JSON.stringify(error))
       }
     }
     //this.currentUserName = 
@@ -89,7 +89,7 @@ export class ConnectionService {
     this.socket.addEventListener('message', (event) => {
       console.log('Mensaje del servidor:', event.data);
       const message = JSON.parse(event.data);
-     // alert("Mensaje del servidor: " + event.data)
+     // ("Mensaje del servidor: " + event.data)
       if (message.purpose === 'matchStart')
       {
         this.router.navigate(['/match'])
