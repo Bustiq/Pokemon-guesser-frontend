@@ -78,7 +78,7 @@ export class ConnectionService {
 
   generateWebSocket( ) {
     this.socket = new WebSocket('wss://pokedle-api.policloudservices.ipm.edu.ar:8080');
-    
+    console.log(this.socket)
     this.socket.addEventListener('open', (event) => {
       console.log('Conexión WebSocket establecida');
       if (this.token) {
@@ -134,12 +134,8 @@ export class ConnectionService {
 
     try{
 
-      console.log("logfgfin:", JSON.stringify({
-        username: username,
-        password: password
-      }))
-            
-
+     
+          
       const response = await axios.post(this.url + 'login', {
         username: username,
         password: password
