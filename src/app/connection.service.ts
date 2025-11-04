@@ -134,7 +134,7 @@ export class ConnectionService {
 
     try{
 
-      console.log("loggin:", JSON.stringify({
+      console.log("loggfin:", JSON.stringify({
         username: username,
         password: password
       }))
