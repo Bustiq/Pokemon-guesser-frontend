@@ -133,6 +133,11 @@ export class ConnectionService {
     }
 
     try{
+
+      console.log("login:", JSON.stringify({
+        username: username,
+        password: password
+      }))
             
 
       const response = await axios.post(this.url + 'login', {
