@@ -77,7 +77,7 @@ export class ConnectionService {
   socket! : WebSocket
 
   generateWebSocket( ) {
-    this.socket = new WebSocket('ws://pokedle-ws.policloudservices.ipm.edu.ar');
+    this.socket = new WebSocket('wss://pokedle-ws.policloudservices.ipm.edu.ar');
     console.log(this.socket)
     this.socket.addEventListener('open', (event) => {
       console.log('Conexión WebSocket establecida');
