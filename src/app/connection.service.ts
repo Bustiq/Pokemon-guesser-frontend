@@ -77,7 +77,7 @@ export class ConnectionService {
   socket! : WebSocket
 
   generateWebSocket( ) {
-    this.socket = new WebSocket('ws://localhost:8080');
+    this.socket = new WebSocket('ws://pokedle-backend-nkiy35-bd237f-186-153-57-93.traefik.me:8080');
     
     this.socket.addEventListener('open', (event) => {
       console.log('Conexión WebSocket establecida');
