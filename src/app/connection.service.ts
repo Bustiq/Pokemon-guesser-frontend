@@ -13,7 +13,7 @@ export class ConnectionService {
   currentUserName : string;
   currentUserStatus : boolean;
   currentCoins : number = 0;
-  url = 'http://pokedle-backend-nkiy35-bd237f-186-153-57-93.traefik.me/' ;
+  url = 'https://pokedle-api.policloudservices.ipm.edu.ar/' ;
   pokemonRouter = 'pokemon/';
   dailyChallengeRouter = 'dailyGame/';
   endlessModeRouter = 'endlessMode/';
@@ -77,7 +77,7 @@ export class ConnectionService {
   socket! : WebSocket
 
   generateWebSocket( ) {
-    this.socket = new WebSocket('ws://pokedle-backend-nkiy35-bd237f-186-153-57-93.traefik.me:8080');
+    this.socket = new WebSocket('ws://pokedle-api.policloudservices.ipm.edu.ar:8080');
     
     this.socket.addEventListener('open', (event) => {
       console.log('Conexión WebSocket establecida');
