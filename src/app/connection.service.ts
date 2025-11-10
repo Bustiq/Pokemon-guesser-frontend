@@ -481,9 +481,11 @@ export class ConnectionService {
 
     async getEndlessGuesses(){
     try{
-      var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
       console.log("HHHHHHHH")
+      var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
+      console.log("IIIIIIIIIIIIIIIIIII")
       console.log(JSON.stringify(response.data))
+      console.log("JJJJJJJJJJJJJJJ")
       return response.data.generations;
     }
       catch (error) {
