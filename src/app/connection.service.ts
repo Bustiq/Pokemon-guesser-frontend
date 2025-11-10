@@ -482,11 +482,22 @@ export class ConnectionService {
     async getEndlessGuesses(){
     try{
       var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
-      return response.data.guesses;
+      return response.data.generations;
     }
       catch (error) {
       console.error("Error al obtener intentos infinitos:", error);
       throw error;
     }
+  }
+
+  async getEndlessGenerations(){
+       try{
+      var response = await axios.get(this.url + this.endlessModeRouter + "getGenerations", this.getHeaders());
+      return response.data.guesses;
+    }
+      catch (error) {
+      console.error("Error al obtener intentos infinitos:", error);
+      throw error;
+    }  
   }
 }

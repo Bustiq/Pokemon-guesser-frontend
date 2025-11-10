@@ -57,6 +57,13 @@ export class EndlessModeComponent {
       map(value => this.filter(value || '')),
     );
 
+    this.connectionService.getEndlessGenerations().then( (gens) => {
+      if (gens.length === 0){
+        return
+      }
+      this.loadGame(gens);
+    })
+
     this.connectionService.getEndlessGuesses().then(async (guessData) =>{
       for (const data of guessData){
         this.addComparisonToTable(data)
@@ -107,9 +114,13 @@ export class EndlessModeComponent {
 
 
     
+    this.loadGame(this.generations);
+  }
+
+  async loadGame(gens: number[]){
     this.generationsToPlay = []
     this.names = new Map()
-    for (const gen of this.generations)
+    for (const gen of gens)
     {
       this.generationsToPlay.push(gen)
     }
