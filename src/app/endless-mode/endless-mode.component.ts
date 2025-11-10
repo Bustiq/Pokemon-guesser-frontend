@@ -199,6 +199,7 @@ export class EndlessModeComponent {
 
   getImageUrl(pokemonName : string){
     pokemonName = pokemonName.toLocaleLowerCase()
+
     return this.guessService.getImageUrl(this.names.get(pokemonName))
   }
 

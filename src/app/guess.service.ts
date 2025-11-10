@@ -8,6 +8,7 @@ export class GuessService {
   constructor() { }
 
   getImageUrl(pokedexNumber : number | undefined){
+    console.log("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNumber + ".png")
     return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNumber + ".png"
   }
 
