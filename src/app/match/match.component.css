@@ -376,7 +376,7 @@
 .lower .arrow-down{
   display: inline-block;
 }
-.match-popup-btns button {
+.action-btn{
   background: #ffcb05;
 
   color: #2a75bb;
@@ -394,7 +394,7 @@
   letter-spacing: 1px;
 }
 
-.match-popup-btns button:hover {
+.action-btn:hover {
   background: #2a75bb;
   color: #ffcb05;
 }
