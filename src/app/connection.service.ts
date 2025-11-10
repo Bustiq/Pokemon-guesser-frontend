@@ -484,7 +484,7 @@ export class ConnectionService {
       
       var response = await axios.get(this.url + this.endlessModeRouter + "getEndlessGuesses", this.getHeaders());
 
-      return response.data.generations;
+      return response.data.guesses;
     }
       catch (error) {
       console.error("Error al obtener intentos infinitos:", error);
@@ -501,7 +501,7 @@ export class ConnectionService {
       console.log("JJJJJJJJJJJJJJJ")
       
       
-      return response.data.guesses;
+      return response.data.generations;
     }
       catch (error) {
       console.error("Error al obtener intentos infinitos:", error);
