@@ -383,7 +383,7 @@
   border: 4px solid #2a75bb;
   box-shadow: 0 4px #2a75bb;
   padding: 0.5rem 1.2rem;
-  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace !important;
   border-radius: 0;
   font-size: 0.85rem; 
   font-family: inherit;
