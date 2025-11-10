@@ -298,7 +298,7 @@ input:focus {
 }
 
 .main-menu-btn {
-  width: 0.33em;
+  width: 33%;
   font-size: 1rem;
   margin: 0;
   box-shadow: 0 4px #2a75bb;
