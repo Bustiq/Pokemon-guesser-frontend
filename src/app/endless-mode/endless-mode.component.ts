@@ -61,12 +61,16 @@ export class EndlessModeComponent {
 
     
       if (!gens){
+        console.log(":((((")
         return
       }
+
       this.loadGame(gens);
 
       this.connectionService.getEndlessGuesses().then(async (guessData) =>{
+        console.log("zinga")
         for (const data of guessData){
+          console.log(data)
           this.addComparisonToTable(data)
         }
       })
