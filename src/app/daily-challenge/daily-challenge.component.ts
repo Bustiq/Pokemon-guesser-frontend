@@ -118,10 +118,13 @@ export class DailyChallengeComponent {
   }
 
   addComparisonToTable(guessData : any){
+
+
+
      var comparison = guessData.dataComparison;
      var guessedPokemon = guessData.pokemonData
-      this.comparisons.set(guessedPokemon.nombre, comparison);
-
+    this.comparisons.set(guessedPokemon.nombre, comparison);
+    this.names.delete(guessedPokemon.nombre);
 
       const tempMap = new Map<string, number>();
       tempMap.set(guessedPokemon.nombre, guessedPokemon);
