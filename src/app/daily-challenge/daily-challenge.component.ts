@@ -85,6 +85,10 @@ export class DailyChallengeComponent {
     return this.guessService.filter(value, this.names)
   }
 
+  goHome(){
+    this.router.navigate(['/'])
+  }
+
   async guessPokemon(guess: string) {
     if (!this.names.has(guess.toLowerCase())) {
       return;

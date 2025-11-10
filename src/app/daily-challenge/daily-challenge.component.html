@@ -137,6 +137,6 @@
     <h3>¡Felicidades!</h3>
     <img [src]="correctPokemonImgUrl" [alt]="correctPokemonName" class="congrats-pokemon-img">
     <p>¡Has adivinado correctamente a <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
-    <button class="go-home-btn" (click)="router.navigate(['/home'])">Ir al inicio</button>
+    <button class="go-home-btn" (click)="goHome()">Ir al inicio</button>
   </div>
 </div>
