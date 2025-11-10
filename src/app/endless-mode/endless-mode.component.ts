@@ -58,17 +58,21 @@ export class EndlessModeComponent {
     );
 
     this.connectionService.getEndlessGenerations().then( (gens) => {
+
+      
       if (gens.length === 0){
         return
       }
       this.loadGame(gens);
+
+      this.connectionService.getEndlessGuesses().then(async (guessData) =>{
+        for (const data of guessData){
+          this.addComparisonToTable(data)
+        }
+      })
     })
 
-    this.connectionService.getEndlessGuesses().then(async (guessData) =>{
-      for (const data of guessData){
-        this.addComparisonToTable(data)
-      }
-    })
+
 
   }
   filter(value: string): string[] {
