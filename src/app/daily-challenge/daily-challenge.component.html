@@ -130,3 +130,13 @@
   <img [src]="correctPokemonImgUrl" [alt]="correctPokemonName" class="congrats-pokemon-img">
   <p>¡Has adivinado correctamente a <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
 </div>
+
+<div *ngIf="showCongrats" class="congrats-popup-overlay">
+  <div class="congrats-popup">
+    <button class="close-btn" (click)="showCongrats = false">&times;</button>
+    <h3>¡Felicidades!</h3>
+    <img [src]="correctPokemonImgUrl" [alt]="correctPokemonName" class="congrats-pokemon-img">
+    <p>¡Has adivinado correctamente a <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
+    <button class="go-home-btn" (click)="router.navigate(['/home'])">Ir al inicio</button>
+  </div>
+</div>
