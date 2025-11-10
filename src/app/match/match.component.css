@@ -402,3 +402,8 @@
   color: #ffcb05;
 }
 
+.challenge-action-btns{
+  display: flex;
+  justify-content: space-between;
+}
+
