@@ -404,6 +404,7 @@
 
 .challenge-action-btns{
   display: flex;
-  justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: .5rem;
 }
 
