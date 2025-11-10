@@ -377,24 +377,25 @@
   display: inline-block;
 }
 .match-popup-btns button {
-  background: #2a75bb;
-  color: #ffcb05;
-  border: none;
-  border-radius: 12px;
-  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 0.9rem 2.2rem;
+  background: #ffcb05;
+
+  color: #2a75bb;
+  border: 4px solid #2a75bb;
+  box-shadow: 0 4px #2a75bb;
+  padding: 0.5rem 1.2rem;
+
+  border-radius: 0;
+  font-size: 0.85rem; 
+  font-family: inherit;
   cursor: pointer;
-  box-shadow: 0 4px #ffcb05;
+
   transition: background 0.2s, color 0.2s;
-  margin: 0.5rem 0;
-  width: 100%;
-  max-width: 220px;
-  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .match-popup-btns button:hover {
-  background: #ffcb05;
-  color: #2a75bb;
+  background: #2a75bb;
+  color: #ffcb05;
 }
+
