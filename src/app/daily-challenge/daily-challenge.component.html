@@ -124,3 +124,9 @@
     </tbody>
   </table>
 </div>
+
+<div *ngIf="showCongrats" class="congrats-box">
+  <h3>¡Felicidades!</h3>
+  <img [src]="correctPokemonImgUrl" [alt]="correctPokemonName" class="congrats-pokemon-img">
+  <p>¡Has adivinado correctamente a <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
+</div>

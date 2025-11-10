@@ -169,6 +169,8 @@ export class ConnectionService {
       throw new LongNameError()
     }
 
+    username = username.toLowerCase();
+
 
     const validChars = "1234567890abcdefghijklmnopqrstuvwxyz_-"
     for (const character of username) {

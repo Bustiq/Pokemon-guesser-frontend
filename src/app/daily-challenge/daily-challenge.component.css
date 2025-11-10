@@ -251,3 +251,28 @@
 .lower .arrow-down{
   display: inline-block;
 }
+
+.congrats-box {
+  background: #fffbe6;
+  border: 3px solid #ffcb05;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(42,117,187,0.12);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  margin: 2rem auto;
+  max-width: 340px;
+  color: #23272f;
+  font-family: 'Press Start 2P', 'VT323', 'Courier New', Courier, monospace;
+}
+
+.congrats-box h3 {
+  color: #2a75bb;
+  margin-bottom: 1rem;
+}
+
+.congrats-pokemon-img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}

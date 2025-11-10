@@ -32,6 +32,11 @@ export class DailyChallengeComponent {
   guessInput = new FormControl('');
   pokemons: Map<string, any> = new Map;
   comparisons: Map<string, any> = new Map;
+  showCongrats: boolean = false;
+  correctPokemonImgUrl: string = '';
+  correctPokemonName: string = '';
+
+
 
 
 
@@ -81,46 +86,29 @@ export class DailyChallengeComponent {
   }
 
   async guessPokemon(guess: string) {
-     
-    if (!this.names.has(guess.toLowerCase()))
-    {
-      
-      return
+    if (!this.names.has(guess.toLowerCase())) {
+      return;
     }
-    
-    try{
 
-      const response = await this.connectionService.sendDailyPokemonGuess(guess)
-  
-      
-      
-      var guessedPokemon = response.pokemonData
-      
-      
-      
-      if(this.pokemonWasAttempted(guessedPokemon)) {
+    try {
+      const response = await this.connectionService.sendDailyPokemonGuess(guess);
+      var guessedPokemon = response.pokemonData;
 
-        return
+      if (this.pokemonWasAttempted(guessedPokemon)) {
+        return;
       }
-    
 
-      this.addComparisonToTable(response)
-    
-      console.log(this.pokemons);
+      this.addComparisonToTable(response);
 
-      
       if (response.dataComparison.correct) {
-        ("¡Felicidades! Has adivinado el Pokémon correctamente.");
+        // Show congratulation box
+        this.showCongrats = true;
+        this.correctPokemonImgUrl = this.getImageUrl(guessedPokemon.nombre);
+        this.correctPokemonName = guessedPokemon.nombre;
       } else {
-        this.guessInput.setValue(''); // Vacía el input también en caso de fallo
-        /*
-        var comparison = response.dataComparison;
-        var entries = Object.entries(comparison);
-        for (let [key, value] of entries) {
-        // (`${key}: ${value}`);
-        }*/
+        this.guessInput.setValue('');
       }
-    } catch(error) {
+    } catch (error) {
       console.error("Error al enviar el guess:", error);
     }
   }
