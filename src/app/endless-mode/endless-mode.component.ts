@@ -59,8 +59,8 @@ export class EndlessModeComponent {
 
     this.connectionService.getEndlessGenerations().then( (gens) => {
 
-      
-      if (gens.length === 0){
+    
+      if (!gens){
         return
       }
       this.loadGame(gens);
