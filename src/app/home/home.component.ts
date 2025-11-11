@@ -322,6 +322,7 @@ login(){
     }).catch(e => {
       if (e instanceof AccountError) {
         this.setCodigoDeErrorCuenta(e.codigo);
+        this.Password.setValue("")
       } else {
         this.setCodigoDeErrorCuenta(1);
       }})
@@ -342,16 +343,21 @@ login(){
 
 
   registrar(){
+    
     const body = {
       "nombre" : this.NombreUsuario.value,
       "password" : this.Password.value,
       "email" : this.Mail.value
     }
+    
 
     this.connectionService.signup(body.nombre, body.password, body.email).then(v => {
       this.setCodigoDeErrorCuenta(0);
       this.registered = true;
 
+      this.Password.setValue("")
+      this.NombreUsuario.setValue("")
+      this.Mail.setValue("")
 
     }).catch(e => {
       if (e instanceof AccountError) {
