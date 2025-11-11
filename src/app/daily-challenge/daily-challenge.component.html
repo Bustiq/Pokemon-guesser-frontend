@@ -9,19 +9,30 @@
 
 <div class="daily-challenge-container">
   <div class="daily-challenge-title">PokéGuesser - Daily Challenge</div>
+ 
+  <!-- Input and submit
+  <input
+  
+    class="pokemon-input"
+    type="text"
+    #searchBarInput
+    placeholder="Enter your guess"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    autocomplete="off"
+    [(ngModel)]="guessInput"
+  /> -->
 
-  <div class="input-arrow-wrapper">
-    <input 
-      #searchBarInput
-      class="pokemon-input"
-      type="text"
-      (keyup.enter)="guessPokemon(guessInput.value ?? '')"
-      placeholder="Enter your guess"
-      aria-label="Pokemon"
-      matInput
-      [formControl]="guessInput"
-      [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
+  <input 
+    #searchBarInput
+    class = "pokemon-input"
+    type="text"
+    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+    placeholder="Enter your guess"
+    aria-label="Pokemon"
+    matInput
+    [formControl]="guessInput"
+    [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
       @for (option of filteredNames | async; track option) {
         <mat-option [value]="option" style="background-color: #fff; display: flex; align-items: center; justify-content: center; padding-bottom: 0.5em; padding-top: 0.5em">
           <div style="display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center;">
@@ -31,14 +42,8 @@
         </mat-option>
       }
     </mat-autocomplete>
-    <button
-      class="arrow-btn"
-      (click)="guessPokemon(searchBarInput.value)"
-      aria-label="Submit guess"
-    >
-      <i class="fas fa-arrow-right"></i>
-    </button>
-  </div>
+ 
+ 
 </div>
 
 <!-- Guess history OUTSIDE the main container for better separation and readability -->
