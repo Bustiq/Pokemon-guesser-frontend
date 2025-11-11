@@ -93,7 +93,7 @@ export class DailyChallengeComponent {
     if (!this.names.has(guess.toLowerCase())) {
       return;
     }
-
+//
     try {
       const response = await this.connectionService.sendDailyPokemonGuess(guess);
       var guessedPokemon = response.pokemonData;
