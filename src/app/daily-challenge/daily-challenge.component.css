@@ -356,7 +356,9 @@
   width: 100%;
   max-width: 420px;
   margin: 0 auto 1.5rem auto;
-  position: relative;
+  justify-content: center; /* Center horizontally */
+  /* Optionally add left margin to move a bit to the right */
+  margin-left: 8vw;
 }
 
 .pokemon-input {
