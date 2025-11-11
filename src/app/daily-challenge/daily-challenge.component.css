@@ -2,8 +2,7 @@
 .daily-challenge-container {
   display: flex;
   flex-direction: column;
- 
-  justify-content: center;
+  align-items: center;
   background: #23272f;
   border-radius: 18px;
   padding: 2rem 1.5rem;
@@ -347,32 +346,4 @@
 .go-home-btn:hover {
   background: #2a75bb;
   color: #ffcb05;
-}
-
-/* Add or update in daily-challenge.component.css */
-.input-arrow-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  max-width: 420px;
-  position: relative;
-}
-
-.pokemon-input {
-  flex: 1;
-  font-size: 1.1rem;
-  padding: 0.7rem 1rem; 
-  border-radius: 10px;
-  border: 2px solid #2a75bb;
-  background: #fff;
-  color: #23272f;
-  font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
-  height: 44px;
-  box-sizing: border-box;
-}
-
-/* Remove the arrow button styles */
-.arrow-btn {
-  display: none;
 }

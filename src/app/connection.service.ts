@@ -199,7 +199,7 @@ export class ConnectionService {
 
   
   resetPassword(newPassword: String | null, token: String | null) {
-    console.log(";)")
+
     if (newPassword == null || newPassword == "" ) {
       throw new EmptyFieldError();
     }
@@ -207,11 +207,10 @@ export class ConnectionService {
       throw new MissingTokenError();
     }
 
-    console.log(":O")
     return axios.patch(this.url + 'reset-password/' + token,  {
       newPassword: newPassword
     }).then(response => {
-      console.log("ZINGAAAA")
+
       return response.data;
     }).catch(error => {
       console.error("Error al cambiar la contraseña:", error);
