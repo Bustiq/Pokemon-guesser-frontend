@@ -211,13 +211,12 @@ export class ConnectionService {
     return axios.patch(this.url + 'reset-password/' + token,  {
       newPassword: newPassword
     }).then(response => {
-        console.log("ZINGAAAA")
-        return response.data;
-      })
-      .catch(error => {
-        console.error("Error al cambiar la contraseña:", error);
-        throw error;
-      });
+      console.log("ZINGAAAA")
+      return response.data;
+    }).catch(error => {
+      console.error("Error al cambiar la contraseña:", error);
+      throw error;
+    });
   }
 
   async getPokemons(searchTerm: string = "", numeroPagina: number = 1, filters: any = {}) {

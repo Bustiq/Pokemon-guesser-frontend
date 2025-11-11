@@ -263,9 +263,14 @@ openChallengeUserForm() {
     this.wantsToRegister = true;
     this.wantsToLogin = false;
     this.forgotPassword = false;
-  }
+    this.NombreUsuario.setValue("");
+    this.Password.setValue("");
+    this.Mail.setValue("");
+    }
   showLogin() {
     this.setCodigoDeErrorCuenta(0);
+    this.NombreUsuario.setValue("");
+    this.Password.setValue("");
     this.wantsToLogin = true;
     this.wantsToRegister = false;
     this.forgotPassword = false;
@@ -281,6 +286,7 @@ openChallengeUserForm() {
     this.forgotPassword = true;
     this.wantsToRegister = false;
     this.wantsToLogin = false;
+    this.Mail.setValue("");
   }
 
 

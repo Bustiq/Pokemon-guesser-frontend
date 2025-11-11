@@ -1,59 +1,99 @@
-# Guesser
+# PokéGuesser (Pokedle)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.13.
+PokéGuesser is a fun, competitive Pokémon guessing game inspired by Wordle, built with Angular. Challenge yourself or your friends to guess Pokémon based on clues, play daily or endless modes, and climb the leaderboard!
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Daily Challenge:** Guess the Pokémon of the day and compare your results with others.
+- **Endless Mode:** Keep guessing Pokémon for as long as you can!
+- **Challenge User:** Challenge other players, set stakes, and select generations.
+- **Leaderboard:** See the top 50 players and their coin balances.
+- **Account System:** Register, login, and manage your profile.
+- **Real-Time Matches:** Play head-to-head matches with other users.
+- **Responsive Design:** Optimized for desktop and mobile screens.
 
-```bash
-ng serve
+## Screenshots
+
+![Home Screen](screenshots/home.png)
+![Daily Challenge](screenshots/daily-challenge.png)
+![Leaderboard](screenshots/leaderboard.png)
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [Angular CLI](https://angular.io/cli)
+- A running backend server with WebSocket support
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/pokeguesser-frontend.git
+   cd pokeguesser-frontend
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Configure backend endpoints:**
+   - Update WebSocket and API URLs in `src/app/connection.service.ts` to match your backend deployment.
+
+4. **Run the development server:**
+   ```bash
+   ng serve
+   ```
+   The app will be available at `http://localhost:4200`.
+
+## Usage
+
+- **Register/Login:** Create an account or log in to start playing.
+- **Daily Challenge:** Try to guess the daily Pokémon.
+- **Endless Mode:** Play unlimited guessing rounds.
+- **Challenge User:** Enter a username, select generations, and set a bet to challenge another player.
+- **Leaderboard:** View the top players and your ranking.
+
+## Technologies Used
+
+- Angular
+- TypeScript
+- RxJS
+- Angular Material (for UI components)
+- WebSockets (for real-time matches)
+- Custom CSS for Pokémon-inspired styling
+
+## Project Structure
+
+```
+src/
+  app/
+    home/                # Home and main menu
+    daily-challenge/     # Daily challenge logic
+    endless-mode/        # Endless mode logic
+    leaderboard/         # Leaderboard display
+    match/               # Match gameplay
+    connection.service.ts# API/WebSocket service
+    ...
+  assets/                # Images, icons, etc.
+  styles.css             # Global styles
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Contributing
 
-## Code scaffolding
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## License
 
-```bash
-ng generate component component-name
-```
+This project is licensed under the MIT License.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Credits
 
-```bash
-ng generate --help
-```
+- Pokémon images and data © Nintendo, Game Freak, The Pokémon Company.
+- Inspired by [Wordle](https://www.nytimes.com/games/wordle/index.html).
 
-## Building
+---
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Enjoy playing PokéGuesser and challenge your friends to see who’s the ultimate Pokémon master!
