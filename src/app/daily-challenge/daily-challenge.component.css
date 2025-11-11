@@ -348,7 +348,7 @@
   color: #ffcb05;
 }
 
-/* Add to daily-challenge.component.css */
+/* Add or update in daily-challenge.component.css */
 .input-arrow-wrapper {
   display: flex;
   align-items: center;
@@ -356,6 +356,7 @@
   width: 100%;
   max-width: 420px;
   margin: 0 auto 1.5rem auto;
+  position: relative;
 }
 
 .pokemon-input {
@@ -367,6 +368,8 @@
   background: #fff;
   color: #23272f;
   font-family: 'Press Start 2P', 'Montserrat', Arial, sans-serif;
+  height: 44px;
+  box-sizing: border-box;
 }
 
 .arrow-btn {
@@ -383,9 +386,16 @@
   cursor: pointer;
   box-shadow: 0 2px #ffcb05;
   transition: background 0.2s, color 0.2s;
+  margin-left: 0.5rem;
+  /* Remove vertical misalignment */
+  position: relative;
+  top: 0;
 }
 
-.arrow-btn:hover {
-  background: #ffcb05;
-  color: #2a75bb;
+.arrow-btn i {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
