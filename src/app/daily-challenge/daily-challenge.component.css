@@ -2,7 +2,8 @@
 .daily-challenge-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+ 
+  justify-content: center;
   background: #23272f;
   border-radius: 18px;
   padding: 2rem 1.5rem;
@@ -351,20 +352,17 @@
 /* Add or update in daily-challenge.component.css */
 .input-arrow-wrapper {
   display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   width: 100%;
   max-width: 420px;
-  margin: 0 auto 1.5rem auto;
-  justify-content: center; /* Center horizontally */
-  /* Optionally add left margin to move a bit to the right */
-  margin-left: 8vw;
+  position: relative;
 }
 
 .pokemon-input {
   flex: 1;
   font-size: 1.1rem;
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 1rem; 
   border-radius: 10px;
   border: 2px solid #2a75bb;
   background: #fff;
