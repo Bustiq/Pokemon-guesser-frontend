@@ -14,16 +14,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
-  
-  
   protected accountErrorMessages: string[] = []
   protected indiceCodigoErrorCuenta = 0
-  protected mensajeErrorCuenta = "Todo bien (no mostrar)"
+  protected mensajeErrorCuenta = "All good (do not show)"
 
   protected matchErrorMessages: string[] = []
   protected indiceCodigoErrorMatch = 0
-  protected mensajeErrorMatch = "Todo bien (no mostrar)"
+  protected mensajeErrorMatch = "All good (do not show)"
 
   constructor(private router: Router, private connectionService: ConnectionService) {
 
@@ -395,18 +392,18 @@ login(){
 
 
   setCodigoDeErrorCuenta(codigo: number) {
-      this.accountErrorMessages = [
-        "No hay error (que no se vea en rojo)",
-        "Error desconocido. Perdón bro.",
-        "Nombre de usuario o contraseña incorrectos",
-        "Algún campo está vacío",
-        "El nombre de usuario ya está en uso",
-        "El email ya está en uso",
-        "Inicia sesión nuevamente",
-        "Cuenta no verificada. Revisa tu mail para loguearte",
-        "Los nombres de usuario sólo pueden tener letras y números",
-        "Los nombres de usuario no pueden exceder 12 caracteres",
-        "El mail de verificación no se pudo enviar. Intente con otro mail o contacte con administradores."
+    this.accountErrorMessages = [
+      "No error (should not be shown in red)",
+      "Unknown error. Sorry!",
+      "Incorrect username or password",
+      "Some field is empty",
+      "Username is already taken",
+      "Email is already taken",
+      "Please log in again",
+      "Account not verified. Check your email to log in",
+      "Usernames can only contain letters and numbers",
+      "Usernames cannot exceed 12 characters",
+      "Verification email could not be sent. Try another email or contact administrators."
     ]
 
     if (codigo != 0){
@@ -416,8 +413,7 @@ login(){
     this.indiceCodigoErrorCuenta = codigo;
     
     if (this.indiceCodigoErrorCuenta < 0 || this.indiceCodigoErrorCuenta >= this.accountErrorMessages.length) {
-      this.mensajeErrorCuenta = "Error super desconocido";
-      (this.mensajeErrorCuenta)
+      this.mensajeErrorCuenta = "Super unknown error";
       return
     }
     this.mensajeErrorCuenta = this.accountErrorMessages[this.indiceCodigoErrorCuenta];
@@ -426,26 +422,24 @@ login(){
 
   setCodigoDeErrorMatch(codigo: number) {
     this.matchErrorMessages = [
-      "No hay error (que no se vea en rojo)",
-      "Error desconocido. Perdón bro.",
-      "Algún campo está vacío",
-      "Error de base de datos. por favor reportar",
-      "No tienes monedas suficientes",
-      "Tienes una partida pendiente o activa",
-      "No puedes desafiarte a ti mismo",
-      "No hay nadie con ese nombre",
-      "Esa cuenta no tiene suficientes monedas",
-      "Esa cuenta tiene una partida pendiente o activa",
-      "Esa cuenta está offline",
-      "No puedes apostar monedas negativas"
+      "No error (should not be shown in red)",
+      "Unknown error. Sorry!",
+      "Some field is empty",
+      "Database error. Please report",
+      "You do not have enough coins",
+      "You have a pending or active match",
+      "You cannot challenge yourself",
+      "No user with that name",
+      "That account does not have enough coins",
+      "That account has a pending or active match",
+      "That account is offline",
+      "You cannot bet negative coins"
     ]
-
 
     this.indiceCodigoErrorMatch = codigo;
     
     if (this.indiceCodigoErrorMatch < 0 || this.indiceCodigoErrorMatch >= this.matchErrorMessages.length) {
-      this.mensajeErrorCuenta = "Error super desconocido";
-      (this.mensajeErrorCuenta)
+      this.mensajeErrorCuenta = "Super unknown error";
       return
     }
     this.mensajeErrorMatch = this.matchErrorMessages[this.indiceCodigoErrorMatch];
