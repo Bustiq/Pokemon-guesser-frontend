@@ -9,30 +9,19 @@
 
 <div class="daily-challenge-container">
   <div class="daily-challenge-title">PokéGuesser - Daily Challenge</div>
- 
-  <!-- Input and submit
-  <input
-  
-    class="pokemon-input"
-    type="text"
-    #searchBarInput
-    placeholder="Enter your guess"
-    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
-    autocomplete="off"
-    [(ngModel)]="guessInput"
-  /> -->
 
-  <input 
-    #searchBarInput
-    class = "pokemon-input"
-    type="text"
-    (keyup.enter)="guessPokemon(guessInput.value ?? '')"
-    placeholder="Enter your guess"
-    aria-label="Pokemon"
-    matInput
-    [formControl]="guessInput"
-    [matAutocomplete]="auto">
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
+  <div class="input-arrow-wrapper">
+    <input 
+      #searchBarInput
+      class="pokemon-input"
+      type="text"
+      (keyup.enter)="guessPokemon(guessInput.value ?? '')"
+      placeholder="Enter your guess"
+      aria-label="Pokemon"
+      matInput
+      [formControl]="guessInput"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="guessPokemon(guessInput.value ?? '')">
       @for (option of filteredNames | async; track option) {
         <mat-option [value]="option" style="background-color: #fff; display: flex; align-items: center; justify-content: center; padding-bottom: 0.5em; padding-top: 0.5em">
           <div style="display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center;">
@@ -42,14 +31,14 @@
         </mat-option>
       }
     </mat-autocomplete>
-  <button
-    class="submit-btn"
-    (click)="guessPokemon(searchBarInput.value)"
-  >
-    Enviar
-  </button>
- 
- 
+    <button
+      class="arrow-btn"
+      (click)="guessPokemon(searchBarInput.value)"
+      aria-label="Submit guess"
+    >
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
 </div>
 
 <!-- Guess history OUTSIDE the main container for better separation and readability -->
@@ -58,15 +47,15 @@
     <thead>
       <tr>
         <th>Pokemon</th>
-        <th>Tipo 1</th>
-        <th>Tipo 2</th>
+        <th>Type 1</th>
+        <th>Type 2</th>
         <th>Color</th>
-        <th>Peso (kg)</th>
-        <th>Altura (cm)</th>
-        <th>Etapa Evolutiva</th>
+        <th>Weight (kg)</th>
+        <th>Height (cm)</th>
+        <th>Evolution Stage</th>
        <!-- <th>Grupo Huevo 1</th>
         <th>Grupo Huevo 2</th>-->
-        <th>Forma Corporal</th>
+        <th>Body Shape</th>
       </tr>
     </thead>
     <tbody>
@@ -128,9 +117,9 @@
 <div *ngIf="showCongrats" class="congrats-popup-overlay">
   <div class="congrats-popup">
     <button class="close-btn" (click)="showCongrats = false">&times;</button>
-    <h3>¡Felicidades!</h3>
+    <h3>Congratulations!</h3>
     <img [src]="correctPokemonImgUrl" [alt]="correctPokemonName" class="congrats-pokemon-img">
-    <p>¡Has adivinado correctamente a <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
-    <button class="go-home-btn" (click)="goHome()">Ir al inicio</button>
+    <p>You have correctly guessed <strong>{{ correctPokemonName | titlecase }}</strong>!</p>
+    <button class="go-home-btn" (click)="goHome()">Go Home</button>
   </div>
 </div>
